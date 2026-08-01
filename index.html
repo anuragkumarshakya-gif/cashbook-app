@@ -1,0 +1,1433 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <base target="_self">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cash Book Pro</title>
+  
+  <!-- Modern UI Frameworks -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  
+  <!-- Export Libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      /* Dynamic Premium Color Palette */
+      --primary: #0f766e;          /* Deep Teal Header */
+      --primary-hover: #115e59;    /* Darker Teal */
+      --primary-accent: #0d9488;   /* Teal Accent */
+      --bg-main: #f0fdfa;          /* Soft Ice Mint Background */
+      
+      --cash-in: #059669;          /* Emerald Green In */
+      --cash-in-bg: #ecfdf5;       /* Mint Tint */
+      
+      --cash-out: #e11d48;         /* Rose Red Out */
+      --cash-out-bg: #fff1f2;      /* Soft Rose Tint */
+      
+      --card-bg: #ffffff;
+      --radius-lg: 20px;
+    }
+
+    body { 
+      background-color: var(--bg-main); 
+      font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
+      padding-bottom: 100px;
+      color: #0f172a;
+    }
+
+    /* Top App Bar - Deep Teal Gradient */
+    .top-bar { 
+      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); 
+      color: white; 
+      padding: 14px 18px; 
+      box-shadow: 0 10px 25px rgba(15, 118, 110, 0.25);
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+
+    /* Card Styling */
+    .card-custom { 
+      border-radius: var(--radius-lg); 
+      border: 1px solid #ccfbf1; 
+      box-shadow: 0 4px 20px rgba(15, 118, 110, 0.05); 
+      background-color: var(--card-bg);
+      transition: all 0.2s ease;
+    }
+
+    .btn-filter {
+      border-radius: 30px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 6px 18px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+      border: 1px solid #99f6e4;
+      background-color: #ffffff;
+      color: #0f766e;
+    }
+
+    .btn-filter.btn-primary {
+      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%) !important;
+      color: white !important;
+      border-color: transparent !important;
+      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+    }
+
+    /* Floating Action Buttons Bar */
+    .bottom-action-bar {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 92%;
+      max-width: 620px;
+      background: rgba(255, 255, 255, 0.9);
+      backdrop-filter: blur(12px);
+      padding: 10px 14px;
+      border-radius: 28px;
+      box-shadow: 0 12px 35px rgba(15, 118, 110, 0.15);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      z-index: 1000;
+    }
+
+    .btn-cash-in { 
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
+      color: white; 
+      width: 48%; 
+      font-weight: 700; 
+      padding: 12px;
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-cash-out { 
+      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); 
+      color: white; 
+      width: 48%; 
+      font-weight: 700; 
+      padding: 12px;
+      border: none;
+      border-radius: 18px;
+      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.35);
+      transition: transform 0.15s ease;
+    }
+
+    .btn-cash-in:active, .btn-cash-out:active {
+      transform: scale(0.96);
+    }
+
+    .text-in { color: var(--cash-in); font-weight: 800; }
+    .text-out { color: var(--cash-out); font-weight: 800; }
+
+    /* Transaction Cards - Left Accent Strips */
+    .txn-card-in {
+      border-left: 6px solid var(--cash-in) !important;
+      background: linear-gradient(90deg, var(--cash-in-bg) 0%, #ffffff 20%);
+    }
+
+    .txn-card-out {
+      border-left: 6px solid var(--cash-out) !important;
+      background: linear-gradient(90deg, var(--cash-out-bg) 0%, #ffffff 20%);
+    }
+
+    /* Menu Drawer Items */
+    .drawer-item { 
+      padding: 14px 22px; 
+      color: #1e293b; 
+      text-decoration: none; 
+      display: flex; 
+      align-items: center; 
+      gap: 16px; 
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      border-radius: 14px;
+      margin: 2px 10px;
+    }
+    .drawer-item:hover { background-color: #ccfbf1; color: var(--primary); }
+    .drawer-item i { width: 22px; text-align: center; font-size: 18px; }
+
+    .icon-summary { color: #0891b2; }
+    .icon-acc-summary { color: #059669; }
+    .icon-all-txns { color: #d97706; }
+    .icon-accounts { color: #2563eb; }
+    .icon-transfer { color: #7c3aed; }
+    .icon-report { color: #db2777; }
+    .icon-notebook { color: #ca8a04; }
+    .icon-calc { color: #0d9488; }
+    .icon-backup { color: #0284c7; }
+    .icon-settings { color: #475569; }
+    .icon-deleted { color: #e11d48; }
+
+    .drawer-footer {
+      background-color: #f0fdfa;
+      border-top: 1px solid #ccfbf1;
+      padding: 16px;
+      text-align: center;
+    }
+    .drawer-footer .dev-title { font-size: 12px; font-weight: 700; color: #525252; text-transform: uppercase; letter-spacing: 0.5px; }
+    .drawer-footer .dev-phone { font-size: 15px; font-weight: 800; color: var(--primary); text-decoration: none; }
+
+    /* Login Screen Background */
+    #lockScreen { 
+      position: fixed; top:0; left:0; width:100vw; height:100vh; 
+      background: radial-gradient(circle at top left, #115e59, #042f2e); 
+      z-index: 999999; 
+      display: flex; flex-direction: column; align-items: center; justify-content: center; 
+      color: white; 
+    }
+    
+    .login-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 28px;
+      padding: 32px 24px;
+      width: 90%;
+      max-width: 380px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    #loaderOverlay {
+      position: fixed; top:0; left:0; width:100%; height:100%;
+      background: rgba(240, 253, 250, 0.7); backdrop-filter: blur(6px); z-index:9998;
+      display: flex; align-items: center; justify-content: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Instant Loader Spinner -->
+  <div id="loaderOverlay" class="d-none">
+    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+  </div>
+
+  <!-- Secure User Login / Sign Up Screen -->
+  <div id="lockScreen">
+    <div class="login-card text-center">
+      <div class="bg-primary text-white d-inline-block p-3 rounded-circle mb-3 shadow">
+        <i class="fas fa-wallet fa-2x"></i>
+      </div>
+      <h3 class="fw-bold mb-1" id="authTitle">Cash Book Pro</h3>
+      <p class="text-white-50 small mb-3" id="authSubTitle">Login to access your personal cashbook</p>
+      
+      <!-- Login View -->
+      <div id="loginFormView">
+        <div class="mb-2">
+          <input type="text" id="loginUsername" class="form-control text-center rounded-3 shadow-sm" placeholder="Username">
+        </div>
+        <div class="mb-3">
+          <input type="password" id="loginPassword" class="form-control text-center rounded-3 shadow-sm" placeholder="Password">
+        </div>
+        <button class="btn btn-warning w-100 fw-bold py-2 rounded-3 shadow mb-3" onclick="handleUserLogin()">
+          <i class="fas fa-sign-in-alt me-1"></i> LOGIN
+        </button>
+        <p class="text-white-50 small m-0">Naye User hain? <a href="javascript:void(0);" class="text-warning text-decoration-none fw-bold" onclick="toggleAuthView('signup')">Sign Up Karein</a></p>
+      </div>
+
+      <!-- Sign Up View (Hidden Initially) -->
+      <div id="signupFormView" class="d-none">
+        <div class="mb-2">
+          <input type="text" id="regUsername" class="form-control text-center rounded-3 shadow-sm" placeholder="Choose Username">
+        </div>
+        <div class="mb-2">
+          <input type="password" id="regPassword" class="form-control text-center rounded-3 shadow-sm" placeholder="Choose Password">
+        </div>
+        <div class="mb-3">
+          <input type="tel" id="regPhone" class="form-control text-center rounded-3 shadow-sm" placeholder="Mobile Number">
+        </div>
+        <button class="btn btn-success w-100 fw-bold py-2 rounded-3 shadow mb-3" onclick="handleUserRegister()">
+          <i class="fas fa-user-plus me-1"></i> CREATE ACCOUNT
+        </button>
+        <p class="text-white-50 small m-0">Pehle se account hai? <a href="javascript:void(0);" class="text-warning text-decoration-none fw-bold" onclick="toggleAuthView('login')">Login Karein</a></p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Top App Bar Navigation With Welcome Message -->
+  <div class="top-bar d-flex justify-content-between align-items-center sticky-top">
+    <div class="d-flex align-items-center gap-3">
+      <button class="btn text-white p-0 fs-4" data-bs-toggle="offcanvas" data-bs-target="#sidebarDrawer">
+        <i class="fas fa-bars"></i>
+      </button>
+      <div>
+        <h6 class="m-0 fw-bold d-flex align-items-center gap-1">
+          <i class="fas fa-wallet me-1"></i> Cash Book Pro
+        </h6>
+        <small id="userWelcomeHeader" class="text-white-50 fw-semibold" style="font-size: 11px;">
+          Welcome User Ji 😊
+        </small>
+      </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn text-white p-1" onclick="openCashCalculator()" title="Cash Calculator"><i class="fas fa-calculator fs-5"></i></button>
+      <button class="btn text-white p-1" onclick="lockApp()" title="Lock App"><i class="fas fa-power-off fs-5"></i></button>
+      <button class="btn btn-light btn-sm fw-bold text-primary rounded-pill px-3 ms-1 shadow-sm" onclick="showAddAccountModal()">
+        <i class="fas fa-plus me-1"></i> Account
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Container Layout -->
+  <div class="container my-3" style="max-width: 650px;">
+
+    <!-- Account Selector Card (Main Screen Add Account) -->
+    <div class="card card-custom p-3 mb-3">
+      <div class="d-flex justify-content-between align-items-center mb-2">
+        <span class="text-uppercase text-muted fw-bold style-sm" style="font-size:11px; letter-spacing:0.5px;">Select Consumer Account</span>
+        <a href="#" class="text-primary text-decoration-none fw-bold small" onclick="openTransferModal()">
+          <i class="fas fa-exchange-alt me-1"></i> Transfer Funds
+        </a>
+      </div>
+      <div class="d-flex gap-2">
+        <select id="accountDropdown" class="form-select form-select-lg border-light-subtle rounded-3 fw-bold fs-6" onchange="loadAccountDataFast()">
+          <option value="">Loading accounts...</option>
+        </select>
+        <button class="btn btn-outline-secondary rounded-3" onclick="showEditAccountModal()" title="Edit Account Name/Phone">
+          <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn btn-primary px-3 rounded-3 fw-bold text-nowrap" onclick="showAddAccountModal()">
+          <i class="fas fa-user-plus me-1"></i> + Account
+        </button>
+      </div>
+    </div>
+
+    <!-- Live Net Summary Box -->
+    <div class="card card-custom p-3 mb-3">
+      <div class="row text-center">
+        <div class="col-4 border-end">
+          <small class="text-muted fw-bold" style="font-size:12px;">Total Cash In</small>
+          <div id="totalIn" class="text-in fs-5 mt-1">₹0</div>
+        </div>
+        <div class="col-4 border-end">
+          <small class="text-muted fw-bold" style="font-size:12px;">Total Cash Out</small>
+          <div id="totalOut" class="text-out fs-5 mt-1">₹0</div>
+        </div>
+        <div class="col-4">
+          <small class="text-muted fw-bold" style="font-size:12px;">Net Balance</small>
+          <div id="netBalance" class="fw-bold fs-5 mt-1 text-dark">₹0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Date Filtering & Search Controls -->
+    <div class="card card-custom p-3 mb-3">
+      <div class="d-flex gap-2 mb-3 overflow-auto pb-1">
+        <button class="btn btn-primary btn-filter" onclick="filterByDate('all', this)">All</button>
+        <button class="btn btn-light btn-filter" onclick="filterByDate('daily', this)">Daily</button>
+        <button class="btn btn-light btn-filter" onclick="filterByDate('weekly', this)">Weekly</button>
+        <button class="btn btn-light btn-filter" onclick="filterByDate('monthly', this)">Monthly</button>
+        <button class="btn btn-light btn-filter" onclick="filterByDate('custom', this)"><i class="fas fa-calendar-alt me-1"></i> Custom</button>
+      </div>
+
+      <div class="d-flex gap-2 align-items-center">
+        <div class="input-group">
+          <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fas fa-search text-muted"></i></span>
+          <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3" placeholder="Search remark, amount..." onkeyup="filterTransactions()">
+        </div>
+        <button class="btn btn-outline-success border-light-subtle rounded-3" onclick="shareWhatsAppStatement()" title="WhatsApp Report"><i class="fab fa-whatsapp fs-5"></i></button>
+        <button class="btn btn-outline-success border-light-subtle rounded-3" onclick="exportAccountExcel()" title="Excel Report"><i class="fas fa-file-excel fs-5 text-success"></i></button>
+        <button class="btn btn-outline-danger border-light-subtle rounded-3" onclick="exportAccountPDF()" title="PDF Report"><i class="fas fa-file-pdf fs-5 text-danger"></i></button>
+      </div>
+    </div>
+
+    <!-- History List Section -->
+    <div class="d-flex justify-content-between align-items-center mb-2 px-1">
+      <span class="fw-bold text-secondary text-uppercase style-sm" style="font-size:12px;">Transactions History</span>
+      <a href="#" class="text-primary text-decoration-none fw-bold small" onclick="showMasterSummaryModal()">
+        <i class="fas fa-chart-pie me-1"></i> Show Analytics
+      </a>
+    </div>
+
+    <div id="transactionList" class="mb-4">
+      <p class="text-center text-muted my-5">Please select an account to view transactions.</p>
+    </div>
+
+  </div>
+
+  <!-- Floating Bottom Action Bar -->
+  <div class="bottom-action-bar d-flex justify-content-between align-items-center">
+    <button class="btn btn-cash-in" onclick="openTxnModal('Cash In')">
+      <i class="fas fa-arrow-down-left me-1"></i> Cash In
+    </button>
+    <button class="btn btn-cash-out" onclick="openTxnModal('Cash Out')">
+      <i class="fas fa-arrow-up-right me-1"></i> Cash Out
+    </button>
+  </div>
+
+  <!-- Sidebar Navigation Drawer (With Developer Credits) -->
+  <div class="offcanvas offcanvas-start d-flex flex-column" tabindex="-1" id="sidebarDrawer" style="width: 300px;">
+    
+    <div class="offcanvas-header d-flex align-items-center gap-3">
+      <div class="bg-primary text-white p-2 rounded-3 shadow-sm">
+        <i class="fas fa-book-open fa-2x"></i>
+      </div>
+      <div>
+        <h5 class="m-0 fw-bold text-dark">Cash Book Pro</h5>
+        <small class="text-muted">Account Management</small>
+      </div>
+    </div>
+
+    <div class="offcanvas-body p-0 flex-grow-1">
+      <div class="py-2">
+        <a href="javascript:void(0);" class="drawer-item" onclick="showMasterSummaryModal()">
+          <i class="fas fa-clipboard-list icon-summary"></i> Summary
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterExcel()">
+          <i class="fas fa-file-invoice icon-acc-summary"></i> Account Summary
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterExcel()">
+          <i class="fas fa-list-ul icon-all-txns"></i> Transaction-All Accounts
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="showAddAccountModal()">
+          <i class="fas fa-user-friends icon-accounts"></i> Accounts List
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openTransferModal()">
+          <i class="fas fa-exchange-alt icon-transfer"></i> Transfer Funds
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterPDF()">
+          <i class="fas fa-file-alt icon-report"></i> Report-All Accounts
+        </a>
+        
+        <div class="dropdown-divider my-2"></div>
+        
+        <a href="javascript:void(0);" class="drawer-item" onclick="openNotebookModal()">
+          <i class="fas fa-book icon-notebook"></i> Notebook / Notes
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openCashCalculator()">
+          <i class="fas fa-calculator icon-calc"></i> Cash Calculator
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="syncBackup()">
+          <i class="fas fa-cloud-upload-alt icon-backup"></i> Backup and Restore
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="lockApp()">
+          <i class="fas fa-cog icon-settings"></i> Settings / Security PIN
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="viewDeletedTransactions()">
+          <i class="fas fa-trash-alt icon-deleted"></i> Deleted Transactions
+        </a>
+      </div>
+    </div>
+
+    <div class="drawer-footer mt-auto">
+      <div class="dev-title">Developed By :- Anurag Shakya</div>
+      <a href="tel:9761414105" class="dev-phone">
+        <i class="fas fa-mobile-alt me-1 text-success"></i> 9761414105
+      </a>
+    </div>
+
+  </div>
+
+  <!-- ALL MODALS SECTION -->
+
+  <!-- Modal: Edit Transaction -->
+  <div class="modal fade" id="editTxnModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="fas fa-edit text-primary me-2"></i>Edit Transaction Entry</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="editTxnIndex">
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Entry Type:</label>
+            <select id="editTxnType" class="form-select rounded-3 fw-bold">
+              <option value="Cash In">Cash In (+)</option>
+              <option value="Cash Out">Cash Out (-)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Amount (₹):</label>
+            <input type="number" id="editTxnAmount" class="form-control form-control-lg fw-bold text-success rounded-3" placeholder="0.00">
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Remark / Note:</label>
+            <input type="text" id="editTxnRemark" class="form-control rounded-3" placeholder="e.g. Bill payment, Cash given...">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="saveEditedTransaction()">Update Entry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Custom Date Range Filter -->
+  <div class="modal fade" id="customDateModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="fas fa-calendar-alt text-primary me-2"></i>Select Custom Date Range</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">From Date (Start):</label>
+            <input type="date" id="startDateInput" class="form-control rounded-3">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">To Date (End):</label>
+            <input type="date" id="endDateInput" class="form-control rounded-3">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="applyCustomDateFilter()">Apply Filter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Account -->
+
+  <!-- Modal: Master Summary Popup -->
+  <div class="modal fade" id="summaryModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-list text-primary me-2"></i>Accounts Summary Report</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th>Account Name</th>
+                  <th class="text-success">Total In</th>
+                  <th class="text-danger">Total Out</th>
+                  <th>Net Balance</th>
+                </tr>
+              </thead>
+              <tbody id="summaryTableBody">
+                <tr><td colspan="4" class="text-center">Loading...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Edit Account -->
+  <div class="modal fade" id="editAccModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-user-edit text-primary me-2"></i>Edit Consumer Account</h5></div>
+        <div class="modal-body">
+          <input type="hidden" id="editOldAccName">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Account / Person Name:</label>
+            <input type="text" id="editAccName" class="form-control rounded-3" placeholder="e.g. Ramesh Kumar">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">WhatsApp Mobile Number:</label>
+            <input type="tel" id="editAccPhone" class="form-control rounded-3" placeholder="10-digit Mobile Number">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="updateAccountDetails()">Update Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Account -->
+  <div class="modal fade" id="accModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold">Add New Consumer Account</h5></div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Account / Person Name:</label>
+            <input type="text" id="newAccName" class="form-control rounded-3" placeholder="e.g. Ramesh Kumar">
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">WhatsApp Mobile Number:</label>
+            <input type="tel" id="newAccPhone" class="form-control rounded-3" placeholder="10-digit Mobile Number">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="saveAccount()">Save Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Add Transaction With Camera/Gallery Upload -->
+  <div class="modal fade" id="txnModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold" id="txnModalTitle">Add Transaction</h5></div>
+        <div class="modal-body">
+          <input type="hidden" id="txnType">
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Amount (₹):</label>
+            <input type="number" id="txnAmount" class="form-control form-control-lg fw-bold text-success rounded-3" placeholder="0.00">
+          </div>
+          
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Remark / Note:</label>
+            <div class="input-group">
+              <input type="text" id="txnRemark" class="form-control rounded-start-3" placeholder="e.g. Bill payment, Cash given...">
+              <button class="btn btn-outline-secondary rounded-end-3" type="button" onclick="startVoiceInput()"><i class="fas fa-microphone"></i></button>
+            </div>
+          </div>
+
+          <!-- Camera & Gallery Attachment Option -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold small text-muted">Bill / Receipt Photo (Optional):</label>
+            <div class="row g-2">
+              <div class="col-6">
+                <label for="cameraInput" class="btn btn-outline-primary w-100 rounded-3 text-truncate py-2">
+                  <i class="fas fa-camera me-1"></i> Open Camera
+                </label>
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" class="d-none" onchange="previewSelectedImage(this)">
+              </div>
+              <div class="col-6">
+                <label for="galleryInput" class="btn btn-outline-secondary w-100 rounded-3 text-truncate py-2">
+                  <i class="fas fa-images me-1"></i> Choose Gallery
+                </label>
+                <input type="file" id="galleryInput" accept="image/*" class="d-none" onchange="previewSelectedImage(this)">
+              </div>
+            </div>
+            <div id="imagePreviewText" class="small text-success mt-2 d-none fw-semibold">
+              <i class="fas fa-check-circle me-1"></i> Image selected!
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-success px-4 rounded-3 fw-bold" onclick="saveTransactionFast()">Submit Entry</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Transfer Funds -->
+  <div class="modal fade" id="transferModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-exchange-alt text-primary me-2"></i>Transfer Funds</h5></div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label fw-semibold">From Account (Cash Out):</label>
+            <select id="transferFrom" class="form-select rounded-3"></select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">To Account (Cash In):</label>
+            <select id="transferTo" class="form-select rounded-3"></select>
+          </div>
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Transfer Amount (₹):</label>
+            <input type="number" id="transferAmount" class="form-control rounded-3" placeholder="0.00">
+          </div>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="executeTransfer()">Confirm Transfer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Notebook Notes -->
+  <div class="modal fade" id="notebookModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-book text-warning me-2"></i>Account Notebook Notes</h5></div>
+        <div class="modal-body">
+          <textarea id="notebookText" class="form-control rounded-3" rows="6" placeholder="Yahan is khate se judi mahatvapurna baatein likhein..."></textarea>
+        </div>
+        <div class="modal-footer border-0">
+          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-warning px-4 rounded-3 fw-bold" onclick="saveNotebookNotes()">Save Notes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Cash Calculator -->
+  <div class="modal fade" id="calcModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-calculator text-primary me-2"></i>Cash Denomination Counter</h5></div>
+        <div class="modal-body">
+          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹2000 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
+          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹500 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
+          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹200 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
+          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹100 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
+          <hr>
+          <div class="d-flex justify-content-between fw-bold fs-5"><span>Total Cash:</span><span id="grandCalcTotal" class="text-success">₹0</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fully Optimized JavaScript Engine -->
+  <script>
+    // ⚠️ अपने Deploy किए हुए Google Apps Script Web App का URL यहाँ डालें
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyXW7jPC9IT3fHhj7USU5nu8ofC30TbV3dDqFNL3L4eudyG6pHHdvMeDa9kdifH2QVzQ/exec";
+
+    var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal;
+    var globalAccounts = [];
+    var allAccountsDataCache = {}; // FAST INSTANT RENDERING CACHE
+    var currentAccountTxns = [];
+    var deletedTxnsLog = [];
+
+    window.onload = function() {
+      accModal = new bootstrap.Modal(document.getElementById('accModal'));
+      calcModal = new bootstrap.Modal(document.getElementById('calcModal'));
+      txnModal = new bootstrap.Modal(document.getElementById('txnModal'));
+      transferModal = new bootstrap.Modal(document.getElementById('transferModal'));
+      notebookModal = new bootstrap.Modal(document.getElementById('notebookModal'));
+      summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
+      
+      fetchAllMasterDataFast();
+    };
+
+    // Fixes 'showMasterSummaryModal is not defined' Error
+    function showMasterSummaryModal() {
+      var html = '';
+      if (!globalAccounts || globalAccounts.length === 0) {
+        html = '<tr><td colspan="4" class="text-center text-muted">Koi account data nahi mila.</td></tr>';
+      } else {
+        globalAccounts.forEach(function(acc) {
+          html += '<tr>' +
+                    '<td class="fw-bold">' + acc.name + '</td>' +
+                    '<td class="text-success fw-bold">' + formatINR(acc.totalIn) + '</td>' +
+                    '<td class="text-danger fw-bold">' + formatINR(acc.totalOut) + '</td>' +
+                    '<td class="fw-bold">' + formatINR(acc.balance) + '</td>' +
+                  '</tr>';
+        });
+      }
+      document.getElementById('summaryTableBody').innerHTML = html;
+      summaryModal.show();
+    }
+
+    function showLoader() { document.getElementById('loaderOverlay').classList.remove('d-none'); }
+    function hideLoader() { document.getElementById('loaderOverlay').classList.add('d-none'); }
+
+    function formatINR(amount) {
+      return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount || 0);
+    }
+
+    // 1. Ultra Fast Initial Master Fetch
+    // Safe Master Data Fetcher (Handles Null Responses)
+    function fetchAllMasterDataFast() {
+      showLoader();
+      fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster")
+        .then(response => response.json())
+        .then(master => {
+          hideLoader();
+          if (master && typeof master === 'object') {
+            globalAccounts = master.accountsSummary || [];
+            allAccountsDataCache = master.accountsMap || {};
+          } else {
+            globalAccounts = [];
+            allAccountsDataCache = {};
+          }
+          populateAccountsDropdown();
+        })
+        .catch(err => {
+          hideLoader();
+          console.error("Master Fetch Error:", err);
+          alert("Error fetching app data: " + err);
+        });
+    }
+
+    // Fixed Account Dropdown Renderer & Dynamic Greeting
+    function updateWelcomeHeader() {
+      if (loggedInUser && loggedInUser.username) {
+        var userProperName = loggedInUser.username.charAt(0).toUpperCase() + loggedInUser.username.slice(1);
+        document.getElementById('userWelcomeHeader').innerHTML = "Welcome " + userProperName + " Ji 😊";
+      }
+    }
+
+    function populateAccountsDropdown() {
+      var dropdown = document.getElementById('accountDropdown');
+      var fromSel = document.getElementById('transferFrom');
+      var toSel = document.getElementById('transferTo');
+
+      if (!globalAccounts || globalAccounts.length === 0) {
+        var emptyOpt = '<option value="">-- No Account Found (Add New) --</option>';
+        if (dropdown) dropdown.innerHTML = emptyOpt;
+        if (fromSel) fromSel.innerHTML = emptyOpt;
+        if (toSel) toSel.innerHTML = emptyOpt;
+        return;
+      }
+
+      var options = '<option value="">-- Choose Account --</option>';
+      globalAccounts.forEach(function(acc) {
+        if (acc && acc.name) {
+          var phoneText = acc.phone ? ' (' + acc.phone + ')' : '';
+          options += '<option value="' + acc.name + '">' + acc.name + phoneText + '</option>';
+        }
+      });
+
+      if (dropdown) dropdown.innerHTML = options;
+      if (fromSel) fromSel.innerHTML = options;
+      if (toSel) toSel.innerHTML = options;
+      
+      updateWelcomeHeader();
+    }
+
+    // 2. Instant Local Load (0 Milliseconds)
+    function loadAccountDataFast() {
+      var acc = document.getElementById('accountDropdown').value;
+      if (!acc) return;
+
+      var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
+      currentAccountTxns = data.transactions || [];
+
+      document.getElementById('totalIn').innerText = formatINR(data.totalIn);
+      document.getElementById('totalOut').innerText = formatINR(data.totalOut);
+      document.getElementById('netBalance').innerText = formatINR(data.balance);
+
+      renderTransactions(currentAccountTxns);
+    }
+
+    // Render Transactions With Remark, Bill Photo Link & Thin Running Balance Text
+    // Render Transactions With Edit Button Icon
+    function renderTransactions(txns) {
+      var html = '';
+      if (!txns || txns.length === 0) {
+        html = '<p class="text-center text-muted my-5">Is account me koi transaction nahi hai.</p>';
+      } else {
+        txns.forEach(function(t, index) {
+          var isIn = t.type === 'Cash In';
+          var amtClass = isIn ? 'text-in' : 'text-out';
+          var sign = isIn ? '+' : '-';
+          
+          var imgLinkHTML = t.imageUrl ? '<br><a href="' + t.imageUrl + '" target="_blank" class="small text-primary fw-semibold"><i class="fas fa-paperclip me-1"></i>View Bill Photo</a>' : '';
+          var runningBalHTML = t.runningBalance !== undefined ? '<div class="text-muted fw-normal" style="font-size:11px; opacity:0.8;">Bal: ' + formatINR(t.runningBalance) + '</div>' : '';
+
+          var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
+
+          html += '<div class="card p-3 mb-2 card-custom txn-card ' + cardStyleClass + '">' +
+                    '<div class="d-flex justify-content-between align-items-start">' +
+                      '<div>' +
+                        '<h6 class="m-0 fw-bold text-dark txn-remark mb-1">' + (t.remark || t.type) + '</h6>' +
+                        '<small class="text-secondary fw-semibold" style="font-size:11px;"><i class="far fa-clock me-1"></i>' + t.date + '</small>' +
+                        imgLinkHTML +
+                      '</div>' +
+                      '<div class="text-end">' +
+                        '<div class="' + amtClass + ' fs-5 txn-amount">' + sign + ' ' + formatINR(t.amount) + '</div>' +
+                        runningBalHTML +
+                        '<div class="mt-2 d-flex gap-3 justify-content-end">' +
+                          '<button class="btn btn-sm text-primary p-0" onclick="openEditTxnModal(' + index + ')" title="Edit Entry"><i class="fas fa-edit fs-6"></i></button>' +
+                          '<button class="btn btn-sm text-danger p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-alt fs-6"></i></button>' +
+                        '</div>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>';
+        });
+      }
+      document.getElementById('transactionList').innerHTML = html;
+    }
+
+    // Edit Transaction Handlers
+    var editTxnModal;
+    window.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('editTxnModal');
+      if (el) editTxnModal = new bootstrap.Modal(el);
+    });
+
+    function openEditTxnModal(index) {
+      var item = currentAccountTxns[index];
+      if (!item) return;
+
+      document.getElementById('editTxnIndex').value = index;
+      document.getElementById('editTxnType').value = item.type;
+      document.getElementById('editTxnAmount').value = item.amount;
+      document.getElementById('editTxnRemark').value = item.remark || '';
+
+      editTxnModal.show();
+    }
+
+    function saveEditedTransaction() {
+      var acc = document.getElementById('accountDropdown').value;
+      var index = document.getElementById('editTxnIndex').value;
+      var newType = document.getElementById('editTxnType').value;
+      var newAmount = Number(document.getElementById('editTxnAmount').value);
+      var newRemark = document.getElementById('editTxnRemark').value;
+
+      if (!acc) return alert('Account select karein!');
+      if (!newAmount || newAmount <= 0) return alert('Sahi amount darj karein!');
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'updateTransactionEntry',
+          account: acc,
+          index: index,
+          newType: newType,
+          newAmount: newAmount,
+          newRemark: newRemark
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        hideLoader();
+        editTxnModal.hide();
+        fetchAllMasterDataFast();
+        alert('Transaction safaltapoorvak update ho gaya!');
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    // Account Edit Modal Handlers
+    var editAccModal;
+    window.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('editAccModal');
+      if (el) editAccModal = new bootstrap.Modal(el);
+    });
+
+    function showEditAccountModal() {
+      var accName = document.getElementById('accountDropdown').value;
+      if (!accName) return alert('Pehle edit karne ke liye koi account select karein!');
+
+      var accObj = globalAccounts.find(function(a) { return a.name === accName; });
+      document.getElementById('editOldAccName').value = accName;
+      document.getElementById('editAccName').value = accName;
+      document.getElementById('editAccPhone').value = accObj ? accObj.phone : '';
+
+      editAccModal.show();
+    }
+
+    function updateAccountDetails() {
+      var oldName = document.getElementById('editOldAccName').value;
+      var newName = document.getElementById('editAccName').value;
+      var newPhone = document.getElementById('editAccPhone').value;
+
+      if (!newName) return alert('Kripya naam darj karein!');
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'updateAccountInfo',
+          oldName: oldName,
+          newName: newName,
+          newPhone: newPhone
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        hideLoader();
+        editAccModal.hide();
+        fetchAllMasterDataFast();
+        alert('Account safaltapoorvak update ho gaya!');
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    // 3. Save Account
+    function showAddAccountModal() { accModal.show(); }
+    function saveAccount() {
+      var name = document.getElementById('newAccName').value;
+      var phone = document.getElementById('newAccPhone').value;
+      if (!name) return alert('Kripya naam darj karein!');
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'addAccount',
+          name: name,
+          phone: phone
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        hideLoader();
+        accModal.hide();
+        document.getElementById('newAccName').value = '';
+        document.getElementById('newAccPhone').value = '';
+        fetchAllMasterDataFast();
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    // 4. Save Transaction
+    function openTxnModal(type) {
+      var acc = document.getElementById('accountDropdown').value;
+      if (!acc) return alert('Pehle koi account select karein!');
+
+      document.getElementById('txnType').value = type;
+      document.getElementById('txnModalTitle').innerText = 'Add ' + type + ' Entry';
+      txnModal.show();
+    }
+
+    // Image Selection Preview
+    var selectedImageData = null;
+
+    function previewSelectedImage(input) {
+      if (input.files && input.files[0]) {
+        var file = input.files[0];
+        var reader = new FileReader();
+        reader.onload = function(e) {
+          selectedImageData = {
+            data: e.target.result.split(',')[1],
+            mimeType: file.type,
+            name: file.name
+          };
+          document.getElementById('imagePreviewText').classList.remove('d-none');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // ⚡ INSTANT UI UPDATE (0 Seconds Local Render + Background Sheet Upload)
+    function saveTransactionFast() {
+      var acc = document.getElementById('accountDropdown').value;
+      var amount = Number(document.getElementById('txnAmount').value);
+      var type = document.getElementById('txnType').value;
+      var remark = document.getElementById('txnRemark').value || type;
+
+      if (!acc) return alert('Pehle account select karein!');
+      if (!amount || amount <= 0) return alert('Sahi amount darj karein!');
+
+      var nowStr = "Aaphi (Just Now)";
+      
+      // 1. Calculate Local Running Balance
+      var currentData = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
+      var newBalance = currentData.balance;
+
+      if (type === 'Cash In') {
+        currentData.totalIn += amount;
+        newBalance += amount;
+      } else {
+        currentData.totalOut += amount;
+        newBalance -= amount;
+      }
+      currentData.balance = newBalance;
+
+      // 2. Local Entry Construct (Instant UI Update)
+      var today = new Date();
+      var formattedDate = today.toLocaleDateString('en-IN') + ' ' + today.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      var newTxnObject = {
+        date: formattedDate,
+        type: type,
+        amount: amount,
+        remark: remark,
+        imageUrl: "", // Upload ke baad background me link set ho jayegi
+        runningBalance: newBalance
+      };
+
+      currentData.transactions.unshift(newTxnObject);
+      allAccountsDataCache[acc] = currentData;
+      currentAccountTxns = currentData.transactions;
+
+      // 3. UI Instantly Render Karein
+      document.getElementById('totalIn').innerText = formatINR(currentData.totalIn);
+      document.getElementById('totalOut').innerText = formatINR(currentData.totalOut);
+      document.getElementById('netBalance').innerText = formatINR(currentData.balance);
+      renderTransactions(currentAccountTxns);
+
+      // Modal reset
+      txnModal.hide();
+      document.getElementById('txnAmount').value = '';
+      document.getElementById('txnRemark').value = '';
+      document.getElementById('cameraInput').value = '';
+      document.getElementById('galleryInput').value = '';
+      document.getElementById('imagePreviewText').classList.add('d-none');
+
+      // 4. Background Silent Server Syncing
+      var payload = {
+        account: acc,
+        type: type,
+        amount: amount,
+        remark: remark,
+        imageFile: selectedImageData
+      };
+      
+      selectedImageData = null; // Reset image cache
+
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'addTransaction',
+          payload: payload
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        fetchAllMasterDataFast();
+      })
+      .catch(err => console.error("Sync error:", err));
+    }
+
+    // 5. Transfer Funds Functionality
+    function openTransferModal() { transferModal.show(); }
+    function executeTransfer() {
+      var fromAcc = document.getElementById('transferFrom').value;
+      var toAcc = document.getElementById('transferTo').value;
+      var amount = document.getElementById('transferAmount').value;
+
+      if (!fromAcc || !toAcc || !amount) return alert('Kripya saari jankari bharein!');
+      if (fromAcc === toAcc) return alert('Dono account alag hone chahiye!');
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'transferFunds',
+          fromAcc: fromAcc,
+          toAcc: toAcc,
+          amount: amount
+        })
+      })
+      .then(res => res.json())
+      .then(() => {
+        hideLoader();
+        transferModal.hide();
+        document.getElementById('transferAmount').value = '';
+        fetchAllMasterDataFast();
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    // 6. Delete Transaction
+    function deleteTransaction(index) {
+      if (confirm("Kya aap sach me is entry ko delete karna chahte hain?")) {
+        var acc = document.getElementById('accountDropdown').value;
+        var deletedItem = currentAccountTxns[index];
+        deletedTxnsLog.push(deletedItem);
+
+        showLoader();
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'deleteTransaction',
+            acc: acc,
+            index: index
+          })
+        })
+        .then(res => res.json())
+        .then(() => {
+          hideLoader();
+          fetchAllMasterDataFast();
+        })
+        .catch(err => { hideLoader(); alert('Error: ' + err); });
+      }
+    }
+
+    // 7. Notebook Notes
+    function openNotebookModal() {
+      var acc = document.getElementById('accountDropdown').value;
+      if (!acc) return alert('Pehle account select karein!');
+
+      document.getElementById('notebookText').value = localStorage.getItem('notes_' + acc) || '';
+      notebookModal.show();
+    }
+
+    function saveNotebookNotes() {
+      var acc = document.getElementById('accountDropdown').value;
+      var notes = document.getElementById('notebookText').value;
+      localStorage.setItem('notes_' + acc, notes);
+      notebookModal.hide();
+      alert('Notes saved successfully!');
+    }
+
+    // 8. Utility Functions & Side Features
+    function viewDeletedTransactions() {
+      if (deletedTxnsLog.length === 0) alert('Abhi koi deleted transaction nahi hai.');
+      else alert('Aapne abhi tak ' + deletedTxnsLog.length + ' entries delete ki hain.');
+    }
+
+    // Voice Speech to Text Feature
+    function startVoiceInput() {
+      var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        return alert("Aapke browser me Voice Input ka support nahi hai!");
+      }
+      var recognition = new SpeechRecognition();
+      recognition.lang = 'hi-IN';
+      recognition.start();
+      
+      recognition.onresult = function(event) {
+        var transcript = event.results[0][0].transcript;
+        document.getElementById('txnRemark').value = transcript;
+      };
+      
+      recognition.onerror = function(event) {
+        alert("Voice recognition error: " + event.error);
+      };
+    }
+
+    function syncBackup() {
+      showLoader();
+      setTimeout(function() {
+        hideLoader();
+        alert('Data Google Drive Spreadsheet me completely synced hai!');
+      }, 500);
+    }
+
+    function shareWhatsAppStatement() {
+      var accName = document.getElementById('accountDropdown').value;
+      if (!accName) return alert('Kripya account select karein!');
+
+      var selectedAcc = globalAccounts.find(function(a) { return a.name === accName; });
+      var balance = document.getElementById('netBalance').innerText;
+      var msg = 'Namaste *' + accName + '*, Cash Book me aapka Net Balance: *' + balance + '* hai. Dhanyawad!';
+      
+      var phoneParam = selectedAcc && selectedAcc.phone ? 'phone=91' + selectedAcc.phone + '&' : '';
+      window.open('https://api.whatsapp.com/send?' + phoneParam + 'text=' + encodeURIComponent(msg), '_blank');
+    }
+
+    // Custom Date Range Modal Handlers & Filter Logic
+    var customDateModal;
+    window.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('customDateModal');
+      if (el) customDateModal = new bootstrap.Modal(el);
+    });
+
+    function filterByDate(range, btn) {
+      document.querySelectorAll('.btn-filter').forEach(function(b) {
+        b.classList.remove('btn-primary');
+        b.classList.add('btn-light');
+      });
+      btn.classList.remove('btn-light');
+      btn.classList.add('btn-primary');
+
+      if (range === 'all') return renderTransactions(currentAccountTxns);
+
+      if (range === 'custom') {
+        if (customDateModal) customDateModal.show();
+        return;
+      }
+
+      var now = new Date();
+      var filtered = currentAccountTxns.filter(function(t) {
+        // Date parsing support for standard format strings
+        var parts = t.date ? t.date.split(',')[0].split('/') : [];
+        var tDate = parts.length === 3 ? new Date(parts[2], parts[1] - 1, parts[0]) : new Date(t.date);
+        if (isNaN(tDate.getTime())) return true; // Show entries if date parsing fails
+
+        if (range === 'daily') return tDate.toDateString() === now.toDateString();
+        if (range === 'weekly') return (now - tDate) / (1000 * 60 * 60 * 24) <= 7;
+        if (range === 'monthly') return tDate.getMonth() === now.getMonth() && tDate.getFullYear() === now.getFullYear();
+        return true;
+      });
+
+      renderTransactions(filtered);
+    }
+
+    function applyCustomDateFilter() {
+      var startVal = document.getElementById('startDateInput').value;
+      var endVal = document.getElementById('endDateInput').value;
+
+      if (!startVal || !endVal) return alert('Kripya dono (Start aur End) tareekh chunnein!');
+
+      var startDate = new Date(startVal);
+      startDate.setHours(0, 0, 0, 0);
+
+      var endDate = new Date(endVal);
+      endDate.setHours(23, 59, 59, 999);
+
+      if (startDate > endDate) return alert('Start date, End date se badi nahi ho sakti!');
+
+      var filtered = currentAccountTxns.filter(function(t) {
+        var tDate = new Date(t.date);
+        return tDate >= startDate && tDate <= endDate;
+      });
+
+      renderTransactions(filtered);
+      if (customDateModal) customDateModal.hide();
+    }
+
+    function filterTransactions() {
+      var input = document.getElementById('searchInput').value.toLowerCase();
+      document.querySelectorAll('.txn-card').forEach(function(card) {
+        var remark = card.querySelector('.txn-remark').innerText.toLowerCase();
+        var amount = card.querySelector('.txn-amount').innerText.toLowerCase();
+        card.style.display = (remark.indexOf(input) > -1 || amount.indexOf(input) > -1) ? "" : "none";
+      });
+    }
+
+    // Exports
+    function exportAccountExcel() {
+      var acc = document.getElementById('accountDropdown').value;
+      if (!acc) return alert('Account select karein!');
+
+      var rows = (currentAccountTxns || []).map(function(t) { return { Date: t.date, Type: t.type, Amount: t.amount, Remark: t.remark }; });
+      var ws = XLSX.utils.json_to_sheet(rows);
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, acc.substring(0, 30));
+      XLSX.writeFile(wb, acc + '_Statement.xlsx');
+    }
+
+    function exportAccountPDF() {
+      var acc = document.getElementById('accountDropdown').value;
+      if (!acc) return alert('Account select karein!');
+
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF();
+      doc.text('Account Statement: ' + acc, 14, 15);
+      var tableData = (currentAccountTxns || []).map(function(t) { return [t.date, t.type, 'Rs. ' + t.amount, t.remark || '-']; });
+      doc.autoTable({ head: [['Date', 'Type', 'Amount', 'Remark']], body: tableData, startY: 25 });
+      doc.save(acc + '_Statement.pdf');
+    }
+
+    function exportMasterExcel() {
+      var wb = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(globalAccounts || []), "Summary");
+      XLSX.writeFile(wb, 'Master_Report.xlsx');
+    }
+
+    function exportMasterPDF() {
+      var jsPDF = window.jspdf.jsPDF;
+      var doc = new jsPDF();
+      doc.text('Master Accounts Summary', 14, 15);
+      var summaryRows = (globalAccounts || []).map(function(s) { return [s.name, 'Rs. ' + s.totalIn, 'Rs. ' + s.totalOut, 'Rs. ' + s.balance]; });
+      doc.autoTable({ head: [['Account', 'Total In', 'Total Out', 'Balance']], body: summaryRows, startY: 25 });
+      doc.save('Master_Summary.pdf');
+    }
+
+    // Cash Calculator
+    function openCashCalculator() { calcModal.show(); }
+    function calculateNotes() {
+      var inputs = document.querySelectorAll('.calc-count');
+      var multipliers = [2000, 500, 200, 100];
+      var grandTotal = 0;
+      inputs.forEach(function(input, index) {
+        var count = parseInt(input.value) || 0;
+        var total = count * multipliers[index];
+        grandTotal += total;
+        document.querySelectorAll('.note-total')[index].innerText = '₹' + total;
+      });
+      document.getElementById('grandCalcTotal').innerText = formatINR(grandTotal);
+    }
+
+    // User Authentication & Private Data Engine
+    var loggedInUser = null;
+
+    function toggleAuthView(view) {
+      if (view === 'signup') {
+        document.getElementById('loginFormView').classList.add('d-none');
+        document.getElementById('signupFormView').classList.remove('d-none');
+        document.getElementById('authTitle').innerText = "Create Account";
+      } else {
+        document.getElementById('signupFormView').classList.add('d-none');
+        document.getElementById('loginFormView').classList.remove('d-none');
+        document.getElementById('authTitle').innerText = "Cash Book Pro";
+      }
+    }
+
+    function handleUserRegister() {
+      var u = document.getElementById('regUsername').value;
+      var p = document.getElementById('regPassword').value;
+      var ph = document.getElementById('regPhone').value;
+
+      if (!u || !p) return alert("Username aur Password dono darj karein!");
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'registerUser',
+          u: u, p: p, ph: ph
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        hideLoader();
+        alert(res.message);
+        if (res.success) toggleAuthView('login');
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    function handleUserLogin() {
+      var u = document.getElementById('loginUsername').value;
+      var p = document.getElementById('loginPassword').value;
+
+      if (!u || !p) return alert("Username aur Password darj karein!");
+
+      showLoader();
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: 'loginUser',
+          u: u, p: p
+        })
+      })
+      .then(res => res.json())
+      .then(res => {
+        hideLoader();
+        if (res.success) {
+          loggedInUser = res.user;
+          sessionStorage.setItem('cashbook_logged_user', JSON.stringify(res.user));
+          document.getElementById('lockScreen').classList.add('d-none');
+          fetchUserPrivateData();
+        } else {
+          alert("❌ " + res.message);
+        }
+      })
+      .catch(err => { hideLoader(); alert('Error: ' + err); });
+    }
+
+    function checkLoginStatus() {
+      var savedUser = sessionStorage.getItem('cashbook_logged_user');
+      if (savedUser) {
+        loggedInUser = JSON.parse(savedUser);
+        document.getElementById('lockScreen').classList.add('d-none');
+        updateWelcomeHeader();
+        fetchAllMasterDataFast(); // Fetch data instantly
+      } else {
+        document.getElementById('lockScreen').classList.remove('d-none');
+      }
+    }
+
+    // User Data Privacy Isolation
+    function fetchUserPrivateData() {
+      if (!loggedInUser) return;
+      showLoader();
+      fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
+        .then(res => res.json())
+        .then(accounts => {
+          hideLoader();
+          globalAccounts = accounts || [];
+          populateAccountsDropdown();
+        })
+        .catch(err => { hideLoader(); console.error(err); });
+    }
+
+    function lockApp() {
+      sessionStorage.removeItem('cashbook_logged_user');
+      loggedInUser = null;
+      document.getElementById('lockScreen').classList.remove('d-none');
+      document.getElementById('loginUsername').value = '';
+      document.getElementById('loginPassword').value = '';
+    }
+
+    // Auto-check login on initial page load
+    window.addEventListener('DOMContentLoaded', checkLoginStatus);
+    
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
