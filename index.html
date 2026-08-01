@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cash Book Pro</title>
   
-  <!-- Modern UI Frameworks -->
+  <!-- Direct Working CDN Links -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   
@@ -14,22 +14,23 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 
     :root {
-      /* Dynamic Premium Color Palette */
-      --primary: #0f766e;          /* Deep Teal Header */
-      --primary-hover: #115e59;    /* Darker Teal */
-      --primary-accent: #0d9488;   /* Teal Accent */
-      --bg-main: #f0fdfa;          /* Soft Ice Mint Background */
+      /* Dark Blood Red Premium Theme */
+      --primary: #881337;          /* Dark Blood Red */
+      --primary-hover: #4c0519;    /* Deep Maroon */
+      --primary-accent: #9f1239;   /* Rich Crimson Accent */
+      --bg-main: #fff1f2;          /* Soft Rose Background */
       
       --cash-in: #059669;          /* Emerald Green In */
       --cash-in-bg: #ecfdf5;       /* Mint Tint */
       
-      --cash-out: #e11d48;         /* Rose Red Out */
-      --cash-out-bg: #fff1f2;      /* Soft Rose Tint */
+      --cash-out: #be123c;         /* Dark Red Out */
+      --cash-out-bg: #ffe4e6;      /* Light Rose Tint */
       
       --card-bg: #ffffff;
       --radius-lg: 20px;
@@ -39,28 +40,29 @@
       background-color: var(--bg-main); 
       font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; 
       padding-bottom: 100px;
-      color: #0f172a;
+      color: #1e1b18;
     }
 
-    /* Top App Bar - Deep Teal Gradient */
+    /* Top App Bar - Dark Blood Red Gradient */
     .top-bar { 
-      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); 
+      background: linear-gradient(135deg, #881337 0%, #be123c 100%); 
       color: white; 
       padding: 14px 18px; 
-      box-shadow: 0 10px 25px rgba(15, 118, 110, 0.25);
+      box-shadow: 0 10px 25px rgba(136, 19, 55, 0.3);
       border-bottom-left-radius: 24px;
       border-bottom-right-radius: 24px;
     }
 
-    /* Card Styling */
+    /* Card Styling with Subtle Red Accent Border */
     .card-custom { 
       border-radius: var(--radius-lg); 
-      border: 1px solid #ccfbf1; 
-      box-shadow: 0 4px 20px rgba(15, 118, 110, 0.05); 
+      border: 1px solid #fecdd3; 
+      box-shadow: 0 4px 20px rgba(136, 19, 55, 0.06); 
       background-color: var(--card-bg);
       transition: all 0.2s ease;
     }
 
+    /* Filter Buttons */
     .btn-filter {
       border-radius: 30px;
       font-size: 13px;
@@ -68,119 +70,22 @@
       padding: 6px 18px;
       white-space: nowrap;
       transition: all 0.2s ease;
-      border: 1px solid #99f6e4;
+      border: 1px solid #fda4af;
       background-color: #ffffff;
-      color: #0f766e;
+      color: #881337;
     }
 
     .btn-filter.btn-primary {
-      background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%) !important;
+      background: linear-gradient(135deg, #881337 0%, #be123c 100%) !important;
       color: white !important;
       border-color: transparent !important;
-      box-shadow: 0 4px 12px rgba(15, 118, 110, 0.25);
+      box-shadow: 0 4px 12px rgba(136, 19, 55, 0.3);
     }
 
-    /* Floating Action Buttons Bar */
-    .bottom-action-bar {
-      position: fixed;
-      bottom: 15px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 92%;
-      max-width: 620px;
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(12px);
-      padding: 10px 14px;
-      border-radius: 28px;
-      box-shadow: 0 12px 35px rgba(15, 118, 110, 0.15);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      z-index: 1000;
-    }
-
-    .btn-cash-in { 
-      background: linear-gradient(135deg, #10b981 0%, #059669 100%); 
-      color: white; 
-      width: 48%; 
-      font-weight: 700; 
-      padding: 12px;
-      border: none;
-      border-radius: 18px;
-      box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
-      transition: transform 0.15s ease;
-    }
-
-    .btn-cash-out { 
-      background: linear-gradient(135deg, #f43f5e 0%, #e11d48 100%); 
-      color: white; 
-      width: 48%; 
-      font-weight: 700; 
-      padding: 12px;
-      border: none;
-      border-radius: 18px;
-      box-shadow: 0 6px 16px rgba(225, 29, 72, 0.35);
-      transition: transform 0.15s ease;
-    }
-
-    .btn-cash-in:active, .btn-cash-out:active {
-      transform: scale(0.96);
-    }
-
-    .text-in { color: var(--cash-in); font-weight: 800; }
-    .text-out { color: var(--cash-out); font-weight: 800; }
-
-    /* Transaction Cards - Left Accent Strips */
-    .txn-card-in {
-      border-left: 6px solid var(--cash-in) !important;
-      background: linear-gradient(90deg, var(--cash-in-bg) 0%, #ffffff 20%);
-    }
-
-    .txn-card-out {
-      border-left: 6px solid var(--cash-out) !important;
-      background: linear-gradient(90deg, var(--cash-out-bg) 0%, #ffffff 20%);
-    }
-
-    /* Menu Drawer Items */
-    .drawer-item { 
-      padding: 14px 22px; 
-      color: #1e293b; 
-      text-decoration: none; 
-      display: flex; 
-      align-items: center; 
-      gap: 16px; 
-      font-weight: 600;
-      font-size: 14px;
-      transition: all 0.2s;
-      border-radius: 14px;
-      margin: 2px 10px;
-    }
-    .drawer-item:hover { background-color: #ccfbf1; color: var(--primary); }
-    .drawer-item i { width: 22px; text-align: center; font-size: 18px; }
-
-    .icon-summary { color: #0891b2; }
-    .icon-acc-summary { color: #059669; }
-    .icon-all-txns { color: #d97706; }
-    .icon-accounts { color: #2563eb; }
-    .icon-transfer { color: #7c3aed; }
-    .icon-report { color: #db2777; }
-    .icon-notebook { color: #ca8a04; }
-    .icon-calc { color: #0d9488; }
-    .icon-backup { color: #0284c7; }
-    .icon-settings { color: #475569; }
-    .icon-deleted { color: #e11d48; }
-
-    .drawer-footer {
-      background-color: #f0fdfa;
-      border-top: 1px solid #ccfbf1;
-      padding: 16px;
-      text-align: center;
-    }
-    .drawer-footer .dev-title { font-size: 12px; font-weight: 700; color: #525252; text-transform: uppercase; letter-spacing: 0.5px; }
-    .drawer-footer .dev-phone { font-size: 15px; font-weight: 800; color: var(--primary); text-decoration: none; }
-
-    /* Login Screen Background */
+    /* Login Screen Background - Deep Maroon & Dark Red Gradient */
     #lockScreen { 
       position: fixed; top:0; left:0; width:100vw; height:100vh; 
-      background: radial-gradient(circle at top left, #115e59, #042f2e); 
+      background: radial-gradient(circle at top left, #881337, #2a040e); 
       z-index: 999999; 
       display: flex; flex-direction: column; align-items: center; justify-content: center; 
       color: white; 
@@ -235,7 +140,7 @@
         <p class="text-white-50 small m-0">Naye User hain? <a href="javascript:void(0);" class="text-warning text-decoration-none fw-bold" onclick="toggleAuthView('signup')">Sign Up Karein</a></p>
       </div>
 
-      <!-- Sign Up View (Hidden Initially) -->
+      <!-- Sign Up View -->
       <div id="signupFormView" class="d-none">
         <div class="mb-2">
           <input type="text" id="regUsername" class="form-control text-center rounded-3 shadow-sm" placeholder="Choose Username">
@@ -265,9 +170,15 @@
         <h6 class="m-0 fw-bold d-flex align-items-center gap-1">
           <i class="fas fa-wallet me-1"></i> Cash Book Pro
         </h6>
-        <small id="userWelcomeHeader" class="text-white-50 fw-semibold" style="font-size: 11px;">
-          Welcome User Ji 😊
-        </small>
+        <div class="d-flex align-items-center gap-2">
+          <small id="userWelcomeHeader" class="text-white-50 fw-semibold" style="font-size: 11px;">
+            Welcome User Ji 😊
+          </small>
+          <!-- 🟢 Sync Status Indicator Badge -->
+          <span id="syncStatusBadge" class="badge rounded-pill bg-warning text-dark fw-bold style-sm" style="font-size: 9px; padding: 3px 8px;">
+            <i class="fas fa-sync-alt fa-spin me-1"></i> Cached
+          </span>
+        </div>
       </div>
     </div>
     <div class="d-flex align-items-center gap-2">
@@ -282,7 +193,7 @@
   <!-- Main Container Layout -->
   <div class="container my-3" style="max-width: 650px;">
 
-    <!-- Account Selector Card (Main Screen Add Account) -->
+    <!-- Account Selector Card -->
     <div class="card card-custom p-3 mb-3">
       <div class="d-flex justify-content-between align-items-center mb-2">
         <span class="text-uppercase text-muted fw-bold style-sm" style="font-size:11px; letter-spacing:0.5px;">Select Consumer Account</span>
@@ -366,7 +277,7 @@
     </button>
   </div>
 
-  <!-- Sidebar Navigation Drawer (With Developer Credits) -->
+  <!-- Sidebar Navigation Drawer -->
   <div class="offcanvas offcanvas-start d-flex flex-column" tabindex="-1" id="sidebarDrawer" style="width: 300px;">
     
     <div class="offcanvas-header d-flex align-items-center gap-3">
@@ -494,8 +405,6 @@
     </div>
   </div>
 
-  <!-- Modal: Edit Account -->
-
   <!-- Modal: Master Summary Popup -->
   <div class="modal fade" id="summaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -550,14 +459,14 @@
   </div>
 
   <!-- Modal: Add Account -->
-  <div class="modal fade" id="accModal" tabindex="-1">
+  <div class="modal fade" id="addAccountModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4">
         <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold">Add New Consumer Account</h5></div>
         <div class="modal-body">
           <div class="mb-3">
             <label class="form-label fw-semibold">Account / Person Name:</label>
-            <input type="text" id="newAccName" class="form-control rounded-3" placeholder="e.g. Ramesh Kumar">
+            <input type="text" id="newAccountName" class="form-control rounded-3" placeholder="e.g. Ramesh Kumar">
           </div>
           <div class="mb-3">
             <label class="form-label fw-semibold">WhatsApp Mobile Number:</label>
@@ -566,14 +475,14 @@
         </div>
         <div class="modal-footer border-0">
           <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary px-4 rounded-3 fw-bold" onclick="saveAccount()">Save Account</button>
+          <button class="btn btn-primary px-4 rounded-3 fw-bold" id="btnSaveAccount" onclick="saveAccount()"><i class="fas fa-plus me-1"></i> Add Account</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal: Add Transaction With Camera/Gallery Upload -->
-  <div class="modal fade" id="txnModal" tabindex="-1">
+  <!-- Modal: Add Transaction -->
+  <div class="modal fade" id="addTxnModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4">
         <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold" id="txnModalTitle">Add Transaction</h5></div>
@@ -593,7 +502,6 @@
             </div>
           </div>
 
-          <!-- Camera & Gallery Attachment Option -->
           <div class="mb-3">
             <label class="form-label fw-semibold small text-muted">Bill / Receipt Photo (Optional):</label>
             <div class="row g-2">
@@ -618,7 +526,7 @@
         </div>
         <div class="modal-footer border-0">
           <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Cancel</button>
-          <button class="btn btn-success px-4 rounded-3 fw-bold" onclick="saveTransactionFast()">Submit Entry</button>
+          <button class="btn btn-success px-4 rounded-3 fw-bold" id="btnSaveTxn" onclick="saveTransactionFast()"><i class="fas fa-check me-1"></i> Submit Entry</button>
         </div>
       </div>
     </div>
@@ -651,17 +559,41 @@
     </div>
   </div>
 
-  <!-- Modal: Notebook Notes -->
+  <!-- Modal: Google Keep Style Notebook Notes -->
   <div class="modal fade" id="notebookModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-book text-warning me-2"></i>Account Notebook Notes</h5></div>
-        <div class="modal-body">
-          <textarea id="notebookText" class="form-control rounded-3" rows="6" placeholder="Yahan is khate se judi mahatvapurna baatein likhein..."></textarea>
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4" style="background-color: #f8fafc;">
+        <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+          <h5 class="modal-title fw-bold d-flex align-items-center gap-2">
+            <i class="fas fa-sticky-note text-warning fs-4"></i> Cash Keep Notes
+          </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
-        <div class="modal-footer border-0">
-          <button class="btn btn-light rounded-3" data-bs-dismiss="modal">Close</button>
-          <button class="btn btn-warning px-4 rounded-3 fw-bold" onclick="saveNotebookNotes()">Save Notes</button>
+        <div class="modal-body">
+          
+          <div class="card border-0 shadow-sm rounded-4 mb-4 p-3 bg-white">
+            <input type="hidden" id="noteEditIndex" value="-1">
+            <input type="text" id="noteTitleInput" class="form-control border-0 fw-bold fs-6 mb-2 px-0 shadow-none" placeholder="Title (शीर्षक)...">
+            <textarea id="noteContentInput" class="form-control border-0 px-0 shadow-none" rows="3" placeholder="Take a note (नोट लिखें)..." style="resize: none;"></textarea>
+            
+            <div class="d-flex justify-content-between align-items-center mt-2 pt-2 border-top">
+              <div class="d-flex gap-2">
+                <span class="rounded-circle p-2 cursor-pointer border" style="background:#fef3c7; width:24px; height:24px; display:inline-block;" onclick="setNoteColor('#fef3c7')" title="Yellow"></span>
+                <span class="rounded-circle p-2 cursor-pointer border" style="background:#ecfdf5; width:24px; height:24px; display:inline-block;" onclick="setNoteColor('#ecfdf5')" title="Green"></span>
+                <span class="rounded-circle p-2 cursor-pointer border" style="background:#eff6ff; width:24px; height:24px; display:inline-block;" onclick="setNoteColor('#eff6ff')" title="Blue"></span>
+                <span class="rounded-circle p-2 cursor-pointer border" style="background:#fff1f2; width:24px; height:24px; display:inline-block;" onclick="setNoteColor('#fff1f2')" title="Red"></span>
+                <input type="hidden" id="noteSelectedColor" value="#fef3c7">
+              </div>
+              <button class="btn btn-warning px-4 rounded-pill fw-bold btn-sm shadow-sm" id="btnSaveKeepNote" onclick="saveNotebookNotes()">
+                <i class="fas fa-check me-1"></i> Save Note
+              </button>
+            </div>
+          </div>
+
+          <div class="row g-3" id="keepNotesGrid">
+            <div class="col-12 text-center text-muted py-4">Loading notes...</div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -684,29 +616,39 @@
     </div>
   </div>
 
-  <!-- Fully Optimized JavaScript Engine -->
+  <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    // ⚠️ अपने Deploy किए हुए Google Apps Script Web App का URL यहाँ डालें
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxyXW7jPC9IT3fHhj7USU5nu8ofC30TbV3dDqFNL3L4eudyG6pHHdvMeDa9kdifH2QVzQ/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxTBLosaZBG2xMuS8bLCroIwBpOxgN7yoHO4_-v3d9tUWxoErz7x0iwJqksfTKwIT11NQ/exec";
 
     var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal;
     var globalAccounts = [];
-    var allAccountsDataCache = {}; // FAST INSTANT RENDERING CACHE
+    var allAccountsDataCache = {};
     var currentAccountTxns = [];
     var deletedTxnsLog = [];
+    var loggedInUser = null;
 
     window.onload = function() {
-      accModal = new bootstrap.Modal(document.getElementById('accModal'));
-      calcModal = new bootstrap.Modal(document.getElementById('calcModal'));
-      txnModal = new bootstrap.Modal(document.getElementById('txnModal'));
-      transferModal = new bootstrap.Modal(document.getElementById('transferModal'));
-      notebookModal = new bootstrap.Modal(document.getElementById('notebookModal'));
-      summaryModal = new bootstrap.Modal(document.getElementById('summaryModal'));
+      var accEl = document.getElementById('addAccountModal');
+      if (accEl) accModal = new bootstrap.Modal(accEl);
       
-      fetchAllMasterDataFast();
+      var calcEl = document.getElementById('calcModal');
+      if (calcEl) calcModal = new bootstrap.Modal(calcEl);
+      
+      var txnEl = document.getElementById('addTxnModal');
+      if (txnEl) txnModal = new bootstrap.Modal(txnEl);
+      
+      var transEl = document.getElementById('transferModal');
+      if (transEl) transferModal = new bootstrap.Modal(transEl);
+      
+      var noteEl = document.getElementById('notebookModal');
+      if (noteEl) notebookModal = new bootstrap.Modal(noteEl);
+      
+      var sumEl = document.getElementById('summaryModal');
+      if (sumEl) summaryModal = new bootstrap.Modal(sumEl);
+      
+      checkLoginStatus();
     };
 
-    // Fixes 'showMasterSummaryModal is not defined' Error
     function showMasterSummaryModal() {
       var html = '';
       if (!globalAccounts || globalAccounts.length === 0) {
@@ -732,38 +674,6 @@
       return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount || 0);
     }
 
-    // 1. Ultra Fast Initial Master Fetch
-    // Safe Master Data Fetcher (Handles Null Responses)
-    function fetchAllMasterDataFast() {
-      if (!loggedInUser) return;
-
-      // Top Progress Line Bar Ko Show Karein (Screen Ko Hide Matt Karein)
-      var topProgress = document.getElementById('topSyncLoader');
-      if (topProgress) topProgress.style.display = 'block';
-
-      fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId))
-        .then(function(res) { return res.json(); })
-        .then(function(master) {
-          if (topProgress) topProgress.style.display = 'none';
-
-          if (master && typeof master === 'object' && master.accountsMap) {
-            allAccountsDataCache = master.accountsMap;
-
-            // Current selected account UI sync
-            var selectedAcc = document.getElementById('accountDropdown').value;
-            if (selectedAcc && allAccountsDataCache[selectedAcc]) {
-              renderAccountUI(allAccountsDataCache[selectedAcc]);
-              localStorage.setItem('cashbook_cache_' + selectedAcc, JSON.stringify(allAccountsDataCache[selectedAcc]));
-            }
-          }
-        })
-        .catch(function(err) {
-          if (topProgress) topProgress.style.display = 'none';
-          console.error("Silent Fetch Error:", err);
-        });
-    }
-
-    // Fixed Account Dropdown Renderer & Dynamic Greeting
     function updateWelcomeHeader() {
       if (loggedInUser && loggedInUser.username) {
         var userProperName = loggedInUser.username.charAt(0).toUpperCase() + loggedInUser.username.slice(1);
@@ -776,34 +686,51 @@
       var fromSel = document.getElementById('transferFrom');
       var toSel = document.getElementById('transferTo');
 
-      if (!globalAccounts || globalAccounts.length === 0) {
+      if (!dropdown) return;
+
+      if (!globalAccounts || !Array.isArray(globalAccounts) || globalAccounts.length === 0) {
         var emptyOpt = '<option value="">-- No Account Found (Add New) --</option>';
-        if (dropdown) dropdown.innerHTML = emptyOpt;
+        dropdown.innerHTML = emptyOpt;
         if (fromSel) fromSel.innerHTML = emptyOpt;
         if (toSel) toSel.innerHTML = emptyOpt;
         return;
       }
 
       var options = '<option value="">-- Choose Account --</option>';
+      var validAccCount = 0;
+
       globalAccounts.forEach(function(acc) {
-        if (acc && acc.name) {
-          var phoneText = acc.phone ? ' (' + acc.phone + ')' : '';
-          options += '<option value="' + acc.name + '">' + acc.name + phoneText + '</option>';
+        var accName = "";
+        var accPhone = "";
+
+        if (typeof acc === 'string') {
+          accName = acc;
+        } else if (acc && typeof acc === 'object') {
+          accName = acc.name || acc.accountName || "";
+          accPhone = acc.phone || "";
+        }
+
+        if (accName && accName !== "Account Name") {
+          validAccCount++;
+          var phoneText = accPhone ? ' (' + accPhone + ')' : '';
+          options += '<option value="' + accName + '">' + accName + phoneText + '</option>';
         }
       });
 
-      if (dropdown) dropdown.innerHTML = options;
+      if (validAccCount === 0) {
+        options = '<option value="">-- No Account Found (Add New) --</option>';
+      }
+
+      dropdown.innerHTML = options;
       if (fromSel) fromSel.innerHTML = options;
       if (toSel) toSel.innerHTML = options;
-      
+
       updateWelcomeHeader();
     }
 
-    // 2. Instant Local Load (0 Milliseconds)
     function loadAccountDataFast() {
       var acc = document.getElementById('accountDropdown').value;
 
-      // Agar user '-- Choose Account --' (Khali Option) select karta hai, toh screen clear kar do
       if (!acc) {
         currentAccountTxns = [];
         document.getElementById('totalIn').innerText = formatINR(0);
@@ -824,8 +751,6 @@
       renderTransactions(currentAccountTxns);
     }
 
-    // Render Transactions With Remark, Bill Photo Link & Thin Running Balance Text
-    // Render Transactions With Edit Button Icon
     function renderTransactions(txns) {
       var html = '';
       if (!txns || txns.length === 0) {
@@ -863,7 +788,6 @@
       document.getElementById('transactionList').innerHTML = html;
     }
 
-    // Edit Transaction Handlers
     var editTxnModal;
     window.addEventListener('DOMContentLoaded', function() {
       var el = document.getElementById('editTxnModal');
@@ -908,13 +832,12 @@
       .then(() => {
         hideLoader();
         editTxnModal.hide();
-        fetchAllMasterDataFast();
+        fetchUserPrivateData();
         alert('Transaction safaltapoorvak update ho gaya!');
       })
       .catch(err => { hideLoader(); alert('Error: ' + err); });
     }
 
-    // Account Edit Modal Handlers
     var editAccModal;
     window.addEventListener('DOMContentLoaded', function() {
       var el = document.getElementById('editAccModal');
@@ -954,17 +877,19 @@
       .then(() => {
         hideLoader();
         editAccModal.hide();
-        fetchAllMasterDataFast();
+        fetchUserPrivateData();
         alert('Account safaltapoorvak update ho gaya!');
       })
       .catch(err => { hideLoader(); alert('Error: ' + err); });
     }
 
-    // 3. Save Account
     function showAddAccountModal() { accModal.show(); }
+    
     function saveAccount() {
       var accNameInput = document.getElementById('newAccountName');
+      var accPhoneInput = document.getElementById('newAccPhone');
       var accName = accNameInput ? accNameInput.value.trim() : '';
+      var accPhone = accPhoneInput ? accPhoneInput.value.trim() : '';
 
       if (!accName) return alert('Kripya account ka naam likhein!');
 
@@ -974,40 +899,40 @@
         btn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Creating...';
       }
 
-      // ⚡ INSTANT LOCAL DROPDOWN UPDATE
-      if (!globalAccounts.includes(accName)) {
-        globalAccounts.push(accName);
+      if (!globalAccounts.some(a => a.name === accName)) {
+        globalAccounts.push({ name: accName, phone: accPhone });
       }
 
       allAccountsDataCache[accName] = { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
       populateAccountsDropdown();
 
-      // Select new account automatically
       var dropdown = document.getElementById('accountDropdown');
       if (dropdown) {
         dropdown.value = accName;
         loadAccountDataFast();
       }
 
-      // Reset Modal
       accNameInput.value = '';
-      var modalEl = document.getElementById('addAccountModal');
-      if (modalEl) {
-        var modalObj = bootstrap.Modal.getInstance(modalEl);
-        if (modalObj) modalObj.hide();
-      }
+      if(accPhoneInput) accPhoneInput.value = '';
+      
+      if (accModal) accModal.hide();
 
       if (btn) {
         btn.disabled = false;
         btn.innerHTML = '<i class="fas fa-plus me-1"></i> Add Account';
       }
 
-      // ⚡ Background Server Sync
-      fetch(SCRIPT_URL + "?action=addAccount&userId=" + encodeURIComponent(loggedInUser ? loggedInUser.userId : "") + "&accountName=" + encodeURIComponent(accName))
-        .catch(function(err) { console.error("Account background error:", err); });
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({
+          action: "addAccount",
+          userId: loggedInUser ? loggedInUser.userId : "",
+          accountName: accName,
+          phone: accPhone
+        })
+      }).catch(function(err) { console.error("Account sync error:", err); });
     }
 
-    // 4. Save Transaction
     function openTxnModal(type) {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Pehle koi account select karein!');
@@ -1017,7 +942,6 @@
       txnModal.show();
     }
 
-    // Image Selection Preview
     var selectedImageData = null;
 
     function previewSelectedImage(input) {
@@ -1053,7 +977,6 @@
 
       var nowStr = new Date().toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
-      // ⚡ OPTIMISTIC UI UPDATE: Server Response Ka Wait Kiye Bina Local Memory Update Karein
       if (!allAccountsDataCache[acc]) {
         allAccountsDataCache[acc] = { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
       }
@@ -1075,28 +998,24 @@
         runningBalance: currAccData.balance
       };
 
-      // Add to front of array
       currAccData.transactions.unshift(newTxn);
 
-      // ⚡ Instant UI Refresh (0-Second Lag)
-      renderAccountUI(currAccData);
-      localStorage.setItem('cashbook_cache_' + acc, JSON.stringify(currAccData));
+      // 💾 Instant Local Storage Cache Update
+      if (loggedInUser) {
+        localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+      }
 
-      // Reset Modal / Input Fields Instantly
+      loadAccountDataFast();
+
       document.getElementById('txnAmount').value = '';
       document.getElementById('txnRemark').value = '';
-      var modalEl = document.getElementById('addTxnModal');
-      if (modalEl) {
-        var modalObj = bootstrap.Modal.getInstance(modalEl);
-        if (modalObj) modalObj.hide();
-      }
+      if (txnModal) txnModal.hide();
 
       if (saveBtn) {
         saveBtn.disabled = false;
-        saveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Save Entry';
+        saveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Submit Entry';
       }
 
-      // ⚡ Background Asynchronous Server Sync (Screen Bilkul Nahi Freeze Hogi)
       var payload = {
         action: "addTransaction",
         userId: loggedInUser ? loggedInUser.userId : "",
@@ -1104,20 +1023,27 @@
         type: type,
         amount: amt,
         remark: remark,
-        date: nowStr
+        imageFile: selectedImageData
       };
 
       fetch(SCRIPT_URL, {
         method: "POST",
-        mode: "no-cors", // Fast fire-and-forget
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
-      }).catch(function(err) {
-        console.error("Background sync error:", err);
+      })
+      .then(res => res.json())
+      .then(res => {
+        if(res && res.success === false) {
+          alert("Sheet Sync Fail: " + (res.error || res.message));
+        } else {
+          selectedImageData = null;
+          document.getElementById('imagePreviewText').classList.add('d-none');
+        }
+      })
+      .catch(function(err) {
+        alert("Server Error: Sheet tak data nahi pahuncha! (" + err + ")");
       });
     }
 
-    // 5. Transfer Funds Functionality
     function openTransferModal() { transferModal.show(); }
     function executeTransfer() {
       var fromAcc = document.getElementById('transferFrom').value;
@@ -1142,12 +1068,11 @@
         hideLoader();
         transferModal.hide();
         document.getElementById('transferAmount').value = '';
-        fetchAllMasterDataFast();
+        fetchUserPrivateData();
       })
       .catch(err => { hideLoader(); alert('Error: ' + err); });
     }
 
-    // 6. Delete Transaction
     function deleteTransaction(index) {
       if (confirm("Kya aap sach me is entry ko delete karna chahte hain?")) {
         var acc = document.getElementById('accountDropdown').value;
@@ -1166,36 +1091,138 @@
         .then(res => res.json())
         .then(() => {
           hideLoader();
-          fetchAllMasterDataFast();
+          fetchUserPrivateData();
         })
         .catch(err => { hideLoader(); alert('Error: ' + err); });
       }
     }
 
-    // 7. Notebook Notes
+    var currentAccountNotes = [];
+
+    function setNoteColor(color) {
+      document.getElementById('noteSelectedColor').value = color;
+    }
+
     function openNotebookModal() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Pehle account select karein!');
 
-      document.getElementById('notebookText').value = localStorage.getItem('notes_' + acc) || '';
+      resetNoteForm();
+      renderKeepNotes();
       notebookModal.show();
+      fetchAccountNotesServer(acc);
+    }
+
+    function resetNoteForm() {
+      document.getElementById('noteEditIndex').value = "-1";
+      document.getElementById('noteTitleInput').value = "";
+      document.getElementById('noteContentInput').value = "";
+      document.getElementById('noteSelectedColor').value = "#fef3c7";
+      document.getElementById('btnSaveKeepNote').innerHTML = '<i class="fas fa-check me-1"></i> Save Note';
+    }
+
+    function renderKeepNotes() {
+      var grid = document.getElementById('keepNotesGrid');
+      if (!currentAccountNotes || currentAccountNotes.length === 0) {
+        grid.innerHTML = '<div class="col-12 text-center text-muted py-4"><i class="far fa-sticky-note fa-2x mb-2 d-block"></i>Koi notes nahi hain. Upar naya note banayein!</div>';
+        return;
+      }
+
+      var html = '';
+      currentAccountNotes.forEach(function(note, idx) {
+        var bg = note.color || '#fef3c7';
+        html += '<div class="col-md-6 col-12">' +
+                  '<div class="card border-0 shadow-sm rounded-4 p-3 h-100 position-relative" style="background-color: ' + bg + ';">' +
+                    (note.title ? '<h6 class="fw-bold mb-1 text-dark">' + note.title + '</h6>' : '') +
+                    '<p class="small text-secondary m-0 mb-3" style="white-space: pre-line;">' + note.content + '</p>' +
+                    '<div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top border-black-50">' +
+                      '<small class="text-muted" style="font-size:10px;">' + (note.date || '') + '</small>' +
+                      '<div class="d-flex gap-2">' +
+                        '<button class="btn btn-sm text-primary p-0" onclick="editKeepNote(' + idx + ')" title="Edit Note"><i class="fas fa-pencil-alt"></i></button>' +
+                        '<button class="btn btn-sm text-danger p-0" onclick="deleteKeepNote(' + idx + ')" title="Delete Note"><i class="fas fa-trash-alt"></i></button>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+      });
+      grid.innerHTML = html;
     }
 
     function saveNotebookNotes() {
       var acc = document.getElementById('accountDropdown').value;
-      var notes = document.getElementById('notebookText').value;
-      localStorage.setItem('notes_' + acc, notes);
-      notebookModal.hide();
-      alert('Notes saved successfully!');
+      var title = document.getElementById('noteTitleInput').value.trim();
+      var content = document.getElementById('noteContentInput').value.trim();
+      var color = document.getElementById('noteSelectedColor').value;
+      var editIdx = parseInt(document.getElementById('noteEditIndex').value);
+
+      if (!title && !content) return alert('Kripya Title ya Note kuch likhein!');
+
+      var nowStr = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+      var noteObj = { title: title, content: content, color: color, date: nowStr };
+
+      if (editIdx >= 0) {
+        currentAccountNotes[editIdx] = noteObj;
+      } else {
+        currentAccountNotes.unshift(noteObj);
+      }
+
+      renderKeepNotes();
+      localStorage.setItem('keep_notes_' + acc, JSON.stringify(currentAccountNotes));
+      resetNoteForm();
+
+      syncNotesWithServer(acc);
     }
 
-    // 8. Utility Functions & Side Features
+    function editKeepNote(idx) {
+      var note = currentAccountNotes[idx];
+      if (!note) return;
+
+      document.getElementById('noteEditIndex').value = idx;
+      document.getElementById('noteTitleInput').value = note.title || '';
+      document.getElementById('noteContentInput').value = note.content || '';
+      document.getElementById('noteSelectedColor').value = note.color || '#fef3c7';
+      document.getElementById('btnSaveKeepNote').innerHTML = '<i class="fas fa-save me-1"></i> Update Note';
+    }
+
+    function deleteKeepNote(idx) {
+      if (confirm('Kya aap is note ko delete karna chahte hain?')) {
+        var acc = document.getElementById('accountDropdown').value;
+        currentAccountNotes.splice(idx, 1);
+        renderKeepNotes();
+        localStorage.setItem('keep_notes_' + acc, JSON.stringify(currentAccountNotes));
+        syncNotesWithServer(acc);
+      }
+    }
+
+    function fetchAccountNotesServer(acc) {
+      var localData = localStorage.getItem('keep_notes_' + acc);
+      if (localData) {
+        currentAccountNotes = JSON.parse(localData);
+        renderKeepNotes();
+      }
+      fetch(SCRIPT_URL + "?action=getAccountNotes&acc=" + encodeURIComponent(acc))
+        .then(res => res.json())
+        .then(res => {
+          if (res && res.notes) {
+            currentAccountNotes = res.notes;
+            renderKeepNotes();
+            localStorage.setItem('keep_notes_' + acc, JSON.stringify(currentAccountNotes));
+          }
+        }).catch(err => console.log('Notes sync fetch error:', err));
+    }
+
+    function syncNotesWithServer(acc) {
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ action: 'saveAccountNotes', acc: acc, notes: currentAccountNotes })
+      }).catch(err => console.error('Notes sync save error:', err));
+    }
+
     function viewDeletedTransactions() {
       if (deletedTxnsLog.length === 0) alert('Abhi koi deleted transaction nahi hai.');
       else alert('Aapne abhi tak ' + deletedTxnsLog.length + ' entries delete ki hain.');
     }
 
-    // Voice Speech to Text Feature
     function startVoiceInput() {
       var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SpeechRecognition) {
@@ -1225,17 +1252,50 @@
 
     function shareWhatsAppStatement() {
       var accName = document.getElementById('accountDropdown').value;
-      if (!accName) return alert('Kripya account select karein!');
+      if (!accName) return alert('Kripya pehle koi account select karein!');
 
-      var selectedAcc = globalAccounts.find(function(a) { return a.name === accName; });
-      var balance = document.getElementById('netBalance').innerText;
-      var msg = 'Namaste *' + accName + '*, Cash Book me aapka Net Balance: *' + balance + '* hai. Dhanyawad!';
-      
-      var phoneParam = selectedAcc && selectedAcc.phone ? 'phone=91' + selectedAcc.phone + '&' : '';
-      window.open('https://api.whatsapp.com/send?' + phoneParam + 'text=' + encodeURIComponent(msg), '_blank');
+      var selectedAcc = globalAccounts.find(function(a) { 
+        var name = typeof a === 'string' ? a : (a ? a.name : '');
+        return name === accName; 
+      });
+
+      var data = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
+      var balance = formatINR(data.balance || 0);
+      var msg = "Namaste *" + accName + "*, Cash Book Pro me aapka Net Balance: *" + balance + "* hai.";
+
+      // 📱 Web Share API (अगर ब्राउज़र/मोबाइल सपोर्ट करे तो सीधे PDF फाइल्स शेयर करेगा)
+      if (navigator.share && window.jspdf) {
+        try {
+          var jsPDF = window.jspdf.jsPDF;
+          var doc = new jsPDF('p', 'mm', 'a4');
+          
+          // PDF जनरेट करें
+          doc.text("CASH BOOK STATEMENT - " + accName, 14, 15);
+          doc.text("Net Balance: " + balance, 14, 25);
+          
+          var pdfBlob = doc.output('blob');
+          var file = new File([pdfBlob], accName + "_Statement.pdf", { type: "application/pdf" });
+
+          if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+              title: 'Account Statement',
+              text: msg,
+              files: [file]
+            }).then(() => console.log('Shared successfully'))
+              .catch((error) => console.log('Error sharing', error));
+            return;
+          }
+        } catch(e) {
+          console.log("Web Share Fallback activated");
+        }
+      }
+
+      // Fallback: अगर फ़ाइल डायरेक्ट शेयर न हो पाए तो मैसेज भेजें
+      var rawPhone = (selectedAcc && typeof selectedAcc === 'object' && selectedAcc.phone) ? selectedAcc.phone.toString().replace(/\D/g, '') : '';
+      var whatsappUrl = rawPhone ? "https://api.whatsapp.com/send?phone=91" + rawPhone + "&text=" + encodeURIComponent(msg) : "https://api.whatsapp.com/send?text=" + encodeURIComponent(msg);
+      window.open(whatsappUrl, '_blank');
     }
 
-    // Custom Date Range Modal Handlers & Filter Logic
     var customDateModal;
     window.addEventListener('DOMContentLoaded', function() {
       var el = document.getElementById('customDateModal');
@@ -1259,10 +1319,9 @@
 
       var now = new Date();
       var filtered = currentAccountTxns.filter(function(t) {
-        // Date parsing support for standard format strings
         var parts = t.date ? t.date.split(',')[0].split('/') : [];
         var tDate = parts.length === 3 ? new Date(parts[2], parts[1] - 1, parts[0]) : new Date(t.date);
-        if (isNaN(tDate.getTime())) return true; // Show entries if date parsing fails
+        if (isNaN(tDate.getTime())) return true;
 
         if (range === 'daily') return tDate.toDateString() === now.toDateString();
         if (range === 'weekly') return (now - tDate) / (1000 * 60 * 60 * 24) <= 7;
@@ -1305,155 +1364,194 @@
       });
     }
 
-    // Exports
+    // 📊 Enhanced Single Account Excel Export
     function exportAccountExcel() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Account select karein!');
 
-      var rows = (currentAccountTxns || []).map(function(t) { return { Date: t.date, Type: t.type, Amount: t.amount, Remark: t.remark }; });
-      var ws = XLSX.utils.json_to_sheet(rows);
+      var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0 };
+      var exactTotalIn = Number(data.totalIn || 0);
+      var exactTotalOut = Number(data.totalOut || 0);
+      var exactNetBalance = exactTotalIn - exactTotalOut;
+
+      // Header Summary Rows
+      var excelRows = [
+        { "Date / S.No": "CASH BOOK PRO STATEMENT", "Type": "", "Amount (Rs)": "", "Balance (Rs)": "", "Remark / Note": "" },
+        { "Date / S.No": "Account Name: " + acc, "Type": "", "Amount (Rs)": "", "Balance (Rs)": "", "Remark / Note": "" },
+        { "Date / S.No": "Total Cash In: Rs. " + exactTotalIn, "Type": "Total Cash Out: Rs. " + exactTotalOut, "Amount (Rs)": "Net Balance: Rs. " + exactNetBalance, "Balance (Rs)": "", "Remark / Note": "" },
+        { "Date / S.No": "", "Type": "", "Amount (Rs)": "", "Balance (Rs)": "", "Remark / Note": "" } // Blank separator
+      ];
+
+      // Transactions Rows with Running Balance
+      (currentAccountTxns || []).forEach(function(t, idx) {
+        excelRows.push({
+          "Date / S.No": t.date || '-',
+          "Type": t.type || '-',
+          "Amount (Rs)": Number(t.amount || 0),
+          "Balance (Rs)": t.runningBalance !== undefined ? Number(t.runningBalance) : '-',
+          "Remark / Note": t.remark || '-'
+        });
+      });
+
+      var ws = XLSX.utils.json_to_sheet(excelRows);
       var wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, acc.substring(0, 30));
-      XLSX.writeFile(wb, acc + '_Statement.xlsx');
+      
+      var filename = acc + '_Statement.xlsx';
+      if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+        window.AndroidInterface.downloadBase64File(wbout, filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      } else {
+        XLSX.writeFile(wb, filename);
+      }
     }
 
+    // PDF Custom Formatter Helper (Fixes "1" Symbol Error by replacing ₹ with Rs.)
+    function formatPDFCurrency(amount) {
+      var num = Number(amount || 0);
+      var formatted = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(num);
+      return "Rs. " + formatted;
+    }
+
+    // 📄 100% Pure Hindi Supported PDF Exporter Engine
     function exportAccountPDF() {
       var acc = document.getElementById('accountDropdown').value;
-      if (!acc) return alert('Kripya pehle account select karein!');
+      if (!acc) return alert('Kripya pehle koi account select karein!');
 
-      var jsPDF = window.jspdf.jsPDF;
-      var doc = new jsPDF('p', 'mm', 'a4');
+      showLoader();
 
-      // 1. App Header & Branding Banner (Deep Teal Background)
-      doc.setFillColor(15, 118, 110); // Deep Teal Color (#0F766E)
-      doc.rect(0, 0, 210, 28, 'F');
-
-      doc.setTextColor(255, 255, 255);
-      doc.setFont("helvetica", "bold");
-      doc.setFontSize(18);
-      doc.text("CASH BOOK PRO", 14, 15);
-
-      doc.setFontSize(10);
-      doc.setFont("helvetica", "normal");
-      doc.text("Account Statement & Transaction Ledger", 14, 21);
-
-      // Report Generation Date (Top Right Header)
-      var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-      doc.setFontSize(9);
-      doc.text("Generated On: " + todayStr, 196, 18, { align: 'right' });
-
-      // 2. Summary Box Card Section
       var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0 };
-      
-      doc.setDrawColor(204, 251, 241); // Soft Border Color
-      doc.setFillColor(240, 253, 250); // Light Background
-      doc.roundedRect(14, 34, 182, 28, 3, 3, 'FD');
+      var exactTotalIn = Number(data.totalIn || 0);
+      var exactTotalOut = Number(data.totalOut || 0);
+      var exactNetBalance = exactTotalIn - exactTotalOut;
+      var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-      doc.setTextColor(15, 23, 42); // Dark Text
-      doc.setFontSize(11);
-      doc.setFont("helvetica", "bold");
-      doc.text("Account Name: " + acc, 20, 42);
-
-      doc.setFontSize(9);
-      doc.setFont("helvetica", "normal");
-
-      // Total In
-      doc.setTextColor(5, 150, 105); // Green Color
-      doc.text("Total In: " + formatINR(data.totalIn), 20, 52);
-
-      // Total Out
-      doc.setTextColor(225, 29, 72); // Red Color
-      doc.text("Total Out: " + formatINR(data.totalOut), 85, 52);
-
-      // Net Balance
-      var balColor = data.balance >= 0 ? [5, 150, 105] : [225, 29, 72];
-      doc.setTextColor(balColor[0], balColor[1], balColor[2]);
-      doc.setFont("helvetica", "bold");
-      doc.text("Net Balance: " + formatINR(data.balance), 150, 52);
-
-      // 3. Transactions Table Data Setup
-      var tableBody = (currentAccountTxns || []).map(function(t, idx) {
+      // Table Rows Builder (Preserves Hindi Font Perfectly)
+      var rowsHTML = '';
+      (currentAccountTxns || []).forEach(function(t, idx) {
+        var isIn = t.type === 'Cash In';
+        var amtColor = isIn ? '#059669' : '#e11d48';
         var runningBalText = t.runningBalance !== undefined ? formatINR(t.runningBalance) : '-';
-        return [
-          idx + 1,
-          t.date || '-',
-          t.type || '-',
-          formatINR(t.amount),
-          runningBalText,
-          t.remark || '-'
-        ];
+
+        rowsHTML += '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                      '<td style="padding: 8px; text-align: center;">' + (idx + 1) + '</td>' +
+                      '<td style="padding: 8px; text-align: center;">' + (t.date || '-') + '</td>' +
+                      '<td style="padding: 8px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + t.type + '</td>' +
+                      '<td style="padding: 8px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
+                      '<td style="padding: 8px; text-align: center;">' + runningBalText + '</td>' +
+                      '<td style="padding: 8px; text-align: center; word-break: break-word;">' + (t.remark || '-') + '</td>' +
+                    '</tr>';
       });
 
-      // 4. AutoTable Rendering With Professional Styling
-      doc.autoTable({
-        head: [['#', 'Date & Time', 'Type', 'Amount (Rs)', 'Balance', 'Remark / Note']],
-        body: tableBody,
-        startY: 68,
-        theme: 'striped',
-        headStyles: {
-          fillColor: [15, 118, 110], // Deep Teal Header
-          textColor: [255, 255, 255],
-          fontStyle: 'bold',
-          fontSize: 9,
-          halign: 'left'
-        },
-        bodyStyles: {
-          fontSize: 8.5,
-          textColor: [30, 41, 59]
-        },
-        columnStyles: {
-          0: { cellWidth: 10, halign: 'center' },
-          1: { cellWidth: 38 },
-          2: { cellWidth: 22, fontStyle: 'bold' },
-          3: { cellWidth: 28, halign: 'right', fontStyle: 'bold' },
-          4: { cellWidth: 28, halign: 'right' },
-          5: { cellWidth: 'auto' }
-        },
-        alternateRowStyles: {
-          fillColor: [248, 250, 252] // Zebra Effect Soft Grey
-        },
-        didParseCell: function(data) {
-          // Cash In Green & Cash Out Red Color for Type and Amount Columns
-          if (data.section === 'body') {
-            var rowType = data.row.raw[2]; // Type Column
-            if (rowType === 'Cash In') {
-              if (data.column.index === 2 || data.column.index === 3) {
-                data.cell.styles.textColor = [5, 150, 105];
-              }
-            } else if (rowType === 'Cash Out') {
-              if (data.column.index === 2 || data.column.index === 3) {
-                data.cell.styles.textColor = [225, 29, 72];
-              }
-            }
-          }
-        },
-        margin: { top: 68, bottom: 20, left: 14, right: 14 }
+      // Temporary Hidden HTML Container for High-Quality Rendering
+      var pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#0f172a';
+
+      pdfContainer.innerHTML = 
+        '<div style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color: white; padding: 16px; text-align: center; border-radius: 12px; mb-3">' +
+          '<h2 style="margin: 0; font-size: 22px; font-weight: bold;">CASH BOOK PRO</h2>' +
+          '<p style="margin: 4px 0 0 0; font-size: 12px; opacity: 0.9;">Account Statement & Transaction Ledger</p>' +
+          '<p style="margin: 2px 0 0 0; font-size: 10px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
+        '</div>' +
+
+        '<div style="background-color: #f0fdfa; border: 1px solid #ccfbf1; padding: 14px; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; text-align: center;">' +
+          '<h3 style="margin: 0 0 10px 0; font-size: 16px; color: #0f172a;">Account Name: ' + acc + '</h3>' +
+          '<div style="display: flex; justify-content: space-around; font-size: 13px; font-weight: bold;">' +
+            '<span style="color: #059669;">Total In: ' + formatINR(exactTotalIn) + '</span>' +
+            '<span style="color: #e11d48;">Total Out: ' + formatINR(exactTotalOut) + '</span>' +
+            '<span style="color: ' + (exactNetBalance >= 0 ? '#059669' : '#e11d48') + ';">Net Balance: ' + formatINR(exactNetBalance) + '</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">' +
+          '<thead>' +
+            '<tr style="background-color: #0f766e; color: white;">' +
+              '<th style="padding: 10px; text-align: center;">#</th>' +
+              '<th style="padding: 10px; text-align: center;">Date & Time</th>' +
+              '<th style="padding: 10px; text-align: center;">Type</th>' +
+              '<th style="padding: 10px; text-align: center;">Amount</th>' +
+              '<th style="padding: 10px; text-align: center;">Balance</th>' +
+              '<th style="padding: 10px; text-align: center;">Remark / Note</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' + rowsHTML + '</tbody>' +
+        '</table>' +
+
+        '<div style="margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 10px; text-align: center; font-size: 10px; color: #94a3b8;">' +
+          'Cash Book Pro - Official Computer Generated Report' +
+        '</div>';
+
+      document.body.appendChild(pdfContainer);
+
+      var filename = acc + '_Statement_' + todayStr.replace(/ /g, '_') + '.pdf';
+
+      var opt = {
+        margin:       10,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Generate Clean Hindi PDF (Fixed Promise Chain - No 'save' Undefined Error)
+      html2pdf().set(opt).from(pdfContainer).outputPdf('datauristring').then(function(pdfDataUri) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+
+        // Android App Direct Base64 Download
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var pdfBase64 = pdfDataUri.split(',')[1];
+          window.AndroidInterface.downloadBase64File(pdfBase64, filename, "application/pdf");
+        } else {
+          // Browser Direct PDF Download
+          var link = document.createElement('a');
+          link.href = pdfDataUri;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+      }).catch(function(err) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+        console.error("PDF Gen Error:", err);
+        alert("PDF Generate karne me dikkat aayi. Phir se koshish karein!");
       });
-
-      // 5. Page Numbering & Professional Footer
-      var totalPages = doc.internal.getNumberOfPages();
-      for (var i = 1; i <= totalPages; i++) {
-        doc.setPage(i);
-        doc.setFontSize(8);
-        doc.setTextColor(148, 163, 184); // Muted Slate
-        doc.setFont("helvetica", "normal");
-        
-        // Footer Divider Line
-        doc.setDrawColor(226, 232, 240);
-        doc.line(14, 282, 196, 282);
-
-        doc.text("Cash Book Pro - Official Computer Generated Report", 14, 287);
-        doc.text("Page " + i + " of " + totalPages, 196, 287, { align: 'right' });
-      }
-
-      // Download Generated PDF File
-      doc.save(acc + '_Statement_' + todayStr.replace(/ /g, '_') + '.pdf');
     }
 
+    // 📊 Enhanced Master Summary Excel Export
     function exportMasterExcel() {
+      if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
+
+      var summaryRows = globalAccounts.map(function(acc) {
+        var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+        var accData = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
+        var totalIn = Number(accData.totalIn || 0);
+        var totalOut = Number(accData.totalOut || 0);
+        
+        return {
+          "Account Name": accName,
+          "Phone Number": acc.phone || '-',
+          "Total Cash In (Rs)": totalIn,
+          "Total Cash Out (Rs)": totalOut,
+          "Net Balance (Rs)": totalIn - totalOut
+        };
+      });
+
+      var ws = XLSX.utils.json_to_sheet(summaryRows);
       var wb = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(wb, XLSX.utils.json_to_sheet(globalAccounts || []), "Summary");
-      XLSX.writeFile(wb, 'Master_Report.xlsx');
+      XLSX.utils.book_append_sheet(wb, ws, "Master Summary");
+      
+      var filename = 'Master_Accounts_Report.xlsx';
+      if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+        window.AndroidInterface.downloadBase64File(wbout, filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+      } else {
+        XLSX.writeFile(wb, filename);
+      }
     }
 
     function exportMasterPDF() {
@@ -1465,7 +1563,6 @@
       doc.save('Master_Summary.pdf');
     }
 
-    // Cash Calculator
     function openCashCalculator() { calcModal.show(); }
     function calculateNotes() {
       var inputs = document.querySelectorAll('.calc-count');
@@ -1479,9 +1576,6 @@
       });
       document.getElementById('grandCalcTotal').innerText = formatINR(grandTotal);
     }
-
-    // User Authentication & Private Data Engine
-    var loggedInUser = null;
 
     function toggleAuthView(view) {
       if (view === 'signup') {
@@ -1539,7 +1633,13 @@
         if (res.success) {
           loggedInUser = res.user;
           sessionStorage.setItem('cashbook_logged_user', JSON.stringify(res.user));
+          localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(res.user));
+          
+          // Instant LockScreen Hide
           document.getElementById('lockScreen').classList.add('d-none');
+          updateWelcomeHeader();
+
+          // Smooth Non-Blocking Private Data Fetch
           fetchUserPrivateData();
         } else {
           alert("❌ " + res.message);
@@ -1554,43 +1654,126 @@
         loggedInUser = JSON.parse(savedUser);
         document.getElementById('lockScreen').classList.add('d-none');
         updateWelcomeHeader();
-        fetchUserPrivateData(); // Call private fetch instead of plain master fetch
+        fetchUserPrivateData();
       } else {
         document.getElementById('lockScreen').classList.remove('d-none');
       }
     }
 
-    // User Data Privacy Isolation
+    function autoLoginWithBiometric() {
+      var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
+      if (savedUser) {
+        loggedInUser = JSON.parse(savedUser);
+        sessionStorage.setItem('cashbook_logged_user', savedUser);
+        var lockScreen = document.getElementById('lockScreen');
+        if (lockScreen) lockScreen.classList.add('d-none');
+        updateWelcomeHeader();
+        fetchUserPrivateData();
+      } else {
+        alert("Pehle ek baar Username aur Password se Login karein!");
+      }
+    }
+
+    // 🚦 Sync Indicator Status Helper
+    function updateSyncBadge(status) {
+      var badge = document.getElementById('syncStatusBadge');
+      if (!badge) return;
+
+      if (status === 'syncing') {
+        badge.className = 'badge rounded-pill bg-warning text-dark fw-bold';
+        badge.innerHTML = '<i class="fas fa-sync-alt fa-spin me-1"></i> Syncing...';
+      } else if (status === 'synced') {
+        badge.className = 'badge rounded-pill bg-success text-white fw-bold';
+        badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Live Synced';
+      } else if (status === 'offline') {
+        badge.className = 'badge rounded-pill bg-secondary text-white fw-bold';
+        badge.innerHTML = '<i class="fas fa-database me-1"></i> Cached';
+      }
+    }
+
+    // ⚡ Silent Background Fetch Engine (No Screen Blur)
     function fetchUserPrivateData() {
-      if (!loggedInUser) return;
-      showLoader();
+      if (!loggedInUser) {
+        hideLoader();
+        return;
+      }
       
-      // 1. User private accounts fetch karein
+      var hasCache = false;
+
+      // 1. Instant Cache Load: Accounts + Master Transactions Both (0 Second Instant Render)
+      var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
+      var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
+
+      if (cachedAccounts && cachedTxnsData) {
+        try {
+          var parsedAccs = JSON.parse(cachedAccounts);
+          var parsedMaster = JSON.parse(cachedTxnsData);
+
+          if (parsedAccs && parsedAccs.length > 0) {
+            globalAccounts = parsedAccs;
+            allAccountsDataCache = parsedMaster || {};
+            populateAccountsDropdown();
+
+            var dropdown = document.getElementById('accountDropdown');
+            if (dropdown && dropdown.options.length > 1) {
+              dropdown.selectedIndex = 1;
+              loadAccountDataFast(); // 🚀 Instant Entries + Total In/Out/Balance Load!
+            }
+            hasCache = true;
+            updateSyncBadge('offline');
+          }
+        } catch(e) {}
+      }
+
+      if (!hasCache) {
+        showLoader();
+      }
+
+      updateSyncBadge('syncing');
+
+      // 2. Background Silent Fetch (Cache ko background me update karein)
       fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
-        .then(res => res.json())
-        .then(accounts => {
-          globalAccounts = accounts || [];
+        .then(function(res) {
+          if (!res.ok) throw new Error("Server HTTP Error: " + res.status);
+          return res.json();
+        })
+        .then(function(accounts) {
+          if (!accounts || !Array.isArray(accounts) || accounts.length === 0) {
+            return fetch(SCRIPT_URL + "?action=getAccounts").then(function(r) { return r.json(); });
+          }
+          return accounts;
+        })
+        .then(function(accounts) {
+          globalAccounts = (Array.isArray(accounts) ? accounts : []);
+          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
           populateAccountsDropdown();
 
-          // 2. Accounts milne ke baad master data (Transactions) fetch karke UI refresh karein
-          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster");
+          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
         })
-        .then(res => res.json())
-        .then(master => {
+        .then(function(res) { return res.json(); })
+        .then(function(master) {
           hideLoader();
-          if (master && typeof master === 'object') {
+          
+          if (master && typeof master === 'object' && master.accountsMap) {
             allAccountsDataCache = master.accountsMap || {};
+            // 💾 Transactions Master Data ko Cache me Save Karein
+            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
           }
-          // Pehla account auto-select karke transactions render karein
+          
           var dropdown = document.getElementById('accountDropdown');
           if (dropdown && dropdown.options.length > 1) {
-            dropdown.selectedIndex = 1; // Select first available account
-            loadAccountDataFast(); // Instant render
+            if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
+              dropdown.selectedIndex = 1;
+            }
+            loadAccountDataFast();
           }
+
+          updateSyncBadge('synced');
         })
-        .catch(err => { 
-          hideLoader(); 
-          console.error("Login fetch error:", err); 
+        .catch(function(err) {
+          hideLoader();
+          console.error("Silent Sync Error:", err);
+          updateSyncBadge('offline');
         });
     }
 
@@ -1602,10 +1785,28 @@
       document.getElementById('loginPassword').value = '';
     }
 
-    // Auto-check login on initial page load
-    window.addEventListener('DOMContentLoaded', checkLoginStatus);
-    
+    window.handleAndroidBackButton = function() {
+      var openModals = document.querySelectorAll('.modal.show');
+      if (openModals.length > 0) {
+        var modalObj = bootstrap.Modal.getInstance(openModals[openModals.length - 1]);
+        if (modalObj) {
+          modalObj.hide();
+          return true;
+        }
+      }
+      var drawer = document.getElementById('sidebarDrawer');
+      if (drawer && drawer.classList.contains('show')) {
+        var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+        if (bsDrawer) {
+          bsDrawer.hide();
+          return true;
+        }
+      }
+      return false;
+    };
   </script>
+
+  <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
