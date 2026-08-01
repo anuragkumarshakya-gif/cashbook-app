@@ -15,6 +15,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- Chart.js Engine for Business Overview Chart -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
@@ -118,6 +120,193 @@
       background: rgba(240, 253, 250, 0.7); backdrop-filter: blur(6px); z-index:9998;
       display: flex; align-items: center; justify-content: center;
     }
+    /* Offcanvas Sidebar Drawer Styling */
+    .drawer-item {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #334155;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s ease;
+      border-left: 4px solid transparent;
+    }
+
+    .drawer-item:hover {
+      background-color: #fff1f2;
+      color: #881337;
+      border-left-color: #881337;
+    }
+
+    .drawer-item i {
+      width: 28px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    .drawer-footer {
+      padding: 15px 20px;
+      background-color: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+    }
+
+    .dev-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dev-phone {
+      color: #0f172a;
+      font-weight: 700;
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    /* 🎨 Theme Switcher Styling */
+    .theme-circle {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      transition: transform 0.2s ease;
+    }
+    .theme-circle:hover {
+      transform: scale(1.1);
+    }
+
+    /* 🟢 Cash In & 🔴 Cash Out Pure Color Palette */
+    .text-in {
+      color: #059669 !important; /* Rich Green */
+      font-weight: 800 !important;
+    }
+
+    .text-out {
+      color: #dc2626 !important; /* Bright Red */
+      font-weight: 800 !important;
+    }
+
+    .txn-card-in {
+      background-color: #f0fdf4 !important; /* Soft Green Tint */
+      border-left: 5px solid #059669 !important; /* Solid Green Border */
+    }
+
+    .txn-card-out {
+      background-color: #fef2f2 !important; /* Soft Red Tint */
+      border-left: 5px solid #dc2626 !important; /* Solid Red Border */
+    }
+
+    /* 📱 Ultra Compact Top Layout Styles */
+    .top-bar {
+      padding: 8px 14px !important;
+      border-bottom-left-radius: 16px !important;
+      border-bottom-right-radius: 16px !important;
+    }
+
+    .card-compact-box {
+      padding: 10px 12px !important;
+      margin-bottom: 8px !important;
+      border-radius: 14px !important;
+    }
+
+    .btn-filter-compact {
+      font-size: 11px !important;
+      padding: 3px 12px !important;
+      border-radius: 20px !important;
+    }
+
+    .compact-select {
+      height: 38px !important;
+      font-size: 13px !important;
+      padding: 4px 10px !important;
+    }
+
+    .compact-summary-title {
+      font-size: 10px !important;
+      letter-spacing: 0.3px;
+    }
+
+    .compact-summary-amt {
+      font-size: 15px !important;
+      font-weight: 800 !important;
+    }
+
+    /* 📱 Ultra Compact Transaction Cards Layout */
+    .txn-card-compact {
+      padding: 8px 12px !important;
+      margin-bottom: 6px !important;
+      border-radius: 12px !important;
+    }
+
+    .txn-card-compact .txn-remark {
+      font-size: 13px !important;
+      line-height: 1.2 !important;
+    }
+
+    .txn-card-compact .txn-date {
+      font-size: 10px !important;
+    }
+
+    .txn-card-compact .txn-amount {
+      font-size: 14px !important;
+      font-weight: 800 !important;
+    }
+
+    .txn-card-compact .txn-bal {
+      font-size: 10px !important;
+    }
+
+    .txn-card-compact .txn-action-btn {
+      padding: 0 4px !important;
+      font-size: 12px !important;
+    }
+
+    /* Fix for Hidden Modals & Floating Bottom Bar */
+    .modal {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .bottom-action-bar {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 650px;
+      background: #ffffff;
+      padding: 12px 16px;
+      box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
+      border-top-left-radius: 20px;
+      border-top-right-radius: 20px;
+      z-index: 1000;
+    }
+
+    .btn-cash-in {
+      background-color: var(--cash-in);
+      color: white;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 10px 24px;
+      border: none;
+      width: 48%;
+      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
+    }
+
+    .btn-cash-out {
+      background-color: var(--cash-out);
+      color: white;
+      font-weight: 700;
+      border-radius: 12px;
+      padding: 10px 24px;
+      border: none;
+      width: 48%;
+      box-shadow: 0 4px 12px rgba(190, 18, 60, 0.3);
+    }
   </style>
 </head>
 <body>
@@ -170,99 +359,89 @@
     </div>
   </div>
 
-  <!-- Top App Bar Navigation With Welcome Message -->
+  <!-- Ultra Compact Top App Bar Navigation -->
   <div class="top-bar d-flex justify-content-between align-items-center sticky-top">
-    <div class="d-flex align-items-center gap-3">
-      <button class="btn text-white p-0 fs-4" data-bs-toggle="offcanvas" data-bs-target="#sidebarDrawer">
+    <div class="d-flex align-items-center gap-2">
+      <button class="btn text-white p-0 fs-5" data-bs-toggle="offcanvas" data-bs-target="#sidebarDrawer">
         <i class="fas fa-bars"></i>
       </button>
-      <div>
-        <h6 class="m-0 fw-bold d-flex align-items-center gap-1 text-white">
-          <i class="fas fa-wallet me-1"></i> Cash Book Pro
+      <div class="d-flex align-items-center gap-2">
+        <h6 class="m-0 fw-bold text-white d-flex align-items-center gap-1" style="font-size:14px;">
+          <i class="fas fa-wallet"></i> Cash Book Pro
         </h6>
-        <div class="d-flex align-items-center gap-2">
-          <small id="userWelcomeHeader" class="text-white fw-bold" style="font-size: 11px;">
-            Welcome User Ji 😊
-          </small>
-          <!-- 🟢 Sync Status Indicator Badge -->
-          <span id="syncStatusBadge" class="badge rounded-pill bg-warning text-dark fw-bold style-sm" style="font-size: 9px; padding: 3px 8px;">
-            <i class="fas fa-sync-alt fa-spin me-1"></i> Cached
-          </span>
-        </div>
+        <span id="syncStatusBadge" class="badge rounded-pill bg-warning text-dark fw-bold cursor-pointer" onclick="forceDownloadFromSheet()" style="font-size: 8px; padding: 3px 6px;" title="Sync Sheet">
+          <i class="fas fa-sync-alt me-1"></i> Sync
+        </span>
       </div>
     </div>
     <div class="d-flex align-items-center gap-2">
-      <button class="btn text-white p-1" onclick="openCashCalculator()" title="Cash Calculator"><i class="fas fa-calculator fs-5"></i></button>
-      
-      <!-- 🔒 Screen Lock Button -->
-      <button class="btn text-white p-1" onclick="lockAppScreenOnly()" title="Lock Screen"><i class="fas fa-lock fs-5"></i></button>
-      
-      <button class="btn btn-light btn-sm fw-bold text-danger rounded-pill px-3 ms-1 shadow-sm" onclick="showAddAccountModal()">
-        <i class="fas fa-plus me-1"></i> Account
-      </button>
+      <small id="userWelcomeHeader" class="text-white fw-bold d-none d-sm-inline" style="font-size: 10px;">
+        Welcome User Ji 😊
+      </small>
+      <button class="btn text-white p-0" onclick="lockAppScreenOnly()" title="Lock Screen"><i class="fas fa-lock fs-6"></i></button>
     </div>
   </div>
 
   <!-- Main Container Layout -->
-  <div class="container my-3" style="max-width: 650px;">
+  <div class="container my-2 px-2" style="max-width: 650px;">
 
-    <!-- Account Selector Card -->
-    <div class="card card-custom p-3 mb-3">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <span class="text-uppercase text-muted fw-bold style-sm" style="font-size:11px; letter-spacing:0.5px;">Select Consumer Account</span>
-        <a href="#" class="text-primary text-decoration-none fw-bold small" onclick="openTransferModal()">
-          <i class="fas fa-exchange-alt me-1"></i> Transfer Funds
+    <!-- Compact Account Selector Card -->
+    <div class="card card-custom card-compact-box">
+      <div class="d-flex justify-content-between align-items-center mb-1">
+        <span class="text-uppercase text-muted fw-bold" style="font-size:10px; letter-spacing:0.3px;">Select Consumer Account</span>
+        <a href="#" class="text-primary text-decoration-none fw-bold" style="font-size:11px;" onclick="openTransferModal()">
+          <i class="fas fa-exchange-alt me-1"></i> Transfer
         </a>
       </div>
-      <div class="d-flex gap-2">
-        <select id="accountDropdown" class="form-select form-select-lg border-light-subtle rounded-3 fw-bold fs-6" onchange="loadAccountDataFast()">
+      <div class="d-flex gap-1 align-items-center">
+        <select id="accountDropdown" class="form-select compact-select border-light-subtle rounded-3 fw-bold" onchange="loadAccountDataFast()">
           <option value="">Loading accounts...</option>
         </select>
-        <button class="btn btn-outline-secondary rounded-3" onclick="showEditAccountModal()" title="Edit Account Name/Phone">
+        <button class="btn btn-outline-secondary btn-sm rounded-3 py-1 px-2" onclick="showEditAccountModal()" title="Edit Account">
           <i class="fas fa-edit"></i>
         </button>
-        <button class="btn btn-primary px-3 rounded-3 fw-bold text-nowrap" onclick="showAddAccountModal()">
+        <button class="btn btn-primary btn-sm px-2 rounded-3 fw-bold text-nowrap py-1" onclick="showAddAccountModal()">
           <i class="fas fa-user-plus me-1"></i> + Account
         </button>
       </div>
     </div>
 
-    <!-- Live Net Summary Box -->
-    <div class="card card-custom p-3 mb-3">
-      <div class="row text-center">
+    <!-- Compact Live Net Summary Box -->
+    <div class="card card-custom card-compact-box py-2">
+      <div class="row text-center align-items-center">
         <div class="col-4 border-end">
-          <small class="text-muted fw-bold" style="font-size:12px;">Total Cash In</small>
-          <div id="totalIn" class="text-in fs-5 mt-1">₹0</div>
+          <small class="text-muted fw-bold compact-summary-title d-block">Cash In</small>
+          <div id="totalIn" class="text-in compact-summary-amt">₹0</div>
         </div>
         <div class="col-4 border-end">
-          <small class="text-muted fw-bold" style="font-size:12px;">Total Cash Out</small>
-          <div id="totalOut" class="text-out fs-5 mt-1">₹0</div>
+          <small class="text-muted fw-bold compact-summary-title d-block">Cash Out</small>
+          <div id="totalOut" class="text-out compact-summary-amt">₹0</div>
         </div>
         <div class="col-4">
-          <small class="text-muted fw-bold" style="font-size:12px;">Net Balance</small>
-          <div id="netBalance" class="fw-bold fs-5 mt-1 text-dark">₹0</div>
+          <small class="text-muted fw-bold compact-summary-title d-block">Net Balance</small>
+          <div id="netBalance" class="fw-bold compact-summary-amt text-dark">₹0</div>
         </div>
       </div>
     </div>
 
-    <!-- Date Filtering & Search Controls -->
-    <div class="card card-custom p-3 mb-3">
-      <div class="d-flex gap-2 mb-3 overflow-auto pb-1">
-        <button class="btn btn-primary btn-filter" onclick="filterByDate('all', this)">All</button>
-        <button class="btn btn-light btn-filter" onclick="filterByDate('daily', this)">Daily</button>
-        <button class="btn btn-light btn-filter" onclick="filterByDate('weekly', this)">Weekly</button>
-        <button class="btn btn-light btn-filter" onclick="filterByDate('monthly', this)">Monthly</button>
-        <button class="btn btn-light btn-filter" onclick="filterByDate('custom', this)"><i class="fas fa-calendar-alt me-1"></i> Custom</button>
+    <!-- Compact Date Filtering & Search Controls -->
+    <div class="card card-custom card-compact-box">
+      <div class="d-flex gap-1 mb-2 overflow-auto pb-1">
+        <button class="btn btn-primary btn-filter btn-filter-compact" onclick="filterByDate('all', this)">All</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('daily', this)">Daily</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('weekly', this)">Weekly</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('monthly', this)">Monthly</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('custom', this)"><i class="fas fa-calendar-alt me-1"></i> Custom</button>
       </div>
 
-      <div class="d-flex gap-2 align-items-center">
-        <div class="input-group">
-          <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fas fa-search text-muted"></i></span>
-          <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3" placeholder="Search remark, amount..." onkeyup="filterTransactions()">
+      <div class="d-flex gap-1 align-items-center">
+        <div class="input-group input-group-sm">
+          <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fas fa-search text-muted style-sm"></i></span>
+          <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3 py-1" placeholder="Search..." onkeyup="filterTransactions()">
         </div>
-        <button class="btn btn-outline-success border-light-subtle rounded-3" onclick="shareWhatsAppStatement()" title="WhatsApp Report"><i class="fab fa-whatsapp fs-5"></i></button>
-        <button class="btn btn-outline-success border-light-subtle rounded-3" onclick="exportAccountExcel()" title="Excel Report"><i class="fas fa-file-excel fs-5 text-success"></i></button>
-        <button class="btn btn-outline-danger border-light-subtle rounded-3" onclick="exportAccountPDF()" title="PDF Report"><i class="fas fa-file-pdf fs-5 text-danger"></i></button>
+        <button class="btn btn-outline-success btn-sm rounded-3 py-1 px-2" onclick="shareWhatsAppStatement()" title="WhatsApp Report"><i class="fab fa-whatsapp"></i></button>
+        <button class="btn btn-outline-success btn-sm rounded-3 py-1 px-2" onclick="exportAccountExcel()" title="Excel Report"><i class="fas fa-file-excel text-success"></i></button>
+        <button class="btn btn-outline-danger btn-sm rounded-3 py-1 px-2" onclick="exportAccountPDF()" title="PDF Report"><i class="fas fa-file-pdf text-danger"></i></button>
       </div>
     </div>
 
@@ -280,20 +459,20 @@
 
   </div>
 
-  <!-- Floating Bottom Action Bar -->
+  <!-- Floating Bottom Action Bar (Fixed Layout) -->
   <div class="bottom-action-bar d-flex justify-content-between align-items-center">
-    <button class="btn btn-cash-in" onclick="openTxnModal('Cash In')">
-      <i class="fas fa-arrow-down-left me-1"></i> Cash In
+    <button class="btn btn-cash-in d-flex align-items-center justify-content-center" onclick="openTxnModal('Cash In')">
+      <i class="fas fa-arrow-down me-2"></i> Cash In
     </button>
-    <button class="btn btn-cash-out" onclick="openTxnModal('Cash Out')">
-      <i class="fas fa-arrow-up-right me-1"></i> Cash Out
+    <button class="btn btn-cash-out d-flex align-items-center justify-content-center" onclick="openTxnModal('Cash Out')">
+      <i class="fas fa-arrow-up me-2"></i> Cash Out
     </button>
   </div>
 
-  <!-- Sidebar Navigation Drawer -->
+  <!-- Sidebar Navigation Drawer (Fixed Professional Layout) -->
   <div class="offcanvas offcanvas-start d-flex flex-column" tabindex="-1" id="sidebarDrawer" style="width: 300px;">
     
-    <div class="offcanvas-header d-flex align-items-center gap-3">
+    <div class="offcanvas-header d-flex align-items-center gap-3 border-bottom pb-3">
       <div class="bg-primary text-white p-2 rounded-3 shadow-sm">
         <i class="fas fa-book-open fa-2x"></i>
       </div>
@@ -301,39 +480,73 @@
         <h5 class="m-0 fw-bold text-dark">Cash Book Pro</h5>
         <small class="text-muted">Account Management</small>
       </div>
+      <button type="button" class="btn-close text-reset ms-auto" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
 
-    <div class="offcanvas-body p-0 flex-grow-1">
+    <div class="offcanvas-body p-0 flex-grow-1 overflow-auto">
+      
+      <!-- 📊 Sidebar Business Overview Card & Live Chart -->
+      <div class="p-3 bg-light border-bottom">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <span class="text-uppercase text-muted fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">
+            <i class="fas fa-chart-pie text-primary me-1"></i> Business Analytics
+          </span>
+          <span id="dashTotalAccsBadge" class="badge bg-primary rounded-pill px-2 py-1" style="font-size: 9px;">0 Accounts</span>
+        </div>
+
+        <!-- Donut Chart Container -->
+        <div class="bg-white p-2 rounded-3 shadow-sm mb-2 text-center" style="max-height: 180px; position: relative;">
+          <canvas id="sidebarBusinessChart" style="max-height: 165px;"></canvas>
+        </div>
+
+        <!-- Summary Figures -->
+        <div class="row text-center g-1 bg-white rounded-3 p-2 shadow-sm border">
+          <div class="col-4 border-end">
+            <small class="text-muted d-block" style="font-size: 10px;">Total Cash In</small>
+            <strong id="dashTotalIn" class="text-success" style="font-size: 12px;">₹0</strong>
+          </div>
+          <div class="col-4 border-end">
+            <small class="text-muted d-block" style="font-size: 10px;">Total Cash Out</small>
+            <strong id="dashTotalOut" class="text-danger" style="font-size: 12px;">₹0</strong>
+          </div>
+          <div class="col-4">
+            <small class="text-muted d-block" style="font-size: 10px;">Net Balance</small>
+            <strong id="dashNetBal" class="text-dark" style="font-size: 12px;">₹0</strong>
+          </div>
+        </div>
+      </div>
+
       <div class="py-2">
         <a href="javascript:void(0);" class="drawer-item" onclick="showMasterSummaryModal()">
-          <i class="fas fa-clipboard-list icon-summary"></i> Summary
+          <i class="fas fa-clipboard-list text-primary"></i> Summary
         </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterExcel()">
-          <i class="fas fa-file-invoice icon-acc-summary"></i> Account Summary
+        <!-- Duplicate Account Summary Link Removed -->
+        <!-- Bulk Import Option Removed for Clean UI -->
+        
+        <a href="javascript:void(0);" class="drawer-item" onclick="openAllTransactionsModal()">
+          <i class="fas fa-list-ul text-info"></i> Transaction-All Accounts
         </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterExcel()">
-          <i class="fas fa-list-ul icon-all-txns"></i> Transaction-All Accounts
-        </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="showAddAccountModal()">
-          <i class="fas fa-user-friends icon-accounts"></i> Accounts List
-        </a>
+        <!-- Duplicate Accounts List option removed -->
         <a href="javascript:void(0);" class="drawer-item" onclick="openTransferModal()">
-          <i class="fas fa-exchange-alt icon-transfer"></i> Transfer Funds
+          <i class="fas fa-exchange-alt text-warning"></i> Transfer Funds
         </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="exportMasterPDF()">
-          <i class="fas fa-file-alt icon-report"></i> Report-All Accounts
+        <a href="javascript:void(0);" class="drawer-item" onclick="exportAllAccountsDetailedPDF()">
+          <i class="fas fa-file-alt text-danger"></i> Report-All Accounts
         </a>
         
         <div class="dropdown-divider my-2"></div>
         
         <a href="javascript:void(0);" class="drawer-item" onclick="openNotebookModal()">
-          <i class="fas fa-book icon-notebook"></i> Notebook / Notes
+          <i class="fas fa-book text-warning"></i> Notebook / Notes
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="openCashCalculator()">
-          <i class="fas fa-calculator icon-calc"></i> Cash Calculator
+          <i class="fas fa-calculator text-info"></i> Cash Calculator
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openThemeModal()">
+          <i class="fas fa-palette text-danger"></i> Change App Theme (20+ & Gallery)
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="syncBackup()">
-          <i class="fas fa-cloud-upload-alt icon-backup"></i> Backup and Restore
+          <i class="fas fa-cloud-upload-alt text-primary"></i> Backup and Restore
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="lockAppScreenOnly()">
           <i class="fas fa-user-lock text-warning"></i> Lock Screen
@@ -342,16 +555,21 @@
           <i class="fas fa-sign-out-alt text-danger"></i> Logout Account
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="viewDeletedTransactions()">
-          <i class="fas fa-trash-alt icon-deleted"></i> Deleted Transactions
+          <i class="fas fa-trash-alt text-secondary"></i> Deleted Transactions
         </a>
       </div>
     </div>
 
-    <div class="drawer-footer mt-auto">
-      <div class="dev-title">Developed By :- Anurag Shakya</div>
-      <a href="tel:9761414105" class="dev-phone">
-        <i class="fas fa-mobile-alt me-1 text-success"></i> 9761414105
-      </a>
+    <div class="drawer-footer mt-auto d-flex justify-content-between align-items-center">
+      <div>
+        <div class="dev-title">Developed By :- Anurag Shakya</div>
+        <a href="tel:9761414105" class="dev-phone d-block mt-1">
+          <i class="fas fa-mobile-alt me-1 text-success"></i> 9761414105
+        </a>
+      </div>
+      <span class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 fw-bold" style="font-size: 10px;">
+        v2.4 Pro
+      </span>
     </div>
 
   </div>
@@ -421,13 +639,23 @@
     </div>
   </div>
 
-  <!-- Modal: Master Summary Popup -->
+  <!-- Modal: Master Summary Popup with Download Icons -->
   <div class="modal fade" id="summaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-0">
+        <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
           <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-list text-primary me-2"></i>Accounts Summary Report</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          <div class="d-flex align-items-center gap-2">
+            <!-- 📥 Excel Download Button -->
+            <button class="btn btn-outline-success btn-sm rounded-3 fw-bold px-2 py-1 shadow-sm" onclick="exportMasterExcel()" title="Download Summary Excel">
+              <i class="fas fa-file-excel me-1"></i> Excel
+            </button>
+            <!-- 📥 PDF Download Button -->
+            <button class="btn btn-outline-danger btn-sm rounded-3 fw-bold px-2 py-1 shadow-sm" onclick="exportMasterPDF()" title="Download Summary PDF">
+              <i class="fas fa-file-pdf me-1"></i> PDF
+            </button>
+            <button type="button" class="btn-close m-0 ms-1" data-bs-dismiss="modal"></button>
+          </div>
         </div>
         <div class="modal-body">
           <div class="table-responsive">
@@ -445,6 +673,32 @@
               </tbody>
             </table>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: All Transactions History with Search Bar -->
+  <div class="modal fade" id="allTxnsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-2 bg-light rounded-top-4">
+          <h5 class="modal-title fw-bold text-dark"><i class="fas fa-list-ul text-primary me-2"></i>All Accounts Transactions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body p-3">
+          
+          <!-- 🔍 Search Bar inside Modal -->
+          <div class="input-group mb-3 shadow-sm rounded-3">
+            <span class="input-group-text bg-white border-end-0 rounded-start-3"><i class="fas fa-search text-muted"></i></span>
+            <input type="text" id="modalAllTxnSearch" class="form-control bg-white border-start-0 rounded-end-3" placeholder="Search account, remark, amount..." onkeyup="filterModalAllTxns()">
+          </div>
+
+          <!-- Transactions List Container -->
+          <div id="modalAllTxnsList" class="overflow-auto" style="max-height: 60vh;">
+            <p class="text-center text-muted py-4">Loading all transactions...</p>
+          </div>
+
         </div>
       </div>
     </div>
@@ -617,16 +871,36 @@
 
   <!-- Modal: Cash Calculator -->
   <div class="modal fade" id="calcModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
+    ...
+  </div>
+
+  <!-- Modal: 20+ Theme Picker & Custom Wallpaper -->
+  <div class="modal fade" id="themeModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold"><i class="fas fa-calculator text-primary me-2"></i>Cash Denomination Counter</h5></div>
-        <div class="modal-body">
-          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹2000 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
-          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹500 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
-          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹200 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
-          <div class="row g-2 align-items-center mb-2"><div class="col-4 fw-semibold">₹100 x</div><div class="col-4"><input type="number" class="form-control form-control-sm calc-count" oninput="calculateNotes()"></div><div class="col-4 text-end fw-bold note-total">₹0</div></div>
-          <hr>
-          <div class="d-flex justify-content-between fw-bold fs-5"><span>Total Cash:</span><span id="grandCalcTotal" class="text-success">₹0</span></div>
+        <div class="modal-header border-0 pb-0">
+          <h5 class="modal-title fw-bold"><i class="fas fa-palette text-primary me-2"></i>Choose App Theme & Wallpaper</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body overflow-auto" style="max-height: 75vh;">
+          
+          <!-- Gallery Custom Photo Selection -->
+          <div class="card p-3 mb-3 border-dashed bg-light rounded-3 text-center">
+            <h6 class="fw-bold mb-2 text-dark"><i class="fas fa-image text-success me-1"></i> Gallery Se Custom Image Lagayein</h6>
+            <label for="customBgUpload" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3">
+              <i class="fas fa-upload me-1"></i> Choose Photo from Phone
+            </label>
+            <input type="file" id="customBgUpload" accept="image/*" class="d-none" onchange="applyGalleryBackground(this)">
+            <button class="btn btn-link btn-sm text-danger mt-1 text-decoration-none d-none" id="btnRemoveCustomBg" onclick="removeCustomBackground()">
+              <i class="fas fa-trash-alt me-1"></i> Remove Custom Photo
+            </button>
+          </div>
+
+          <h6 class="fw-bold mb-2 text-secondary">Preset Color & Gradient Themes (20 Options):</h6>
+          <div class="row g-2 text-center" id="themePresetsGrid">
+            <!-- JavaScript dwara 20 Themes Auto-Generate hongi -->
+          </div>
+
         </div>
       </div>
     </div>
@@ -642,6 +916,31 @@
     var currentAccountTxns = [];
     var deletedTxnsLog = [];
     var loggedInUser = null;
+
+    var themeModal;
+
+    var appThemesList = [
+      { name: "Dark Blood Red", topBg: "linear-gradient(135deg, #881337 0%, #be123c 100%)", bodyBg: "#fff1f2" },
+      { name: "Royal Blue", topBg: "linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%)", bodyBg: "#eff6ff" },
+      { name: "Emerald Green", topBg: "linear-gradient(135deg, #064e3b 0%, #10b981 100%)", bodyBg: "#ecfdf5" },
+      { name: "Deep Purple", topBg: "linear-gradient(135deg, #581c87 0%, #a855f7 100%)", bodyBg: "#faf5ff" },
+      { name: "Sunset Orange", topBg: "linear-gradient(135deg, #7c2d12 0%, #f97316 100%)", bodyBg: "#fff7ed" },
+      { name: "Dark Knight Black", topBg: "linear-gradient(135deg, #0f172a 0%, #334155 100%)", bodyBg: "#f1f5f9" },
+      { name: "Golden Luxury", topBg: "linear-gradient(135deg, #78350f 0%, #d97706 100%)", bodyBg: "#fffbeb" },
+      { name: "Cyan Ocean", topBg: "linear-gradient(135deg, #164e63 0%, #06b6d4 100%)", bodyBg: "#ecfeff" },
+      { name: "Rose Pink", topBg: "linear-gradient(135deg, #831843 0%, #ec4899 100%)", bodyBg: "#fdf2f8" },
+      { name: "Teal Mint", topBg: "linear-gradient(135deg, #115e59 0%, #14b8a6 100%)", bodyBg: "#f0fdfa" },
+      { name: "Midnight Navy", topBg: "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)", bodyBg: "#f0f9ff" },
+      { name: "Crimson Maroon", topBg: "linear-gradient(135deg, #4c0519 0%, #9f1239 100%)", bodyBg: "#fff1f2" },
+      { name: "Indigo Velvet", topBg: "linear-gradient(135deg, #312e81 0%, #6366f1 100%)", bodyBg: "#eef2ff" },
+      { name: "Forest Olive", topBg: "linear-gradient(135deg, #14532d 0%, #22c55e 100%)", bodyBg: "#f0fdf4" },
+      { name: "Chocolate Wood", topBg: "linear-gradient(135deg, #451a03 0%, #9a3412 100%)", bodyBg: "#fff7ed" },
+      { name: "Carbon Grey", topBg: "linear-gradient(135deg, #18181b 0%, #52525b 100%)", bodyBg: "#f4f4f5" },
+      { name: "Violet Charm", topBg: "linear-gradient(135deg, #4c1d95 0%, #8b5cf6 100%)", bodyBg: "#f5f3ff" },
+      { name: "Sky Turquoise", topBg: "linear-gradient(135deg, #0f766e 0%, #2dd4bf 100%)", bodyBg: "#f0fdfa" },
+      { name: "Copper Amber", topBg: "linear-gradient(135deg, #78350f 0%, #f59e0b 100%)", bodyBg: "#fffbeb" },
+      { name: "Neon Cyberpunk", topBg: "linear-gradient(135deg, #831843 0%, #3b82f6 100%)", bodyBg: "#f8fafc" }
+    ];
 
     window.onload = function() {
       var accEl = document.getElementById('addAccountModal');
@@ -661,23 +960,152 @@
       
       var sumEl = document.getElementById('summaryModal');
       if (sumEl) summaryModal = new bootstrap.Modal(sumEl);
+
+      var thEl = document.getElementById('themeModal');
+      if (thEl) themeModal = new bootstrap.Modal(thEl);
       
+      loadSavedTheme();
       checkLoginStatus();
     };
+
+    function openThemeModal() {
+      renderThemeGrid();
+      if (themeModal) themeModal.show();
+    }
+
+    function renderThemeGrid() {
+      var grid = document.getElementById('themePresetsGrid');
+      if (!grid) return;
+
+      var html = '';
+      appThemesList.forEach(function(t, idx) {
+        html += '<div class="col-4 col-md-3 mb-2">' +
+                  '<div class="p-2 border rounded-3 bg-white shadow-sm cursor-pointer" onclick="applyPresetTheme(' + idx + ')">' +
+                    '<div class="theme-circle mx-auto mb-1" style="background: ' + t.topBg + ';"></div>' +
+                    '<small class="fw-bold text-dark d-block text-truncate" style="font-size:10px;">' + t.name + '</small>' +
+                  '</div>' +
+                '</div>';
+      });
+      grid.innerHTML = html;
+    }
+
+    function applyPresetTheme(idx) {
+      var theme = appThemesList[idx];
+      if (!theme) return;
+
+      // Reset Custom Gallery Wallpaper if any
+      document.body.style.backgroundImage = 'none';
+      
+      var topBars = document.querySelectorAll('.top-bar');
+      topBars.forEach(function(bar) {
+        bar.style.background = theme.topBg;
+      });
+
+      document.body.style.backgroundColor = theme.bodyBg;
+
+      localStorage.setItem('cashbook_active_theme', JSON.stringify({
+        type: 'preset',
+        topBg: theme.topBg,
+        bodyBg: theme.bodyBg
+      }));
+
+      document.getElementById('btnRemoveCustomBg').classList.add('d-none');
+      if (themeModal) themeModal.hide();
+    }
+
+    function applyGalleryBackground(input) {
+      if (input.files && input.files[0]) {
+        var file = input.files[0];
+        var reader = new FileReader();
+
+        reader.onload = function(e) {
+          var imgUrl = e.target.result;
+          document.body.style.backgroundImage = "url('" + imgUrl + "')";
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundAttachment = "fixed";
+          document.body.style.backgroundPosition = "center";
+
+          localStorage.setItem('cashbook_active_theme', JSON.stringify({
+            type: 'gallery',
+            bgImage: imgUrl
+          }));
+
+          document.getElementById('btnRemoveCustomBg').classList.remove('d-none');
+          if (themeModal) themeModal.hide();
+        };
+
+        reader.readAsDataURL(file);
+      }
+    }
+
+    function removeCustomBackground() {
+      document.body.style.backgroundImage = 'none';
+      document.getElementById('btnRemoveCustomBg').classList.add('d-none');
+      applyPresetTheme(0); // Fallback to Default Theme
+    }
+
+    function loadSavedTheme() {
+      var saved = localStorage.getItem('cashbook_active_theme');
+      if (!saved) return;
+
+      try {
+        var themeObj = JSON.parse(saved);
+        if (themeObj.type === 'preset') {
+          var topBars = document.querySelectorAll('.top-bar');
+          topBars.forEach(function(bar) {
+            bar.style.background = themeObj.topBg;
+          });
+          document.body.style.backgroundColor = themeObj.bodyBg;
+        } else if (themeObj.type === 'gallery' && themeObj.bgImage) {
+          document.body.style.backgroundImage = "url('" + themeObj.bgImage + "')";
+          document.body.style.backgroundSize = "cover";
+          document.body.style.backgroundAttachment = "fixed";
+          document.body.style.backgroundPosition = "center";
+          
+          var removeBtn = document.getElementById('btnRemoveCustomBg');
+          if (removeBtn) removeBtn.classList.remove('d-none');
+        }
+      } catch(e) {}
+    }
 
     function showMasterSummaryModal() {
       var html = '';
       if (!globalAccounts || globalAccounts.length === 0) {
         html = '<tr><td colspan="4" class="text-center text-muted">Koi account data nahi mila.</td></tr>';
       } else {
+        var grandTotalIn = 0;
+        var grandTotalOut = 0;
+        var grandNetBalance = 0;
+
         globalAccounts.forEach(function(acc) {
+          var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+          if (!accName || accName === "Account Name") return;
+
+          // 💡 allAccountsDataCache se sahi data nikalna
+          var data = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
+          var totalIn = Number(data.totalIn || 0);
+          var totalOut = Number(data.totalOut || 0);
+          var netBal = totalIn - totalOut;
+
+          grandTotalIn += totalIn;
+          grandTotalOut += totalOut;
+          grandNetBalance += netBal;
+
           html += '<tr>' +
-                    '<td class="fw-bold">' + acc.name + '</td>' +
-                    '<td class="text-success fw-bold">' + formatINR(acc.totalIn) + '</td>' +
-                    '<td class="text-danger fw-bold">' + formatINR(acc.totalOut) + '</td>' +
-                    '<td class="fw-bold">' + formatINR(acc.balance) + '</td>' +
+                    '<td class="fw-bold">' + accName + '</td>' +
+                    '<td class="text-success fw-bold">' + formatINR(totalIn) + '</td>' +
+                    '<td class="text-danger fw-bold">' + formatINR(totalOut) + '</td>' +
+                    '<td class="fw-bold ' + (netBal >= 0 ? 'text-dark' : 'text-danger') + '">' + formatINR(netBal) + '</td>' +
                   '</tr>';
         });
+
+        // 📊 Sabhi Accounts ka Grand Total Row
+        html += '<tr class="table-dark fw-bold">' +
+                  '<td>GRAND TOTAL</td>' +
+                  '<td class="text-success">' + formatINR(grandTotalIn) + '</td>' +
+                  '<td class="text-danger">' + formatINR(grandTotalOut) + '</td>' +
+                  '<td>' + formatINR(grandNetBalance) + '</td>' +
+                '</tr>';
       }
       document.getElementById('summaryTableBody').innerHTML = html;
       summaryModal.show();
@@ -697,6 +1125,86 @@
       }
     }
 
+    var sidebarChartInstance = null;
+
+    function renderSidebarOverviewChart(totalIn, totalOut) {
+      var ctx = document.getElementById('sidebarBusinessChart');
+      if (!ctx) return;
+
+      if (sidebarChartInstance) {
+        sidebarChartInstance.destroy();
+      }
+
+      sidebarChartInstance = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Total Cash In', 'Total Cash Out'],
+          datasets: [{
+            data: [totalIn, totalOut],
+            backgroundColor: ['#059669', '#be123c'],
+            borderWidth: 2,
+            hoverOffset: 4
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+              labels: {
+                boxWidth: 10,
+                font: { size: 10 }
+              }
+            },
+            tooltip: {
+              callbacks: {
+                label: function(context) {
+                  return ' ' + context.label + ': ' + formatINR(context.raw);
+                }
+              }
+            }
+          },
+          cutout: '65%'
+        }
+      });
+    }
+
+    function updateDashboardOverviewStats() {
+      var grandIn = 0;
+      var grandOut = 0;
+      var totalAccsCount = 0;
+
+      if (globalAccounts && Array.isArray(globalAccounts)) {
+        globalAccounts.forEach(function(acc) {
+          var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+          if (!accName || accName === "Account Name") return;
+
+          totalAccsCount++;
+          var accData = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0 };
+          grandIn += Number(accData.totalIn || 0);
+          grandOut += Number(accData.totalOut || 0);
+        });
+      }
+
+      var dashInEl = document.getElementById('dashTotalIn');
+      var dashOutEl = document.getElementById('dashTotalOut');
+      var dashBalEl = document.getElementById('dashNetBal');
+      var dashAccBadge = document.getElementById('dashTotalAccsBadge');
+
+      if (dashInEl) dashInEl.innerText = formatINR(grandIn);
+      if (dashOutEl) dashOutEl.innerText = formatINR(grandOut);
+      if (dashBalEl) {
+        var net = grandIn - grandOut;
+        dashBalEl.innerText = formatINR(net);
+        dashBalEl.className = (net >= 0 ? "text-dark" : "text-danger");
+      }
+      if (dashAccBadge) dashAccBadge.innerText = totalAccsCount + " Accounts";
+
+      // 🎨 Live Render Donut Chart
+      renderSidebarOverviewChart(grandIn, grandOut);
+    }
+
     function populateAccountsDropdown() {
       var dropdown = document.getElementById('accountDropdown');
       var fromSel = document.getElementById('transferFrom');
@@ -709,6 +1217,7 @@
         dropdown.innerHTML = emptyOpt;
         if (fromSel) fromSel.innerHTML = emptyOpt;
         if (toSel) toSel.innerHTML = emptyOpt;
+        updateDashboardOverviewStats();
         return;
       }
 
@@ -742,27 +1251,39 @@
       if (toSel) toSel.innerHTML = options;
 
       updateWelcomeHeader();
+      updateDashboardOverviewStats(); // 🚀 Live Dashboard Stats Update
     }
 
     function loadAccountDataFast() {
-      var acc = document.getElementById('accountDropdown').value;
+      var accDropdown = document.getElementById('accountDropdown');
+      var acc = accDropdown ? accDropdown.value : '';
 
-      if (!acc) {
+      // 💡 Agar '-- Choose Account --' ya koi khali option select ho
+      if (!acc || acc === "" || acc.includes("Choose Account") || acc.includes("Loading")) {
         currentAccountTxns = [];
-        document.getElementById('totalIn').innerText = formatINR(0);
-        document.getElementById('totalOut').innerText = formatINR(0);
-        document.getElementById('netBalance').innerText = formatINR(0);
-        document.getElementById('transactionList').innerHTML = 
-          '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
+        
+        // UI Box Data Reset to 0
+        var totalInEl = document.getElementById('totalIn');
+        var totalOutEl = document.getElementById('totalOut');
+        var netBalEl = document.getElementById('netBalance');
+        var txnListEl = document.getElementById('transactionList');
+
+        if (totalInEl) totalInEl.innerText = formatINR(0);
+        if (totalOutEl) totalOutEl.innerText = formatINR(0);
+        if (netBalEl) netBalEl.innerText = formatINR(0);
+        if (txnListEl) {
+          txnListEl.innerHTML = '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
+        }
         return;
       }
 
+      // 💡 Valid Account Data Fetching
       var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
       currentAccountTxns = data.transactions || [];
 
-      document.getElementById('totalIn').innerText = formatINR(data.totalIn);
-      document.getElementById('totalOut').innerText = formatINR(data.totalOut);
-      document.getElementById('netBalance').innerText = formatINR(data.balance);
+      document.getElementById('totalIn').innerText = formatINR(data.totalIn || 0);
+      document.getElementById('totalOut').innerText = formatINR(data.totalOut || 0);
+      document.getElementById('netBalance').innerText = formatINR(data.balance || 0);
 
       renderTransactions(currentAccountTxns);
     }
@@ -770,31 +1291,34 @@
     function renderTransactions(txns) {
       var html = '';
       if (!txns || txns.length === 0) {
-        html = '<p class="text-center text-muted my-5">Is account me koi transaction nahi hai.</p>';
+        html = '<p class="text-center text-muted my-4">Is account me koi transaction nahi hai.</p>';
       } else {
         txns.forEach(function(t, index) {
           var isIn = t.type === 'Cash In';
           var amtClass = isIn ? 'text-in' : 'text-out';
           var sign = isIn ? '+' : '-';
+          var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
           
-          var imgLinkHTML = t.imageUrl ? '<br><a href="' + t.imageUrl + '" target="_blank" class="small text-primary fw-semibold"><i class="fas fa-paperclip me-1"></i>View Bill Photo</a>' : '';
-          var runningBalHTML = t.runningBalance !== undefined ? '<div class="text-muted fw-normal" style="font-size:11px; opacity:0.8;">Bal: ' + formatINR(t.runningBalance) + '</div>' : '';
+          var imgLinkHTML = t.imageUrl ? '<a href="' + t.imageUrl + '" target="_blank" class="ms-1 text-primary fw-bold" style="font-size:10px;"><i class="fas fa-paperclip"></i> Photo</a>' : '';
+          var runningBalHTML = t.runningBalance !== undefined ? '<span class="text-muted txn-bal ms-2">| Bal: ' + formatINR(t.runningBalance) + '</span>' : '';
 
           var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
 
-          html += '<div class="card p-3 mb-2 card-custom txn-card ' + cardStyleClass + '">' +
-                    '<div class="d-flex justify-content-between align-items-start">' +
-                      '<div>' +
-                        '<h6 class="m-0 fw-bold text-dark txn-remark mb-1">' + (t.remark || t.type) + '</h6>' +
-                        '<small class="text-secondary fw-semibold" style="font-size:11px;"><i class="far fa-clock me-1"></i>' + t.date + '</small>' +
-                        imgLinkHTML +
+          html += '<div class="card card-custom txn-card txn-card-compact ' + cardStyleClass + '">' +
+                    '<div class="d-flex justify-content-between align-items-center">' +
+                      '<div class="text-truncate pe-2" style="max-width: 60%;">' +
+                        '<h6 class="m-0 fw-bold text-dark txn-remark text-truncate">' + (t.remark || t.type) + '</h6>' +
+                        '<div class="text-secondary txn-date d-flex align-items-center mt-1">' +
+                          '<span><i class="far fa-clock me-1"></i>' + t.date + '</span>' +
+                          runningBalHTML +
+                          imgLinkHTML +
+                        '</div>' +
                       '</div>' +
-                      '<div class="text-end">' +
-                        '<div class="' + amtClass + ' fs-5 txn-amount">' + sign + ' ' + formatINR(t.amount) + '</div>' +
-                        runningBalHTML +
-                        '<div class="mt-2 d-flex gap-3 justify-content-end">' +
-                          '<button class="btn btn-sm text-primary p-0" onclick="openEditTxnModal(' + index + ')" title="Edit Entry"><i class="fas fa-edit fs-6"></i></button>' +
-                          '<button class="btn btn-sm text-danger p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-alt fs-6"></i></button>' +
+                      '<div class="text-end text-nowrap">' +
+                        '<div class="' + amtClass + ' txn-amount">' + sign + ' ' + formatINR(t.amount) + '</div>' +
+                        '<div class="mt-1 d-flex gap-2 justify-content-end">' +
+                          '<button class="btn btn-sm text-primary txn-action-btn p-0" onclick="openEditTxnModal(' + index + ')" title="Edit Entry"><i class="fas fa-edit"></i></button>' +
+                          '<button class="btn btn-sm text-danger txn-action-btn p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-alt"></i></button>' +
                         '</div>' +
                       '</div>' +
                     '</div>' +
@@ -804,10 +1328,12 @@
       document.getElementById('transactionList').innerHTML = html;
     }
 
-    var editTxnModal;
     window.addEventListener('DOMContentLoaded', function() {
-      var el = document.getElementById('editTxnModal');
-      if (el) editTxnModal = new bootstrap.Modal(el);
+      var el1 = document.getElementById('editTxnModal');
+      if (el1 && !editTxnModal) editTxnModal = new bootstrap.Modal(el1);
+      
+      var el2 = document.getElementById('editAccModal');
+      if (el2 && !editAccModal) editAccModal = new bootstrap.Modal(el2);
     });
 
     function openEditTxnModal(index) {
@@ -854,22 +1380,27 @@
       .catch(err => { hideLoader(); alert('Error: ' + err); });
     }
 
-    var editAccModal;
-    window.addEventListener('DOMContentLoaded', function() {
-      var el = document.getElementById('editAccModal');
-      if (el) editAccModal = new bootstrap.Modal(el);
-    });
+    // Modal already initialized in DOMContentLoaded
 
     function showEditAccountModal() {
       var accName = document.getElementById('accountDropdown').value;
       if (!accName) return alert('Pehle edit karne ke liye koi account select karein!');
 
-      var accObj = globalAccounts.find(function(a) { return a.name === accName; });
+      var accObj = globalAccounts.find(function(a) { 
+        var name = typeof a === 'string' ? a : (a ? a.name : '');
+        return name === accName; 
+      });
+
       document.getElementById('editOldAccName').value = accName;
       document.getElementById('editAccName').value = accName;
-      document.getElementById('editAccPhone').value = accObj ? accObj.phone : '';
+      document.getElementById('editAccPhone').value = (accObj && typeof accObj === 'object') ? (accObj.phone || '') : '';
 
-      editAccModal.show();
+      // Safe Modal Initialization & Show
+      var el = document.getElementById('editAccModal');
+      if (el) {
+        var modalInstance = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        modalInstance.show();
+      }
     }
 
     function updateAccountDetails() {
@@ -892,7 +1423,11 @@
       .then(res => res.json())
       .then(() => {
         hideLoader();
-        editAccModal.hide();
+        var el = document.getElementById('editAccModal');
+        if (el) {
+          var modalInstance = bootstrap.Modal.getInstance(el);
+          if (modalInstance) modalInstance.hide();
+        }
         fetchUserPrivateData();
         alert('Account safaltapoorvak update ho gaya!');
       })
@@ -1052,7 +1587,12 @@
           alert("Sheet Sync Fail: " + (res.error || res.message));
         } else {
           selectedImageData = null;
-          document.getElementById('imagePreviewText').classList.add('d-none');
+          var imgPreview = document.getElementById('imagePreviewText');
+          if (imgPreview) imgPreview.classList.add('d-none');
+          var camInput = document.getElementById('cameraInput');
+          var galInput = document.getElementById('galleryInput');
+          if (camInput) camInput.value = '';
+          if (galInput) galInput.value = '';
         }
       })
       .catch(function(err) {
@@ -1396,7 +1936,7 @@
       });
     }
 
-    // 📊 Enhanced Single Account Excel Export
+    // 📊 Enhanced Single Account Excel Export (Date Sorted)
     function exportAccountExcel() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Account select karein!');
@@ -1405,6 +1945,15 @@
       var exactTotalIn = Number(data.totalIn || 0);
       var exactTotalOut = Number(data.totalOut || 0);
       var exactNetBalance = exactTotalIn - exactTotalOut;
+
+      // 📅 Sort Transactions By Date
+      var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+        if (isNaN(dateA.getTime())) return 1;
+        if (isNaN(dateB.getTime())) return -1;
+        return dateA - dateB; // Purani date pehle, nayi date baad me
+      });
 
       // Header Summary Rows
       var excelRows = [
@@ -1415,7 +1964,7 @@
       ];
 
       // Transactions Rows with Running Balance
-      (currentAccountTxns || []).forEach(function(t, idx) {
+      sortedTxns.forEach(function(t, idx) {
         excelRows.push({
           "Date / S.No": t.date || '-',
           "Type": t.type || '-',
@@ -1474,9 +2023,18 @@
       var exactNetBalance = exactTotalIn - exactTotalOut;
       var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
+      // 📅 Sort Transactions By Date for PDF
+      var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+        if (isNaN(dateA.getTime())) return 1;
+        if (isNaN(dateB.getTime())) return -1;
+        return dateA - dateB; // Purani date pehle, nayi date baad me
+      });
+
       // Table Rows Builder (Preserves Hindi Font Perfectly)
       var rowsHTML = '';
-      (currentAccountTxns || []).forEach(function(t, idx) {
+      sortedTxns.forEach(function(t, idx) {
         var isIn = t.type === 'Cash In';
         var amtColor = isIn ? '#059669' : '#e11d48';
         var runningBalText = t.runningBalance !== undefined ? formatINR(t.runningBalance) : '-';
@@ -1582,19 +2140,38 @@
     function exportMasterExcel() {
       if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
 
-      var summaryRows = globalAccounts.map(function(acc) {
+      var summaryRows = [];
+      var grandIn = 0;
+      var grandOut = 0;
+
+      globalAccounts.forEach(function(acc) {
         var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+        if (!accName || accName === "Account Name") return;
+
         var accData = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
         var totalIn = Number(accData.totalIn || 0);
         var totalOut = Number(accData.totalOut || 0);
-        
-        return {
+        var netBal = totalIn - totalOut;
+
+        grandIn += totalIn;
+        grandOut += totalOut;
+
+        summaryRows.push({
           "Account Name": accName,
-          "Phone Number": acc.phone || '-',
+          "Phone Number": (acc && typeof acc === 'object') ? (acc.phone || '-') : '-',
           "Total Cash In (Rs)": totalIn,
           "Total Cash Out (Rs)": totalOut,
-          "Net Balance (Rs)": totalIn - totalOut
-        };
+          "Net Balance (Rs)": netBal
+        });
+      });
+
+      // Grand Total Row
+      summaryRows.push({
+        "Account Name": "GRAND TOTAL",
+        "Phone Number": "",
+        "Total Cash In (Rs)": grandIn,
+        "Total Cash Out (Rs)": grandOut,
+        "Net Balance (Rs)": grandIn - grandOut
       });
 
       var ws = XLSX.utils.json_to_sheet(summaryRows);
@@ -1602,21 +2179,145 @@
       XLSX.utils.book_append_sheet(wb, ws, "Master Summary");
       
       var filename = 'Master_Accounts_Report.xlsx';
+      var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+      var blob = new Blob([wbout], { type: "application/octet-stream" });
+
       if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
-        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
-        window.AndroidInterface.downloadBase64File(wbout, filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        var reader = new FileReader();
+        reader.readAsDataURL(blob);
+        reader.onloadend = function() {
+          var base64data = reader.result.split(',')[1];
+          window.AndroidInterface.downloadBase64File(base64data, filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+        };
       } else {
-        XLSX.writeFile(wb, filename);
+        var url = URL.createObjectURL(blob);
+        var link = document.createElement('a');
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        setTimeout(function() {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 100);
       }
     }
 
+    // 📄 100% Canvas Rendered Master Summary PDF Export (Pure Hindi + ₹ Symbol Supported)
     function exportMasterPDF() {
-      var jsPDF = window.jspdf.jsPDF;
-      var doc = new jsPDF();
-      doc.text('Master Accounts Summary', 14, 15);
-      var summaryRows = (globalAccounts || []).map(function(s) { return [s.name, 'Rs. ' + s.totalIn, 'Rs. ' + s.totalOut, 'Rs. ' + s.balance]; });
-      doc.autoTable({ head: [['Account', 'Total In', 'Total Out', 'Balance']], body: summaryRows, startY: 25 });
-      doc.save('Master_Summary.pdf');
+      if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
+
+      showLoader();
+
+      var grandIn = 0;
+      var grandOut = 0;
+      var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      // Build Summary Table Rows (Preserves Hindi Font & ₹ Symbol)
+      var rowsHTML = '';
+      globalAccounts.forEach(function(acc) {
+        var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+        if (!accName || accName === "Account Name") return;
+
+        var accData = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
+        var totalIn = Number(accData.totalIn || 0);
+        var totalOut = Number(accData.totalOut || 0);
+        var netBal = totalIn - totalOut;
+
+        grandIn += totalIn;
+        grandOut += totalOut;
+
+        rowsHTML += '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                      '<td style="padding: 10px; text-align: left; font-weight: 600;">' + accName + '</td>' +
+                      '<td style="padding: 10px; text-align: center; color: #059669; font-weight: bold;">' + formatINR(totalIn) + '</td>' +
+                      '<td style="padding: 10px; text-align: center; color: #e11d48; font-weight: bold;">' + formatINR(totalOut) + '</td>' +
+                      '<td style="padding: 10px; text-align: center; font-weight: bold; color: ' + (netBal >= 0 ? '#0f172a' : '#e11d48') + ';">' + formatINR(netBal) + '</td>' +
+                    '</tr>';
+      });
+
+      var grandNet = grandIn - grandOut;
+
+      // Temporary Container for High Quality Canvas PDF Rendering
+      var pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#0f172a';
+
+      pdfContainer.innerHTML = 
+        '<div style="background: linear-gradient(135deg, #881337 0%, #be123c 100%); color: white; padding: 18px; text-align: center; border-radius: 12px; margin-bottom: 20px;">' +
+          '<h2 style="margin: 0; font-size: 22px; font-weight: bold;">CASH BOOK PRO</h2>' +
+          '<p style="margin: 4px 0 0 0; font-size: 13px; opacity: 0.9;">Master Accounts Summary Report</p>' +
+          '<p style="margin: 2px 0 0 0; font-size: 11px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
+        '</div>' +
+
+        '<table style="width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px;">' +
+          '<thead>' +
+            '<tr style="background-color: #881337; color: white;">' +
+              '<th style="padding: 10px; text-align: left;">Account Name</th>' +
+              '<th style="padding: 10px; text-align: center;">Total Cash In</th>' +
+              '<th style="padding: 10px; text-align: center;">Total Cash Out</th>' +
+              '<th style="padding: 10px; text-align: center;">Net Balance</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' + 
+            rowsHTML + 
+            '<tr style="background-color: #1e293b; color: #ffffff; font-weight: bold;">' +
+              '<td style="padding: 12px; text-align: left;">GRAND TOTAL</td>' +
+              '<td style="padding: 12px; text-align: center; color: #34d399;">' + formatINR(grandIn) + '</td>' +
+              '<td style="padding: 12px; text-align: center; color: #fb7185;">' + formatINR(grandOut) + '</td>' +
+              '<td style="padding: 12px; text-align: center;">' + formatINR(grandNet) + '</td>' +
+            '</tr>' +
+          '</tbody>' +
+        '</table>' +
+
+        '<div style="margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 10px; text-align: center; font-size: 10px; color: #94a3b8;">' +
+          'Cash Book Pro - Official Master Report' +
+        '</div>';
+
+      document.body.appendChild(pdfContainer);
+
+      var filename = 'Master_Accounts_Report_' + todayStr.replace(/ /g, '_') + '.pdf';
+
+      var opt = {
+        margin:       10,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Safe Universal Download Handler
+      html2pdf().set(opt).from(pdfContainer).output('blob').then(function(pdfBlob) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var reader = new FileReader();
+          reader.readAsDataURL(pdfBlob);
+          reader.onloadend = function() {
+            var base64data = reader.result.split(',')[1];
+            window.AndroidInterface.downloadBase64File(base64data, filename, "application/pdf");
+          };
+        } else {
+          var pdfUrl = URL.createObjectURL(pdfBlob);
+          var link = document.createElement('a');
+          link.href = pdfUrl;
+          link.download = filename;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(function() {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(pdfUrl);
+          }, 100);
+        }
+      }).catch(function(err) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+        console.error("Master PDF Error:", err);
+        alert("Master PDF Generate karne me dikkat aayi. Phir se koshish karein!");
+      });
     }
 
     function openCashCalculator() { calcModal.show(); }
@@ -1787,19 +2488,24 @@
 
       updateSyncBadge('syncing');
 
-      // 2. Background Silent Fetch (Cache ko background me update karein)
+      // 2. Background Silent Fetch With Safe Response Parser
       fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
         .then(function(res) {
           if (!res.ok) throw new Error("Server HTTP Error: " + res.status);
-          return res.json();
+          return res.text();
         })
-        .then(function(accounts) {
-          if (!accounts || !Array.isArray(accounts) || accounts.length === 0) {
-            return fetch(SCRIPT_URL + "?action=getAccounts").then(function(r) { return r.json(); });
+        .then(function(textData) {
+          if (textData.trim().startsWith("<")) {
+            throw new Error("Invalid Script URL or Deployment Version Error!");
           }
-          return accounts;
+          var accounts = JSON.parse(textData);
+          if (!accounts || !Array.isArray(accounts) || accounts.length === 0) {
+            return fetch(SCRIPT_URL + "?action=getAccounts").then(function(r) { return r.text(); });
+          }
+          return JSON.stringify(accounts);
         })
-        .then(function(accounts) {
+        .then(function(data) {
+          var accounts = typeof data === 'string' ? JSON.parse(data) : data;
           globalAccounts = (Array.isArray(accounts) ? accounts : []);
           localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
           populateAccountsDropdown();
@@ -1886,6 +2592,459 @@
       }
       return false;
     };
+    // 📥 Bulk Excel Data Reader & Importer Engine
+    function triggerExcelImport() {
+      var fileInput = document.getElementById('bulkExcelFileInput');
+      if (fileInput) fileInput.click();
+    }
+
+    function processBulkExcelImport(input) {
+      if (!input.files || !input.files[0]) return;
+      var file = input.files[0];
+
+      if (!confirm("Kya aap '" + file.name + "' se saara data bulk me import karna chahte hain?")) {
+        input.value = '';
+        return;
+      }
+
+      showLoader();
+      var reader = new FileReader();
+
+      reader.onload = function(e) {
+        try {
+          var data = new Uint8Array(e.target.result);
+          var workbook = XLSX.read(data, { type: 'array' });
+          var firstSheetName = workbook.SheetNames[0];
+          var worksheet = workbook.Sheets[firstSheetName];
+          var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+          if (!jsonData || jsonData.length < 2) {
+            hideLoader();
+            input.value = '';
+            return alert("Excel file khali hai ya galat format hai!");
+          }
+
+          // Header Column Mapping Finder
+          var headerRowIndex = -1;
+          var colMap = { date: -1, notes: -1, desc: -1, cashIn: -1, cashOut: -1, account: -1 };
+
+          for (var r = 0; r < Math.min(jsonData.length, 10); r++) {
+            var row = jsonData[r];
+            if (!row) continue;
+            for (var c = 0; c < row.length; c++) {
+              var val = (row[c] || '').toString().trim().toLowerCase();
+              if (val === 'date') colMap.date = c;
+              if (val === 'notes') colMap.notes = c;
+              if (val === 'description') colMap.desc = c;
+              if (val === 'cash in' || val === 'cashin') colMap.cashIn = c;
+              if (val === 'cash out' || val === 'cashout') colMap.cashOut = c;
+              if (val === 'accounts' || val === 'account') colMap.account = c;
+            }
+            if (colMap.cashIn !== -1 || colMap.cashOut !== -1 || colMap.account !== -1) {
+              headerRowIndex = r;
+              break;
+            }
+          }
+
+          if (headerRowIndex === -1 || colMap.account === -1) {
+            hideLoader();
+            input.value = '';
+            return alert("Excel format match nahi hua! Kripya 'Date', 'Notes', 'Cash In', 'Cash Out', 'Accounts' headers check karein.");
+          }
+
+          var importedTxnsCount = 0;
+          var newAccountsCreated = 0;
+          var newTxnsPayload = [];
+
+          // Process Each Row Data
+          for (var i = headerRowIndex + 1; i < jsonData.length; i++) {
+            var rowData = jsonData[i];
+            if (!rowData || rowData.length === 0) continue;
+
+            var accName = (rowData[colMap.account] || '').toString().trim();
+            if (!accName || accName.toLowerCase().startsWith('total') || accName.toLowerCase().startsWith('balance')) continue;
+
+            var rawDate = colMap.date !== -1 ? (rowData[colMap.date] || '') : '';
+            var notes = colMap.notes !== -1 ? (rowData[colMap.notes] || '') : '';
+            var desc = colMap.desc !== -1 ? (rowData[colMap.desc] || '') : '';
+            var remark = (notes + " " + desc).trim() || "Bulk Import";
+
+            var cashIn = parseFloat((rowData[colMap.cashIn] || '0').toString().replace(/,/g, '')) || 0;
+            var cashOut = parseFloat((rowData[colMap.cashOut] || '0').toString().replace(/,/g, '')) || 0;
+
+            if (cashIn === 0 && cashOut === 0) continue;
+
+            // Date Formatting
+            var dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+            if (rawDate) {
+              dateStr = rawDate.toString().replace(/\n/g, ' ').trim();
+            }
+
+            // 1. Check & Create Account Locally if not present
+            if (!globalAccounts.some(function(a) { return (typeof a === 'string' ? a : a.name) === accName; })) {
+              globalAccounts.push({ name: accName, phone: '' });
+              newAccountsCreated++;
+            }
+
+            if (!allAccountsDataCache[accName]) {
+              allAccountsDataCache[accName] = { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
+            }
+
+            var currAccData = allAccountsDataCache[accName];
+            var type = cashIn > 0 ? 'Cash In' : 'Cash Out';
+            var amt = cashIn > 0 ? cashIn : cashOut;
+
+            if (type === 'Cash In') {
+              currAccData.totalIn += amt;
+              currAccData.balance += amt;
+            } else {
+              currAccData.totalOut += amt;
+              currAccData.balance -= amt;
+            }
+
+            var newEntry = {
+              date: dateStr,
+              type: type,
+              amount: amt,
+              remark: remark,
+              runningBalance: currAccData.balance
+            };
+
+            currAccData.transactions.push(newEntry);
+            importedTxnsCount++;
+
+            newTxnsPayload.push({
+              accountName: accName,
+              date: dateStr,
+              type: type,
+              amount: amt,
+              remark: remark
+            });
+          }
+
+          // Local Cache Instant Save
+          if (loggedInUser) {
+            localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+          }
+
+          populateAccountsDropdown();
+          var dropdown = document.getElementById('accountDropdown');
+          if (dropdown && dropdown.options.length > 1) {
+            dropdown.selectedIndex = 1;
+            loadAccountDataFast();
+          }
+
+          hideLoader();
+          input.value = '';
+          alert("🎉 Success! " + importedTxnsCount + " Entries " + newAccountsCreated + " Naye Accounts ke sath import ho gayi hain.");
+
+          // Background Google Sheet Sync Payload
+          if (newTxnsPayload.length > 0) {
+            fetch(SCRIPT_URL, {
+              method: 'POST',
+              body: JSON.stringify({
+                action: "bulkAddTransactions",
+                userId: loggedInUser ? loggedInUser.userId : "",
+                transactions: newTxnsPayload
+              })
+            }).catch(function(err) { console.error("Bulk sync error:", err); });
+          }
+
+        } catch (err) {
+          hideLoader();
+          input.value = '';
+          console.error("Import Error:", err);
+          alert("Excel file parse karne me dikkat aayi: " + err.message);
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+    // 🔄 Force Download Engine: Clears Cache & Downloads Fresh Data From Google Sheet
+    function forceDownloadFromSheet() {
+      if (!loggedInUser) return alert("Pehle Login karein!");
+
+      showLoader();
+      updateSyncBadge('syncing');
+
+      // Sync Badge Status Text Update
+      var badge = document.getElementById('syncStatusBadge');
+      if (badge) {
+        badge.className = 'badge rounded-pill bg-info text-white fw-bold';
+        badge.innerHTML = '<i class="fas fa-cloud-download-alt fa-spin me-1"></i> Downloading...';
+      }
+
+      // 1. Clear Local Cache to Force Fresh Fetch
+      localStorage.removeItem('cashbook_user_accs_' + loggedInUser.userId);
+      localStorage.removeItem('cashbook_user_master_txns_' + loggedInUser.userId);
+
+      // 2. Fetch Latest Accounts & Transactions from Google Sheet
+      fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
+        .then(function(res) { return res.json(); })
+        .then(function(accounts) {
+          globalAccounts = (Array.isArray(accounts) ? accounts : []);
+          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+          populateAccountsDropdown();
+
+          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(master) {
+          hideLoader();
+          if (master && typeof master === 'object' && master.accountsMap) {
+            allAccountsDataCache = master.accountsMap || {};
+            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+          }
+
+          var dropdown = document.getElementById('accountDropdown');
+          if (dropdown && dropdown.options.length > 1) {
+            if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
+              dropdown.selectedIndex = 1;
+            }
+            loadAccountDataFast();
+          }
+
+          updateSyncBadge('synced');
+          alert("🎉 Google Sheet se naya data safaltapoorvak download ho gaya hai!");
+        })
+        .catch(function(err) {
+          hideLoader();
+          console.error("Force Sync Error:", err);
+          updateSyncBadge('offline');
+          alert("Data Download Fail: Kripya internet connection aur Google Script URL check karein.");
+        });
+    }
+
+    // 🚀 All Transactions Modal & Search Engine
+    var allTxnsModal;
+    var globalAllTxnsMasterList = [];
+
+    window.addEventListener('DOMContentLoaded', function() {
+      var el = document.getElementById('allTxnsModal');
+      if (el) allTxnsModal = new bootstrap.Modal(el);
+    });
+
+    function openAllTransactionsModal() {
+      globalAllTxnsMasterList = [];
+
+      Object.keys(allAccountsDataCache).forEach(function(accName) {
+        var accObj = allAccountsDataCache[accName];
+        if (accObj && accObj.transactions && Array.isArray(accObj.transactions)) {
+          accObj.transactions.forEach(function(t) {
+            globalAllTxnsMasterList.push({
+              accountName: accName,
+              date: t.date || '-',
+              type: t.type || 'Cash In',
+              amount: t.amount || 0,
+              remark: t.remark || '-',
+              runningBalance: t.runningBalance
+            });
+          });
+        }
+      });
+
+      // Sort Date Wise (Latest entries first)
+      globalAllTxnsMasterList.sort(function(a, b) {
+        var dateA = new Date(a.date);
+        var dateB = new Date(b.date);
+        if (isNaN(dateA.getTime())) return 1;
+        if (isNaN(dateB.getTime())) return -1;
+        return dateB - dateA;
+      });
+
+      var searchInput = document.getElementById('modalAllTxnSearch');
+      if (searchInput) searchInput.value = '';
+
+      renderModalAllTxns(globalAllTxnsMasterList);
+      
+      var drawer = document.getElementById('sidebarDrawer');
+      if (drawer) {
+        var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+        if (bsDrawer) bsDrawer.hide();
+      }
+
+      if (allTxnsModal) allTxnsModal.show();
+    }
+
+    function renderModalAllTxns(list) {
+      var container = document.getElementById('modalAllTxnsList');
+      if (!container) return;
+
+      if (!list || list.length === 0) {
+        container.innerHTML = '<p class="text-center text-muted py-4">Koi transaction nahi mila.</p>';
+        return;
+      }
+
+      var html = '';
+      list.forEach(function(t) {
+        var isIn = t.type === 'Cash In';
+        var amtClass = isIn ? 'text-success' : 'text-danger';
+        var sign = isIn ? '+' : '-';
+        var cardBorder = isIn ? 'border-start border-4 border-success' : 'border-start border-4 border-danger';
+
+        html += '<div class="card p-2 mb-2 card-custom modal-txn-card ' + cardBorder + '">' +
+                  '<div class="d-flex justify-content-between align-items-start">' +
+                    '<div>' +
+                      '<span class="badge bg-secondary mb-1" style="font-size:10px;">' + t.accountName + '</span>' +
+                      '<h6 class="m-0 fw-bold text-dark modal-txn-remark" style="font-size:14px;">' + t.remark + '</h6>' +
+                      '<small class="text-muted fw-semibold" style="font-size:11px;"><i class="far fa-clock me-1"></i>' + t.date + '</small>' +
+                    '</div>' +
+                    '<div class="text-end">' +
+                      '<div class="' + amtClass + ' fw-bold fs-6 modal-txn-amount">' + sign + ' ' + formatINR(t.amount) + '</div>' +
+                      (t.runningBalance !== undefined ? '<small class="text-muted d-block" style="font-size:10px;">Bal: ' + formatINR(t.runningBalance) + '</small>' : '') +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    function filterModalAllTxns() {
+      var query = document.getElementById('modalAllTxnSearch').value.toLowerCase().trim();
+      
+      if (!query) {
+        renderModalAllTxns(globalAllTxnsMasterList);
+        return;
+      }
+
+      var filtered = globalAllTxnsMasterList.filter(function(t) {
+        var acc = (t.accountName || '').toLowerCase();
+        var rem = (t.remark || '').toLowerCase();
+        var amt = (t.amount || '').toString();
+        var date = (t.date || '').toLowerCase();
+
+        return acc.includes(query) || rem.includes(query) || amt.includes(query) || date.includes(query);
+      });
+
+      renderModalAllTxns(filtered);
+    }
+    // 📄 100% Full Detailed All Accounts Ledger PDF Report
+    function exportAllAccountsDetailedPDF() {
+      if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
+
+      showLoader();
+      var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
+
+      var fullReportHTML = '';
+
+      // Loop through each account to generate detailed ledger tables
+      globalAccounts.forEach(function(acc) {
+        var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+        if (!accName || accName === "Account Name") return;
+
+        var accData = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
+        var totalIn = Number(accData.totalIn || 0);
+        var totalOut = Number(accData.totalOut || 0);
+        var netBal = totalIn - totalOut;
+
+        // Sort Account Transactions by Date
+        var sortedTxns = (accData.transactions || []).slice().sort(function(a, b) {
+          var dateA = new Date(a.date);
+          var dateB = new Date(b.date);
+          if (isNaN(dateA.getTime())) return 1;
+          if (isNaN(dateB.getTime())) return -1;
+          return dateA - dateB;
+        });
+
+        var rowsHTML = '';
+        if (sortedTxns.length === 0) {
+          rowsHTML = '<tr><td colspan="5" style="padding: 8px; text-align: center; color: #94a3b8;">Is account me koi transaction nahi hai</td></tr>';
+        } else {
+          sortedTxns.forEach(function(t, idx) {
+            var isIn = t.type === 'Cash In';
+            var amtColor = isIn ? '#059669' : '#e11d48';
+            var runningBalText = t.runningBalance !== undefined ? formatINR(t.runningBalance) : '-';
+
+            rowsHTML += '<tr style="border-bottom: 1px solid #e2e8f0;">' +
+                          '<td style="padding: 6px; text-align: center;">' + (t.date || '-') + '</td>' +
+                          '<td style="padding: 6px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + t.type + '</td>' +
+                          '<td style="padding: 6px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
+                          '<td style="padding: 6px; text-align: center;">' + runningBalText + '</td>' +
+                          '<td style="padding: 6px; text-align: left; word-break: break-word;">' + (t.remark || '-') + '</td>' +
+                        '</tr>';
+          });
+        }
+
+        fullReportHTML += 
+          '<div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 10px; border-radius: 8px; margin-top: 20px; margin-bottom: 10px;">' +
+            '<h3 style="margin: 0; font-size: 15px; color: #881337;">Account: ' + accName + '</h3>' +
+            '<div style="font-size: 11px; margin-top: 4px; font-weight: bold;">' +
+              '<span style="color: #059669; margin-right: 15px;">Total In: ' + formatINR(totalIn) + '</span>' +
+              '<span style="color: #e11d48; margin-right: 15px;">Total Out: ' + formatINR(totalOut) + '</span>' +
+              '<span style="color: #0f172a;">Net Balance: ' + formatINR(netBal) + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<table style="width: 100%; border-collapse: collapse; font-size: 11px; margin-bottom: 15px;">' +
+            '<thead>' +
+              '<tr style="background-color: #334155; color: white;">' +
+                '<th style="padding: 6px; text-align: center;">Date & Time</th>' +
+                '<th style="padding: 6px; text-align: center;">Type</th>' +
+                '<th style="padding: 6px; text-align: center;">Amount</th>' +
+                '<th style="padding: 6px; text-align: center;">Balance</th>' +
+                '<th style="padding: 6px; text-align: left;">Remark / Note</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>' + rowsHTML + '</tbody>' +
+          '</table>';
+      });
+
+      var pdfContainer = document.createElement('div');
+      pdfContainer.style.padding = '15px';
+      pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
+      pdfContainer.style.backgroundColor = '#ffffff';
+
+      pdfContainer.innerHTML = 
+        '<div style="background: linear-gradient(135deg, #881337 0%, #be123c 100%); color: white; padding: 15px; text-align: center; border-radius: 10px;">' +
+          '<h2 style="margin: 0; font-size: 20px; font-weight: bold;">CASH BOOK PRO</h2>' +
+          '<p style="margin: 2px 0 0 0; font-size: 12px; opacity: 0.9;">All Accounts Detailed Transaction Ledger Report</p>' +
+          '<p style="margin: 2px 0 0 0; font-size: 10px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
+        '</div>' + fullReportHTML;
+
+      document.body.appendChild(pdfContainer);
+
+      var filename = 'All_Accounts_Detailed_Report_' + todayStr.replace(/ /g, '_') + '.pdf';
+
+      var opt = {
+        margin:       8,
+        filename:     filename,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().set(opt).from(pdfContainer).output('blob').then(function(pdfBlob) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var reader = new FileReader();
+          reader.readAsDataURL(pdfBlob);
+          reader.onloadend = function() {
+            var base64data = reader.result.split(',')[1];
+            window.AndroidInterface.downloadBase64File(base64data, filename, "application/pdf");
+          };
+        } else {
+          var pdfUrl = URL.createObjectURL(pdfBlob);
+          var link = document.createElement('a');
+          link.href = pdfUrl;
+          link.download = filename;
+          link.target = '_blank';
+          document.body.appendChild(link);
+          link.click();
+          setTimeout(function() {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(pdfUrl);
+          }, 100);
+        }
+      }).catch(function(err) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+        console.error("Detailed Report PDF Error:", err);
+        alert("Detailed PDF Generate karne me दिक्कत आई!");
+      });
+    }
   </script>
 
   <!-- Bootstrap JS Bundle -->
