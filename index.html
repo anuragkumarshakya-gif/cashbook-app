@@ -283,10 +283,66 @@
       border: none !important;
     }
 
+    /* ✨ Modern Professional FinTech Loader Overlay */
     #loaderOverlay {
-      position: fixed; top:0; left:0; width:100%; height:100%;
-      background: rgba(240, 253, 250, 0.7); backdrop-filter: blur(6px); z-index:9998;
-      display: flex; align-items: center; justify-content: center;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(15, 23, 42, 0.65) !important;
+      backdrop-filter: blur(12px) saturate(180%);
+      -webkit-backdrop-filter: blur(12px) saturate(180%);
+      z-index: 99999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .loader-card-pro {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 24px;
+      padding: 24px 32px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      max-width: 280px;
+      animation: pulseCard 2s infinite ease-in-out;
+    }
+
+    body.dark-theme .loader-card-pro {
+      background: rgba(24, 24, 27, 0.95);
+      border-color: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    /* Professional Ring Spinner */
+    .spinner-ring-pro {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(136, 19, 55, 0.15);
+      border-top: 4px solid #881337;
+      border-radius: 50%;
+      animation: spinRing 0.8s linear infinite;
+    }
+
+    body.dark-theme .spinner-ring-pro {
+      border: 4px solid rgba(244, 63, 94, 0.15);
+      border-top: 4px solid #f43f5e;
+    }
+
+    @keyframes spinRing {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulseCard {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
     /* Offcanvas Sidebar Drawer Styling */
     .drawer-item {
@@ -479,9 +535,13 @@
 </head>
 <body>
 
-  <!-- Instant Loader Spinner -->
+  <!-- Professional FinTech App Loader Overlay -->
   <div id="loaderOverlay" class="d-none">
-    <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+    <div class="loader-card-pro text-center">
+      <div class="spinner-ring-pro mb-3"></div>
+      <h6 class="fw-bold m-0 text-dark mb-1" style="font-size: 14px; letter-spacing: 0.3px;">Fetching Data</h6>
+      <small class="text-muted fw-semibold" style="font-size: 11px;">Syncing with Google Sheet...</small>
+    </div>
   </div>
 
   <!-- 🛡️ Professional FinTech Banking Login / Lock Screen -->
@@ -495,11 +555,11 @@
       <h4 class="fw-extrabold mb-0 text-white" id="authTitle" style="letter-spacing: 0.5px;">Cash Book Pro</h4>
       <p class="text-white-50 small mb-3" id="authSubTitle" style="font-size: 11px;">Encrypted Personal Finance Ledger</p>
 
-      <!-- 🔢 FinTech 4-Digit Security Passcode View -->
+      <!-- 🔢 FinTech 4-Digit Security Passcode & Fingerprint View -->
       <div id="pinLockView" class="d-none">
         
         <!-- Animated PIN Indicator Dots -->
-        <div class="d-flex justify-content-center gap-3 mb-4 my-2" id="pinDotsContainer">
+        <div class="d-flex justify-content-center gap-3 mb-3 my-2" id="pinDotsContainer">
           <div class="pin-dot"></div>
           <div class="pin-dot"></div>
           <div class="pin-dot"></div>
@@ -507,7 +567,7 @@
         </div>
 
         <!-- On-Screen Banking Numeric Keypad -->
-        <div class="numeric-keypad mx-auto mb-2" style="max-width: 260px;">
+        <div class="numeric-keypad mx-auto mb-3" style="max-width: 260px;">
           <div class="row g-2">
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(1)">1</button></div>
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(2)">2</button></div>
@@ -524,9 +584,12 @@
           </div>
         </div>
 
-        <p class="text-white-50 small m-0 mt-2" style="font-size: 11px;">
-          <a href="javascript:void(0);" class="text-warning text-decoration-none fw-bold" onclick="switchToPasswordView()"><i class="fas fa-key me-1"></i> Login via Password</a>
-        </p>
+        <!-- 🖐️ Fingerprint / Biometric Quick Unlock Button -->
+        <div class="text-center mt-2">
+          <button class="btn btn-outline-light rounded-pill px-3 py-2 btn-sm fw-bold shadow-sm" onclick="autoLoginWithBiometric()">
+            <i class="fas fa-fingerprint me-1 text-warning fs-5 align-middle"></i> Use Fingerprint
+          </button>
+        </div>
       </div>
 
       <!-- 🔑 Standard Password Login View -->
@@ -1870,12 +1933,6 @@
       if (!acc) return alert('Kripya account select karein!');
       if (!amt || amt <= 0) return alert('Kripya sahi amount dalein!');
 
-      var saveBtn = document.getElementById('btnSaveTxn');
-      if (saveBtn) {
-        saveBtn.disabled = true;
-        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span> Saving...';
-      }
-
       var entryDateObj = customDateTimeVal ? new Date(customDateTimeVal) : new Date();
       var dateStr = entryDateObj.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
 
@@ -1900,27 +1957,19 @@
         runningBalance: currAccData.balance
       };
 
-      currAccData.transactions.push(newTxn);
-
-      // 📅 Always Sort Transactions by Date (Nayi date sabse upar dikhane ke liye)
-      currAccData.transactions.sort(function(a, b) {
-        return new Date(b.date) - new Date(a.date);
-      });
+      currAccData.transactions.unshift(newTxn);
 
       if (loggedInUser) {
         localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
       }
 
+      // Fast UI Update
       loadAccountDataFast();
+      updateDashboardOverviewStats();
 
       document.getElementById('txnAmount').value = '';
       document.getElementById('txnRemark').value = '';
       if (txnModal) txnModal.hide();
-
-      if (saveBtn) {
-        saveBtn.disabled = false;
-        saveBtn.innerHTML = '<i class="fas fa-check me-1"></i> Submit Entry';
-      }
 
       var payload = {
         action: "addTransaction",
@@ -1936,26 +1985,19 @@
         locationText: window.currentLocationText || ''
       };
 
+      // Background Sync
       fetch(SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify(payload)
       })
       .then(res => res.json())
       .then(res => {
-        if(res && res.success === false) {
-          alert("Sheet Sync Fail: " + (res.error || res.message));
-        } else {
-          selectedImageData = null;
-          var imgPreview = document.getElementById('imagePreviewText');
-          if (imgPreview) imgPreview.classList.add('d-none');
-          var camInput = document.getElementById('cameraInput');
-          var galInput = document.getElementById('galleryInput');
-          if (camInput) camInput.value = '';
-          if (galInput) galInput.value = '';
-        }
+        selectedImageData = null;
+        var imgPreview = document.getElementById('imagePreviewText');
+        if (imgPreview) imgPreview.classList.add('d-none');
       })
       .catch(function(err) {
-        alert("Server Error: Sheet tak data nahi pahuncha! (" + err + ")");
+        console.error("Background Sync Error:", err);
       });
     }
 
@@ -2317,18 +2359,26 @@
     function filterTransactions() {
       var inputEl = document.getElementById('searchInput');
       var clearBtn = document.getElementById('btnClearSearch');
-      var input = inputEl.value.toLowerCase();
+      var input = inputEl.value.toLowerCase().trim();
 
       if (clearBtn) {
         if (input.length > 0) clearBtn.classList.remove('d-none');
         else clearBtn.classList.add('d-none');
       }
 
-      document.querySelectorAll('.txn-card').forEach(function(card) {
-        var remark = card.querySelector('.txn-remark').innerText.toLowerCase();
-        var amount = card.querySelector('.txn-amount').innerText.toLowerCase();
-        card.style.display = (remark.indexOf(input) > -1 || amount.indexOf(input) > -1) ? "" : "none";
+      if (!input) {
+        renderTransactions(currentAccountTxns);
+        return;
+      }
+
+      var filtered = currentAccountTxns.filter(function(t) {
+        var remark = (t.remark || '').toLowerCase();
+        var amount = (t.amount || '').toString();
+        var date = (t.date || '').toLowerCase();
+        return remark.includes(input) || amount.includes(input) || date.includes(input);
       });
+
+      renderTransactions(filtered);
     }
 
     function clearSearchInput() {
@@ -2838,16 +2888,26 @@
       .then(res => {
         hideLoader();
         if (res.success) {
+          globalAccounts = [];
+          allAccountsDataCache = {};
+          currentAccountTxns = [];
+
           loggedInUser = res.user;
           sessionStorage.setItem('cashbook_logged_user', JSON.stringify(res.user));
           localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(res.user));
-          
-          // Instant LockScreen Hide
-          document.getElementById('lockScreen').classList.add('d-none');
-          updateWelcomeHeader();
 
-          // Smooth Non-Blocking Private Data Fetch
-          fetchUserPrivateData();
+          // Agar Google Sheet ki Users table se PIN mil jaye
+          var sheetPin = (res.user && res.user.pin) ? res.user.pin.toString() : "";
+
+          if (sheetPin && sheetPin.trim() !== "") {
+            localStorage.setItem('cashbook_app_pin', sheetPin.trim());
+            document.getElementById('lockScreen').classList.add('d-none');
+            updateWelcomeHeader();
+            fetchUserPrivateData();
+          } else {
+            // Agar pehli baar user login kar raha h aur Users sheet me PIN blank h
+            promptAndSetFirstTimePin();
+          }
         } else {
           alert("❌ " + res.message);
         }
@@ -2856,14 +2916,20 @@
     }
 
     function checkLoginStatus() {
-      var savedUser = sessionStorage.getItem('cashbook_logged_user');
+      var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
       if (savedUser) {
         loggedInUser = JSON.parse(savedUser);
-        document.getElementById('lockScreen').classList.add('d-none');
-        updateWelcomeHeader();
-        fetchUserPrivateData();
-      } else {
+        // User logged in hai, toh Username/Password form gayab karo aur sirf PIN / Fingerprint screen dikhao
         document.getElementById('lockScreen').classList.remove('d-none');
+        document.getElementById('loginFormView').classList.add('d-none');
+        document.getElementById('signupFormView').classList.add('d-none');
+        document.getElementById('pinLockView').classList.remove('d-none');
+        document.getElementById('authTitle').innerText = "Quick Unlock";
+        document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
+      } else {
+        // First Time User - Show Username/Password Form
+        document.getElementById('lockScreen').classList.remove('d-none');
+        switchToPasswordView();
       }
     }
 
@@ -2898,84 +2964,48 @@
       }
     }
 
-    // ⚡ Safe Non-Crashing Fetch Engine
     function fetchUserPrivateData() {
       if (!loggedInUser) {
         hideLoader();
         return;
       }
-      
-      var hasCache = false;
 
       var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
       var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
 
       if (cachedAccounts && cachedTxnsData) {
         try {
-          var parsedAccs = JSON.parse(cachedAccounts);
-          var parsedMaster = JSON.parse(cachedTxnsData);
-
-          if (parsedAccs && parsedAccs.length > 0) {
-            globalAccounts = parsedAccs;
-            allAccountsDataCache = parsedMaster || {};
-            populateAccountsDropdown();
-
-            var dropdown = document.getElementById('accountDropdown');
-            if (dropdown && dropdown.options.length > 1) {
-              dropdown.selectedIndex = 1;
-              loadAccountDataFast();
-            }
-            hasCache = true;
-            updateSyncBadge('offline');
-          }
-        } catch(e) {}
-      }
-
-      if (!hasCache) showLoader();
-      updateSyncBadge('syncing');
-
-      // Safe JSON Parse Fetch
-      fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
-        .then(function(res) { return res.text(); })
-        .then(function(textData) {
-          if (!textData || textData.trim().startsWith("<")) {
-            throw new Error("HTML Error Response Received from Google Script");
-          }
-          return JSON.parse(textData);
-        })
-        .then(function(accounts) {
-          globalAccounts = (Array.isArray(accounts) ? accounts : []);
-          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+          globalAccounts = JSON.parse(cachedAccounts) || [];
+          allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
           populateAccountsDropdown();
 
-          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
-        })
-        .then(function(res) { return res.text(); })
-        .then(function(masterText) {
-          if (!masterText || masterText.trim().startsWith("<")) {
-            throw new Error("HTML Response in Master Fetch");
+          var dropdown = document.getElementById('accountDropdown');
+          if (dropdown && dropdown.options.length > 1) {
+            dropdown.selectedIndex = 1;
+            loadAccountDataFast();
           }
-          var master = JSON.parse(masterText);
+          updateSyncBadge('offline');
+        } catch(e) {}
+      } else {
+        showLoader();
+      }
+
+      updateSyncBadge('syncing');
+
+      // Async Fast Fetching
+      fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId))
+        .then(res => res.json())
+        .then(master => {
           hideLoader();
-          
           if (master && typeof master === 'object' && master.accountsMap) {
             allAccountsDataCache = master.accountsMap || {};
             localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
-          }
-          
-          var dropdown = document.getElementById('accountDropdown');
-          if (dropdown && dropdown.options.length > 1) {
-            if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
-              dropdown.selectedIndex = 1;
-            }
             loadAccountDataFast();
           }
-
           updateSyncBadge('synced');
         })
-        .catch(function(err) {
+        .catch(err => {
           hideLoader();
-          console.warn("Sheet Sync Handled (Offline/Error):", err.message);
           updateSyncBadge('offline');
         });
     }
@@ -3001,22 +3031,17 @@
 
     function lockAppScreenOnly() {
       var lockScreen = document.getElementById('lockScreen');
-      var savedPin = localStorage.getItem('cashbook_app_pin');
-
       if (lockScreen) {
         lockScreen.classList.remove('d-none');
         enteredPinBuffer = "";
         updatePinDotsUI();
 
-        if (savedPin) {
-          document.getElementById('loginFormView').classList.add('d-none');
-          document.getElementById('signupFormView').classList.add('d-none');
-          document.getElementById('pinLockView').classList.remove('d-none');
-          document.getElementById('authTitle').innerText = "Enter Security PIN";
-          document.getElementById('authSubTitle').innerText = "Enter your 4-Digit Security Passcode";
-        } else {
-          switchToPasswordView();
-        }
+        // Lock karte hi Username/Password gayab rahega, sirf PIN/Fingerprint dikhega
+        document.getElementById('loginFormView').classList.add('d-none');
+        document.getElementById('signupFormView').classList.add('d-none');
+        document.getElementById('pinLockView').classList.remove('d-none');
+        document.getElementById('authTitle').innerText = "Quick Unlock";
+        document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
       }
     }
 
@@ -3057,11 +3082,19 @@
     function handlePinUnlock() {
       var savedPin = localStorage.getItem('cashbook_app_pin');
 
+      if (!savedPin) {
+        alert("Pehle Login karke PIN set karein!");
+        clearAllPinDigits();
+        return;
+      }
+
       if (enteredPinBuffer === savedPin) {
         document.getElementById('lockScreen').classList.add('d-none');
         clearAllPinDigits();
+        updateWelcomeHeader();
+        fetchUserPrivateData();
       } else {
-        alert("❌ Incorrect Passcode! Please try again.");
+        alert("❌ Galat PIN! Kripya sahi PIN darj karein.");
         clearAllPinDigits();
       }
     }
@@ -3074,18 +3107,32 @@
       document.getElementById('authSubTitle').innerText = "Encrypted Personal Finance Ledger";
     }
 
-    // 🚪 2. Full Logout (Sidebar Drawer Option)
+    // 🚪 2. Full Logout (Sidebar Drawer Option - Cache Cleared)
     function logoutUserFully() {
       if (confirm("Kya aap account logout karna chahte hain?")) {
-        sessionStorage.removeItem('cashbook_logged_user');
+        if (loggedInUser && loggedInUser.userId) {
+          localStorage.removeItem('cashbook_user_accs_' + loggedInUser.userId);
+          localStorage.removeItem('cashbook_user_master_txns_' + loggedInUser.userId);
+        }
+        sessionStorage.clear();
         localStorage.removeItem('cashbook_saved_biometric_user');
+        
         loggedInUser = null;
+        globalAccounts = [];
+        allAccountsDataCache = {};
+        currentAccountTxns = [];
 
+        populateAccountsDropdown();
+        document.getElementById('totalIn').innerText = formatINR(0);
+        document.getElementById('totalOut').innerText = formatINR(0);
+        document.getElementById('netBalance').innerText = formatINR(0);
+        document.getElementById('transactionList').innerHTML = '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
+
+        // Logout hone par hi Username/Password wala form wapas aayega
         var lockScreen = document.getElementById('lockScreen');
         if (lockScreen) {
           lockScreen.classList.remove('d-none');
-          document.getElementById('authTitle').innerText = "Cash Book";
-          document.getElementById('authSubTitle').innerText = "Login to access your personal cashbook";
+          switchToPasswordView();
         }
         document.getElementById('loginUsername').value = '';
         document.getElementById('loginPassword').value = '';
@@ -3569,6 +3616,55 @@
         console.error("Detailed Report PDF Error:", err);
         alert("Detailed PDF Generate karne me दिक्कत आई!");
       });
+    }
+    function promptAndSetFirstTimePin() {
+      var newPin = prompt("🔐 Suraksha ke liye apna naya 4-Digit Passcode/PIN banayein:");
+      if (newPin !== null) {
+        newPin = newPin.trim();
+        if (/^\d{4}$/.test(newPin)) {
+          var confirmPin = prompt("🔐 Confirm karne ke liye dubara 4-Digit PIN darj karein:");
+          if (confirmPin === newPin) {
+            
+            showLoader();
+            // Users sheet ke 'PIN' column me save hone ke liye payload
+            fetch(SCRIPT_URL, {
+              method: 'POST',
+              body: JSON.stringify({
+                action: 'updateUserPin',
+                userId: loggedInUser ? loggedInUser.userId : "",
+                username: loggedInUser ? loggedInUser.username : "",
+                pin: newPin
+              })
+            })
+            .then(res => res.json())
+            .then(res => {
+              hideLoader();
+              localStorage.setItem('cashbook_app_pin', newPin);
+              alert("🎉 PIN aapke Users Sheet par 7th column me update ho gaya hai!");
+              document.getElementById('lockScreen').classList.add('d-none');
+              updateWelcomeHeader();
+              fetchUserPrivateData();
+            })
+            .catch(err => {
+              hideLoader();
+              alert("Sheet Sync Fail! Local storage me PIN set kar diya gaya hai.");
+              localStorage.setItem('cashbook_app_pin', newPin);
+              document.getElementById('lockScreen').classList.add('d-none');
+              updateWelcomeHeader();
+              fetchUserPrivateData();
+            });
+
+          } else {
+            alert("❌ PIN Match nahi hua! Kripya dobara Login karein.");
+            logoutUserFully();
+          }
+        } else {
+          alert("❌ Galat Format! Kripya 4-digit numeric PIN dalein (e.g. 1234).");
+          logoutUserFully();
+        }
+      } else {
+        logoutUserFully();
+      }
     }
   </script>
 
