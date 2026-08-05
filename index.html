@@ -1265,7 +1265,7 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbz26V80X-424Sxq1ymQHeszZ2bBYOeFtcVhPrrj55qz2GCntU7pcSKs58Drz8F2GvNzEg/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmBk_kfqobpGL8DCHc2fb9lYeHqxZ-Wfb2HSZI8VrIFNzBz5_YVbhrqQAstE83x_w8Pg/exec";
 
     var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal;
     var globalAccounts = [];
@@ -2965,7 +2965,7 @@
     }
 
     function fetchUserPrivateData() {
-      if (!loggedInUser) {
+      if (!loggedInUser || !loggedInUser.userId) {
         hideLoader();
         return;
       }
@@ -2973,6 +2973,7 @@
       var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
       var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
 
+      // Cache से डेटा तुरंत लोड करें
       if (cachedAccounts && cachedTxnsData) {
         try {
           globalAccounts = JSON.parse(cachedAccounts) || [];
@@ -2985,28 +2986,64 @@
             loadAccountDataFast();
           }
           updateSyncBadge('offline');
-        } catch(e) {}
+        } catch(e) {
+          console.error("Cache Read Error:", e);
+        }
       } else {
         showLoader();
       }
 
       updateSyncBadge('syncing');
 
-      // Async Fast Fetching
-      fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId))
+      // 1st Step: गूगल शीट से पहले अकाउंट्स लिस्ट लाएं
+      fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
+        .then(res => res.json())
+        .then(accountsResponse => {
+          if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
+            globalAccounts = accountsResponse;
+          } else if (accountsResponse && accountsResponse.accounts) {
+            globalAccounts = accountsResponse.accounts;
+          }
+
+          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+          populateAccountsDropdown();
+
+          // 2nd Step: अब मास्टर ट्रांजेक्शन डेटा लाएं
+          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
+        })
         .then(res => res.json())
         .then(master => {
           hideLoader();
-          if (master && typeof master === 'object' && master.accountsMap) {
-            allAccountsDataCache = master.accountsMap || {};
+          if (master && typeof master === 'object') {
+            allAccountsDataCache = master.accountsMap || master.data || master || {};
             localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
-            loadAccountDataFast();
+            
+            // डेटा को रेस्पॉन्स से निकाल कर ग्लोबल अकाउंट्स अपडेट करें
+            if (!globalAccounts || globalAccounts.length === 0) {
+              globalAccounts = Object.keys(allAccountsDataCache).map(name => ({ name: name, phone: '' }));
+              populateAccountsDropdown();
+            }
+
+            var dropdown = document.getElementById('accountDropdown');
+            if (dropdown && dropdown.options.length > 1) {
+              if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
+                dropdown.selectedIndex = 1;
+              }
+              loadAccountDataFast();
+            }
           }
           updateSyncBadge('synced');
         })
         .catch(err => {
           hideLoader();
+          console.error("Fetch Data Error:", err);
           updateSyncBadge('offline');
+          
+          // एरर की स्थिति में ड्रॉपडाउन की लोडिंग स्टेट हटाएं
+          var dropdown = document.getElementById('accountDropdown');
+          if (dropdown && dropdown.value.includes("Loading")) {
+            populateAccountsDropdown();
+          }
         });
     }
 
