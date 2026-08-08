@@ -10,15 +10,16 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Hind:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Custom Devanagari Font Support for jsPDF -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
   
   <!-- Export Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
   <!-- Chart.js Engine for Business Overview Chart -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -847,13 +848,9 @@
         <a href="javascript:void(0);" class="drawer-item" onclick="showMasterSummaryModal()">
           <i class="fas fa-clipboard-list text-primary"></i> Summary
         </a>
-        <!-- Duplicate Account Summary Link Removed -->
-        <!-- Bulk Import Option Removed for Clean UI -->
-        
         <a href="javascript:void(0);" class="drawer-item" onclick="openAllTransactionsModal()">
           <i class="fas fa-list-ul text-info"></i> Transaction-All Accounts
         </a>
-        <!-- Duplicate Accounts List option removed -->
         <a href="javascript:void(0);" class="drawer-item" onclick="openTransferModal()">
           <i class="fas fa-exchange-alt text-warning"></i> Transfer Funds
         </a>
@@ -974,18 +971,16 @@
     </div>
   </div>
 
-  <!-- Modal: Master Summary Popup with Download Icons -->
+  <!-- Modal: Master Summary Popup -->
   <div class="modal fade" id="summaryModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4">
         <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
           <h5 class="modal-title fw-bold"><i class="fas fa-clipboard-list text-primary me-2"></i>Accounts Summary Report</h5>
           <div class="d-flex align-items-center gap-2">
-            <!-- 📥 Excel Download Button -->
             <button class="btn btn-outline-success btn-sm rounded-3 fw-bold px-2 py-1 shadow-sm" onclick="exportMasterExcel()" title="Download Summary Excel">
               <i class="fas fa-file-excel me-1"></i> Excel
             </button>
-            <!-- 📥 PDF Download Button -->
             <button class="btn btn-outline-danger btn-sm rounded-3 fw-bold px-2 py-1 shadow-sm" onclick="exportMasterPDF()" title="Download Summary PDF">
               <i class="fas fa-file-pdf me-1"></i> PDF
             </button>
@@ -1013,7 +1008,7 @@
     </div>
   </div>
 
-  <!-- Modal: All Transactions History with Search Bar -->
+  <!-- Modal: All Transactions History -->
   <div class="modal fade" id="allTxnsModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4">
@@ -1022,18 +1017,13 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body p-3">
-          
-          <!-- 🔍 Search Bar inside Modal -->
           <div class="input-group mb-3 shadow-sm rounded-3">
             <span class="input-group-text bg-white border-end-0 rounded-start-3"><i class="fas fa-search text-muted"></i></span>
             <input type="text" id="modalAllTxnSearch" class="form-control bg-white border-start-0 rounded-end-3" placeholder="Search account, remark, amount..." onkeyup="filterModalAllTxns()">
           </div>
-
-          <!-- Transactions List Container -->
           <div id="modalAllTxnsList" class="overflow-auto" style="max-height: 60vh;">
             <p class="text-center text-muted py-4">Loading all transactions...</p>
           </div>
-
         </div>
       </div>
     </div>
@@ -1142,7 +1132,6 @@
               </div>
             </div>
             
-            <!-- Status Message with Image & Live GPS Location Info -->
             <div id="imagePreviewText" class="small text-success mt-2 d-none fw-semibold">
               <i class="fas fa-check-circle me-1"></i> Image selected!
               <div id="gpsLocationText" class="text-primary mt-1" style="font-size: 11px;">
@@ -1187,7 +1176,7 @@
     </div>
   </div>
 
-  <!-- Modal: Google Keep Style Notebook Notes -->
+  <!-- Modal: Notebook Notes -->
   <div class="modal fade" id="notebookModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4" style="background-color: #f8fafc;">
@@ -1272,7 +1261,7 @@
     </div>
   </div>
 
-  <!-- Modal: 20+ Theme Picker & Custom Wallpaper -->
+  <!-- Modal: Theme Picker -->
   <div class="modal fade" id="themeModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content border-0 shadow-lg rounded-4">
@@ -1282,7 +1271,6 @@
         </div>
         <div class="modal-body overflow-auto" style="max-height: 75vh;">
           
-          <!-- Gallery Custom Photo Selection -->
           <div class="card p-3 mb-3 border-dashed bg-light rounded-3 text-center">
             <h6 class="fw-bold mb-2 text-dark"><i class="fas fa-image text-success me-1"></i> Gallery Se Custom Image Lagayein</h6>
             <label for="customBgUpload" class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-3">
@@ -1295,9 +1283,7 @@
           </div>
 
           <h6 class="fw-bold mb-2 text-secondary">Preset Color & Gradient Themes (20 Options):</h6>
-          <div class="row g-2 text-center" id="themePresetsGrid">
-            <!-- JavaScript dwara 20 Themes Auto-Generate hongi -->
-          </div>
+          <div class="row g-2 text-center" id="themePresetsGrid"></div>
 
         </div>
       </div>
@@ -1306,7 +1292,7 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxN9cpi7EmtP-6Z31hjbqGvwutEAqZIJY-l-CL9xOidD5_jzEla0iEkX5DoTC4wnQkH6g/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzSjjt8gkFpENLoCYpMw-DkeZBapO6WDA3v87Z-e4Y7cwQrUfc8JcR7i-EDcftvjMFH/exec";
 
     var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal;
     var globalAccounts = [];
@@ -1398,7 +1384,6 @@
       var theme = appThemesList[idx];
       if (!theme) return;
 
-      // Reset Custom Gallery Wallpaper if any
       document.body.style.backgroundImage = 'none';
       
       var topBars = document.querySelectorAll('.top-bar');
@@ -1446,7 +1431,7 @@
     function removeCustomBackground() {
       document.body.style.backgroundImage = 'none';
       document.getElementById('btnRemoveCustomBg').classList.add('d-none');
-      applyPresetTheme(0); // Fallback to Default Theme
+      applyPresetTheme(0);
     }
 
     function loadSavedTheme() {
@@ -1486,7 +1471,6 @@
           var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
           if (!accName || accName === "Account Name") return;
 
-          // 💡 allAccountsDataCache se sahi data nikalna
           var data = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
           var totalIn = Number(data.totalIn || 0);
           var totalOut = Number(data.totalOut || 0);
@@ -1504,7 +1488,6 @@
                   '</tr>';
         });
 
-        // 📊 Sabhi Accounts ka Grand Total Row
         html += '<tr class="table-dark fw-bold">' +
                   '<td>GRAND TOTAL</td>' +
                   '<td class="text-success">' + formatINR(grandTotalIn) + '</td>' +
@@ -1557,10 +1540,7 @@
           plugins: {
             legend: {
               position: 'bottom',
-              labels: {
-                boxWidth: 10,
-                font: { size: 10 }
-              }
+              labels: { boxWidth: 10, font: { size: 10 } }
             },
             tooltip: {
               callbacks: {
@@ -1606,7 +1586,6 @@
       }
       if (dashAccBadge) dashAccBadge.innerText = totalAccsCount + " Accounts";
 
-      // 🎨 Live Render Donut Chart
       renderSidebarOverviewChart(grandIn, grandOut);
     }
 
@@ -1656,7 +1635,7 @@
       if (toSel) toSel.innerHTML = options;
 
       updateWelcomeHeader();
-      updateDashboardOverviewStats(); // 🚀 Live Dashboard Stats Update
+      updateDashboardOverviewStats();
     }
 
     function loadAccountDataFast() {
@@ -1681,7 +1660,6 @@
 
       var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
       
-      // 📅 Display Transactions Sorted Latest First
       currentAccountTxns = (data.transactions || []).slice().sort(function(a, b) {
         var dateA = new Date(a.date);
         var dateB = new Date(b.date);
@@ -1697,7 +1675,6 @@
       renderTransactions(currentAccountTxns);
     }
 
-    // 🚀 Pagination State
     var currentPageSize = 25;
     var activeFilteredTxns = [];
 
@@ -1735,7 +1712,6 @@
         var sign = isIn ? '+' : '-';
         var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
         
-        // 🖼️ Thumbnail Preview with Lightbox Modal
         var imgLinkHTML = t.imageUrl ? 
           '<div class="mt-2"><img src="' + t.imageUrl + '" onclick="openLightboxImage(\'' + t.imageUrl + '\')" class="rounded-2 border shadow-sm cursor-pointer" style="width: 48px; height: 48px; object-fit: cover;" title="Click to Expand"></div>' : '';
 
@@ -1777,19 +1753,6 @@
       renderTransactions(activeFilteredTxns, true);
     }
 
-    var editTxnModal, editAccModal, allTxnsModal;
-
-    function initModals() {
-      var el1 = document.getElementById('editTxnModal');
-      if (el1 && !editTxnModal) editTxnModal = new bootstrap.Modal(el1);
-      
-      var el2 = document.getElementById('editAccModal');
-      if (el2 && !editAccModal) editAccModal = new bootstrap.Modal(el2);
-
-      var el3 = document.getElementById('allTxnsModal');
-      if (el3 && !allTxnsModal) allTxnsModal = new bootstrap.Modal(el3);
-    }
-
     function openEditTxnModal(index) {
       var item = currentAccountTxns[index];
       if (!item) return;
@@ -1820,7 +1783,6 @@
       var d = new Date(dateStr);
       if (!isNaN(d.getTime())) return d;
       
-      // "08 Aug 2026, 02:30 PM" जैसे स्ट्रिंग फॉर्मेट को सही समय में बदलने का सेफ पार्सर
       try {
         var parts = dateStr.split(',');
         var dateParts = parts[0].trim().split(' ');
@@ -1850,29 +1812,25 @@
       if (isNaN(newAmount) || newAmount <= 0) return alert('Sahi amount darj karein!');
       if (!currentAccountTxns || !currentAccountTxns[index]) return alert('Transaction entry nahi mili!');
 
-      // तारीख की सेफ स्ट्रिंग बनाना
       var updatedDateStr = newDateTime 
         ? new Date(newDateTime).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) 
         : currentAccountTxns[index].date;
 
-      // 1. चुनी हुई एंट्री के डेटा को अपडेट करें
       var targetTxn = currentAccountTxns[index];
       targetTxn.type = newType;
       targetTxn.amount = newAmount;
       targetTxn.remark = newRemark;
       targetTxn.date = updatedDateStr;
 
-      // 2. 🗓️ लिस्ट को Safe Parser के साथ रि-सॉर्ट करें (Newest First)
       if (allAccountsDataCache[acc] && allAccountsDataCache[acc].transactions) {
         var accData = allAccountsDataCache[acc];
 
         accData.transactions.sort(function(a, b) {
           var dateA = parseCustomDate(a.date);
           var dateB = parseCustomDate(b.date);
-          return dateB - dateA; // Nayi tareekh upar
+          return dateB - dateA;
         });
 
-        // 3. Totals & Balance Recalculate
         var calcIn = 0;
         var calcOut = 0;
 
@@ -1885,19 +1843,16 @@
         accData.totalOut = calcOut;
         accData.balance = calcIn - calcOut;
 
-        // Local Storage में सेव करें
         if (loggedInUser) {
           localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
         }
       }
 
-      // Fast UI Render without reload
       loadAccountDataFast();
       updateDashboardOverviewStats();
 
       if (editTxnModal) editTxnModal.hide();
 
-      // 4. Background Google Sheet Sync
       updateSyncBadge('syncing');
       fetch(SCRIPT_URL, {
         method: 'POST',
@@ -1922,8 +1877,6 @@
       });
     }
 
-    // Modal already initialized in DOMContentLoaded
-
     function showEditAccountModal() {
       var accName = document.getElementById('accountDropdown').value;
       if (!accName) return alert('Pehle edit karne ke liye koi account select karein!');
@@ -1937,7 +1890,6 @@
       document.getElementById('editAccName').value = accName;
       document.getElementById('editAccPhone').value = (accObj && typeof accObj === 'object') ? (accObj.phone || '') : '';
 
-      // Safe Modal Initialization & Show
       var el = document.getElementById('editAccModal');
       if (el) {
         var modalInstance = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
@@ -2033,7 +1985,6 @@
       document.getElementById('txnType').value = type;
       document.getElementById('txnModalTitle').innerText = 'Add ' + type + ' Entry';
       
-      // Auto-fill current Local Date & Time
       var now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
       document.getElementById('txnCustomDateTime').value = now.toISOString().slice(0, 16);
@@ -2044,7 +1995,6 @@
     var selectedImageData = null;
 
     function captureGPSAndPreview(input) {
-      // Camera/Gallery kholne se pehle lock flag ko false set karein taaki app login hi rahe
       localStorage.removeItem('cashbook_is_app_locked');
 
       if (navigator.geolocation) {
@@ -2123,7 +2073,6 @@
         localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
       }
 
-      // Fast UI Update
       loadAccountDataFast();
       updateDashboardOverviewStats();
 
@@ -2145,7 +2094,6 @@
         locationText: window.currentLocationText || ''
       };
 
-      // Background Sync
       fetch(SCRIPT_URL, {
         method: "POST",
         body: JSON.stringify(payload)
@@ -2198,10 +2146,9 @@
         return;
       }
 
-      // 🔐 PIN verification alert prompt before deletion
       var enteredPin = prompt("🔒 SECURITY CHECK: Entry delete karne ke liye apna 4-Digit Passcode/PIN darj karein:");
 
-      if (enteredPin === null) return; // User canceled the prompt
+      if (enteredPin === null) return;
 
       if (enteredPin.trim() !== savedPin) {
         alert("❌ Galat PIN! Entry delete nahi ki gayi.");
@@ -2420,7 +2367,6 @@
 
       showLoader();
 
-      // Image Card UI Element
       var cardDiv = document.createElement('div');
       cardDiv.style.width = '350px';
       cardDiv.style.padding = '20px';
@@ -2538,7 +2484,6 @@
         if (!t.date) return false;
         var parsedDate = new Date(t.date);
         if (isNaN(parsedDate.getTime())) {
-          // Custom String Date Parsing (e.g., 07 Aug 2026)
           var parts = t.date.split(',');
           parsedDate = new Date(parts[0]);
         }
@@ -2593,7 +2538,6 @@
       filterTransactions();
     }
 
-    // 🌙 Dark/Light Theme Switching Logic
     function toggleDarkMode() {
       document.body.classList.toggle('dark-theme');
       var isDark = document.body.classList.contains('dark-theme');
@@ -2605,7 +2549,6 @@
       localStorage.setItem('cashbook_dark_mode', isDark ? 'enabled' : 'disabled');
     }
 
-    // Load saved dark mode preference on page load
     (function checkSavedDarkMode() {
       var savedMode = localStorage.getItem('cashbook_dark_mode');
       if (savedMode === 'enabled') {
@@ -2615,7 +2558,6 @@
       }
     })();
 
-    // 📊 Single Account Excel Export (Date Sorted + Red/Green Colored Amounts)
     function exportAccountExcel() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Account select karein!');
@@ -2625,7 +2567,6 @@
       var exactTotalOut = Number(data.totalOut || 0);
       var exactNetBalance = exactTotalIn - exactTotalOut;
 
-      // 📅 Date-wise Sorting (Purani Date pehle, Nayi baad me)
       var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
         var dateA = new Date(a.date);
         var dateB = new Date(b.date);
@@ -2696,24 +2637,18 @@
       }
     }
 
-    // PDF Custom Formatter Helper (Fixes "1" Symbol Error by replacing ₹ with Rs.)
-    function formatPDFCurrency(amount) {
-      var num = Number(amount || 0);
-      var formatted = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(num);
-      return "Rs. " + formatted;
-    }
-
-    // 📄 High-Contrast Dark Text Professional PDF Statement Exporter
-    function exportAccountPDF() {
+    // 📄 100% Fix for Blank PDF & Broken Hindi Font Rendering
+    async function exportAccountPDF() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Kripya pehle koi account select karein!');
+
+      showLoader();
 
       var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0 };
       var exactTotalIn = Number(data.totalIn || 0);
       var exactTotalOut = Number(data.totalOut || 0);
       var exactNetBalance = exactTotalIn - exactTotalOut;
 
-      // 🕒 तारीख और लाइव समय
       var now = new Date();
       var todayDateTimeStr = now.toLocaleDateString('en-IN', { 
         day: '2-digit', 
@@ -2725,7 +2660,6 @@
         hour12: true 
       });
 
-      // 📅 Sort Transactions (Oldest to Newest)
       var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
         var dateA = new Date(a.date);
         var dateB = new Date(b.date);
@@ -2737,118 +2671,140 @@
       var rowsHTML = '';
       sortedTxns.forEach(function(t, idx) {
         var isIn = t.type === 'Cash In';
-        var amtColor = isIn ? '#047857' : '#b91c1c'; // Solid Dark Emerald & Crimson Red
-        var badgeBg = isIn ? '#d1fae5' : '#fee2e2';
+        var amtColor = isIn ? '#059669' : '#dc2626';
+        var badgeBg = isIn ? '#ecfdf5' : '#fef2f2';
         var badgeBorder = isIn ? '#059669' : '#dc2626';
         var runningBalText = t.runningBalance !== undefined ? formatINR(t.runningBalance) : '-';
 
-        rowsHTML += '<tr style="border-bottom: 1.5px solid #cbd5e1; font-size: 11px;">' +
-                      '<td style="padding: 10px 6px; text-align: center; color: #000000; font-weight: 800;">' + (idx + 1) + '</td>' +
-                      '<td style="padding: 10px 6px; text-align: center; white-space: nowrap; color: #000000; font-weight: 800;">' + (t.date || '-') + '</td>' +
-                      '<td style="padding: 10px 6px; text-align: center;">' +
-                        '<span style="background: ' + badgeBg + '; color: ' + amtColor + '; border: 1.5px solid ' + badgeBorder + '; padding: 3px 10px; border-radius: 12px; font-weight: 900; font-size: 10px;">' + t.type + '</span>' +
+        rowsHTML += '<tr style="border-bottom: 1px solid #e2e8f0; font-size: 11px;">' +
+                      '<td style="padding: 8px 4px; text-align: center; color: #1e293b; font-weight: 600;">' + (idx + 1) + '</td>' +
+                      '<td style="padding: 8px 4px; text-align: center; white-space: nowrap; color: #1e293b; font-weight: 600;">' + (t.date || '-') + '</td>' +
+                      '<td style="padding: 8px 4px; text-align: center;">' +
+                        '<span style="background: ' + badgeBg + '; color: ' + amtColor + '; border: 1px solid ' + badgeBorder + '; padding: 2px 8px; border-radius: 10px; font-weight: 600; font-size: 10px;">' + t.type + '</span>' +
                       '</td>' +
-                      '<td style="padding: 10px 6px; text-align: right; font-weight: 900; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
-                      '<td style="padding: 10px 6px; text-align: right; font-weight: 900; color: #000000;">' + runningBalText + '</td>' +
-                      '<td style="padding: 10px 6px; text-align: left; word-break: break-word; color: #000000; font-weight: 800; font-family: \'Inter\', system-ui, sans-serif;">' + (t.remark || '-') + '</td>' +
+                      '<td style="padding: 8px 4px; text-align: right; font-weight: 600; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
+                      '<td style="padding: 8px 4px; text-align: right; font-weight: 600; color: #0f172a;">' + runningBalText + '</td>' +
+                      '<td style="padding: 8px 6px; text-align: left; word-break: break-word; color: #0f172a; font-weight: 500; font-family: \'Hind\', \'Noto Sans Devanagari\', sans-serif;">' + (t.remark || '-') + '</td>' +
                     '</tr>';
       });
 
-      // Hidden Frame Strategy
-      var iframe = document.createElement('iframe');
-      iframe.style.position = 'fixed';
-      iframe.style.right = '0';
-      iframe.style.bottom = '0';
-      iframe.style.width = '0';
-      iframe.style.height = '0';
-      iframe.style.border = '0';
-      document.body.appendChild(iframe);
+      // Temporary Printable DOM Element Attached for Native Capture
+      var pdfContainer = document.createElement('div');
+      pdfContainer.style.position = 'absolute';
+      pdfContainer.style.top = '0';
+      pdfContainer.style.left = '0';
+      pdfContainer.style.width = '750px';
+      pdfContainer.style.backgroundColor = '#ffffff';
+      pdfContainer.style.color = '#0f172a';
+      pdfContainer.style.padding = '20px';
+      pdfContainer.style.zIndex = '-9999';
+      pdfContainer.style.fontFamily = "'Hind', 'Noto Sans Devanagari', sans-serif";
 
-      var doc = iframe.contentWindow.document;
-
-      var htmlContent = '<html><head><title>' + acc + '_Statement</title>' +
-        '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">' +
-        '<style>' +
-          'body { font-family: "Inter", system-ui, -apple-system, sans-serif; padding: 20px; color: #000000; background-color: #ffffff; }' +
-          '@page { size: A4; margin: 8mm; }' +
-          'table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 1.5px solid #000000; }' +
-          'th { background: #e2e8f0; color: #000000; padding: 10px 6px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; border: 1.5px solid #000000; }' +
-          'tr:nth-child(even) { background-color: #f8fafc; }' +
-        '</style>' +
-        '</head><body>' +
-        
-        '<!-- 🏷️ High-Contrast Header with Dark Text -->' +
-        '<div style="background: #f1f5f9; border: 2px solid #000000; padding: 16px 20px; border-radius: 12px; margin-bottom: 16px;">' +
-          '<div style="display: flex; justify-content: space-between; align-items: center;">' +
-            '<div>' +
-              '<h2 style="margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #000000;">CASH BOOK STATEMENT</h2>' +
-              '<p style="margin: 4px 0 0 0; font-size: 12px; font-weight: 800; color: #000000;">Official Transaction Ledger</p>' +
-            '</div>' +
-            '<div style="text-align: right; font-size: 11px; color: #000000; font-weight: 800;">' +
-              '<div style="color: #000000; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 900;">Generated On</div>' +
-              '<div style="font-size: 12px; font-weight: 900; margin-top: 2px; color: #000000;">' + todayDateTimeStr + '</div>' +
-            '</div>' +
-          '</div>' +
+      pdfContainer.innerHTML = 
+        '<div style="background: #f8fafc; border: 1px solid #cbd5e1; padding: 14px; border-radius: 8px; margin-bottom: 14px;">' +
+          '<table style="width: 100%; border: none;"><tr>' +
+            '<td>' +
+              '<h2 style="margin: 0; font-size: 18px; font-weight: 700; color: #881337;">CASH BOOK STATEMENT</h2>' +
+              '<p style="margin: 2px 0 0 0; font-size: 11px; color: #475569; font-weight: 500;">Official Transaction Ledger</p>' +
+            '</td>' +
+            '<td style="text-align: right; font-size: 10px; color: #475569; font-weight: 600;">' +
+              '<div>GENERATED ON</div>' +
+              '<div style="font-size: 11px; font-weight: 700; color: #0f172a; margin-top: 1px;">' + todayDateTimeStr + '</div>' +
+            '</td>' +
+          '</tr></table>' +
         '</div>' +
 
-        '<!-- 💳 Summary Info Card with Dark Text -->' +
-        '<div style="background: #ffffff; border: 2px solid #000000; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px;">' +
-          '<div style="font-size: 16px; font-weight: 900; color: #000000; margin-bottom: 10px;">Account Name: ' + acc + '</div>' +
-          '<div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 900; background: #f8fafc; padding: 10px 16px; border-radius: 8px; border: 1.5px solid #000000;">' +
-            '<span style="color: #047857;">Total In: ' + formatINR(exactTotalIn) + '</span>' +
-            '<span style="color: #b91c1c;">Total Out: ' + formatINR(exactTotalOut) + '</span>' +
-            '<span style="color: #000000;">Net Balance: ' + formatINR(exactNetBalance) + '</span>' +
-          '</div>' +
-        '</div>' +
-
-        '<!-- 📊 High-Contrast Transactions Table -->' +
-        '<table>' +
-          '<thead>' +
+        '<div style="background: #ffffff; border: 1px solid #cbd5e1; padding: 12px; border-radius: 8px; margin-bottom: 14px;">' +
+          '<div style="font-size: 14px; font-weight: 700; color: #881337; margin-bottom: 8px;">Account Name: ' + acc + '</div>' +
+          '<table style="width: 100%; background: #f8fafc; padding: 6px; border-radius: 6px; border: 1px solid #e2e8f0; font-weight: 600; font-size: 12px;">' +
             '<tr>' +
-              '<th style="width: 5%;">#</th>' +
-              '<th style="width: 22%;">Date & Time</th>' +
-              '<th style="width: 14%;">Type</th>' +
-              '<th style="width: 17%; text-align: right;">Amount</th>' +
-              '<th style="width: 17%; text-align: right;">Balance</th>' +
-              '<th style="width: 25%; text-align: left;">Remark / Note</th>' +
+              '<td style="color: #059669;">Total In: ' + formatINR(exactTotalIn) + '</td>' +
+              '<td style="color: #dc2626; text-align: center;">Total Out: ' + formatINR(exactTotalOut) + '</td>' +
+              '<td style="color: #0f172a; text-align: right;">Net Balance: ' + formatINR(exactNetBalance) + '</td>' +
+            '</tr>' +
+          '</table>' +
+        '</div>' +
+
+        '<table style="width: 100%; border-collapse: collapse; margin-top: 10px; border: 1px solid #cbd5e1;">' +
+          '<thead>' +
+            '<tr style="background: #881337; color: #ffffff; font-size: 11px; font-weight: 700;">' +
+              '<th style="width: 5%; padding: 8px 4px; border: 1px solid #881337;">#</th>' +
+              '<th style="width: 22%; padding: 8px 4px; border: 1px solid #881337;">Date & Time</th>' +
+              '<th style="width: 14%; padding: 8px 4px; border: 1px solid #881337;">Type</th>' +
+              '<th style="width: 17%; padding: 8px 4px; border: 1px solid #881337; text-align: right;">Amount</th>' +
+              '<th style="width: 17%; padding: 8px 4px; border: 1px solid #881337; text-align: right;">Balance</th>' +
+              '<th style="width: 25%; padding: 8px 6px; border: 1px solid #881337; text-align: left;">Remark / Note</th>' +
             '</tr>' +
           '</thead>' +
           '<tbody>' + rowsHTML + '</tbody>' +
         '</table>' +
 
-        '<div style="margin-top: 25px; border-top: 2px solid #000000; padding-top: 10px; text-align: center; font-size: 11px; color: #000000; font-weight: 900;">' +
+        '<div style="margin-top: 20px; border-top: 1px solid #cbd5e1; padding-top: 8px; text-align: center; font-size: 10px; color: #64748b; font-weight: 600;">' +
           'Cash Book Pro • Encrypted Personal Finance Ledger' +
-        '</div>' +
+        '</div>';
 
-        '</body></html>';
+      document.body.appendChild(pdfContainer);
 
-      doc.open();
-      doc.write(htmlContent);
-      doc.close();
+      var filename = acc + '_Statement.pdf';
 
-      setTimeout(function() {
-        // 1. Android APK Native Download Handler Check
-        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
-          var htmlBlob = new Blob([htmlContent], { type: 'text/html' });
-          var reader = new FileReader();
-          reader.readAsDataURL(htmlBlob);
-          reader.onloadend = function() {
-            var base64data = reader.result.split(',')[1];
-            window.AndroidInterface.downloadBase64File(base64data, acc + "_Statement.pdf", "application/pdf");
-          };
-          document.body.removeChild(iframe);
-        } else {
-          // 2. Browser Print / PDF Download Engine
-          iframe.contentWindow.focus();
-          iframe.contentWindow.print();
-          setTimeout(function() {
-            if (iframe.parentNode) document.body.removeChild(iframe);
-          }, 1000);
+      try {
+        // Ensure web fonts are completely ready before html2canvas executes
+        if (document.fonts) {
+          await document.fonts.ready;
         }
-      }, 300);
+
+        var canvas = await html2canvas(pdfContainer, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          scrollY: 0,
+          scrollX: 0
+        });
+
+        if (pdfContainer.parentNode) {
+          document.body.removeChild(pdfContainer);
+        }
+
+        var imgData = canvas.toDataURL('image/jpeg', 0.98);
+        const { jsPDF } = window.jspdf;
+        var pdf = new jsPDF('p', 'mm', 'a4');
+
+        var imgWidth = 210;
+        var pageHeight = 297;
+        var imgHeight = (canvas.height * imgWidth) / canvas.width;
+        var heightLeft = imgHeight;
+        var position = 0;
+
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+
+        while (heightLeft >= 0) {
+          position = heightLeft - imgHeight;
+          pdf.addPage();
+          pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+          heightLeft -= pageHeight;
+        }
+
+        hideLoader();
+
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var pdfBase64 = pdf.output('datauristring').split(',')[1];
+          window.AndroidInterface.downloadBase64File(pdfBase64, filename, "application/pdf");
+        } else {
+          pdf.save(filename);
+        }
+
+      } catch (err) {
+        hideLoader();
+        if (pdfContainer.parentNode) {
+          document.body.removeChild(pdfContainer);
+        }
+        console.error("PDF Generate Error:", err);
+        alert("PDF Generate Error: " + err.message);
+      }
     }
 
-    // 📊 Master Summary Excel Export (With Red/Green Colors)
     function exportMasterExcel() {
       if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
 
@@ -2926,7 +2882,6 @@
       }
     }
 
-    // 📄 100% Canvas Rendered Master Summary PDF Export (Pure Hindi + ₹ Symbol Supported)
     function exportMasterPDF() {
       if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
 
@@ -2936,7 +2891,6 @@
       var grandOut = 0;
       var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-      // Build Summary Table Rows (Preserves Hindi Font & ₹ Symbol)
       var rowsHTML = '';
       globalAccounts.forEach(function(acc) {
         var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
@@ -2960,7 +2914,6 @@
 
       var grandNet = grandIn - grandOut;
 
-      // Temporary Container for High Quality Canvas PDF Rendering
       var pdfContainer = document.createElement('div');
       pdfContainer.style.padding = '20px';
       pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
@@ -3010,7 +2963,6 @@
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // Safe Universal Download Handler
       html2pdf().set(opt).from(pdfContainer).output('blob').then(function(pdfBlob) {
         hideLoader();
         if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
@@ -3119,7 +3071,6 @@
           sessionStorage.setItem('cashbook_logged_user', JSON.stringify(res.user));
           localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(res.user));
 
-          // Agar Google Sheet ki Users table se PIN mil jaye
           var sheetPin = (res.user && res.user.pin) ? res.user.pin.toString() : "";
 
           if (sheetPin && sheetPin.trim() !== "") {
@@ -3128,7 +3079,6 @@
             updateWelcomeHeader();
             fetchUserPrivateData();
           } else {
-            // Agar pehli baar user login kar raha h aur Users sheet me PIN blank h
             promptAndSetFirstTimePin();
           }
         } else {
@@ -3138,15 +3088,14 @@
       .catch(err => { hideLoader(); alert('Error: ' + err); });
     }
 
+    // 🔒 1. Check Lock Status Corrected
     function checkLoginStatus() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
-      var isAppLocked = localStorage.getItem('cashbook_is_app_locked');
 
       if (savedUser) {
         loggedInUser = JSON.parse(savedUser);
         updateWelcomeHeader();
         
-        // ऐप खुलते ही हमेशा पिन/फिंगरप्रिंट लॉक स्क्रीन दिखाएं
         document.getElementById('lockScreen').classList.remove('d-none');
         document.getElementById('loginFormView').classList.add('d-none');
         document.getElementById('signupFormView').classList.add('d-none');
@@ -3159,13 +3108,13 @@
       }
     }
 
-    // 🔒 ऐप के बैकग्राउंड में जाते ही या मिनीमाइज़ होने पर लॉक स्क्रीन एक्टिवेट करने का लॉजिक
     document.addEventListener('visibilitychange', function() {
       if (document.hidden && loggedInUser) {
         lockAppScreenOnly();
       }
     });
 
+    // 🖐️ 2. Biometric Fingerprint Check Fixed
     function autoLoginWithBiometric() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
       
@@ -3173,28 +3122,36 @@
         return alert("Pehle ek baar Username aur Password se Login karein!");
       }
 
-      // Android Native Bridge Integration
       if (window.AndroidInterface && window.AndroidInterface.triggerBiometricAuth) {
         window.AndroidInterface.triggerBiometricAuth();
         return;
       }
 
-      // Browser WebAuthn / Native Prompt Fallback
-      if (window.PublicKeyCredential) {
-        navigator.credentials.get({
-          publicKey: {
-            challenge: new Uint8Array([0,1,2,3,4,5,6,7]),
-            timeout: 60000,
-            userVerification: "required"
-          }
-        }).then(function() {
-          unlockAppSuccess();
-        }).catch(function() {
-          // Fallback Auto-unlock for Webview Compatibility
-          unlockAppSuccess();
-        });
+      if (window.PublicKeyCredential && navigator.credentials && navigator.credentials.get) {
+        showLoader();
+        
+        var publicKeyCredentialRequestOptions = {
+          challenge: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
+          timeout: 60000,
+          userVerification: "required"
+        };
+
+        navigator.credentials.get({ publicKey: publicKeyCredentialRequestOptions })
+          .then(function(assertion) {
+            hideLoader();
+            if (assertion) {
+              unlockAppSuccess();
+            } else {
+              alert("❌ Biometric Verification Failed!");
+            }
+          })
+          .catch(function(err) {
+            hideLoader();
+            console.warn("Biometric Error/Canceled:", err);
+            alert("❌ Fingerprint Not Recognized or Canceled! Kripya 4-Digit PIN ka use karein.");
+          });
       } else {
-        unlockAppSuccess();
+        alert("🔒 Aapke Device/Browser me Direct Biometric API Supported nahi hai. Kripya 4-Digit PIN darj karke Unlock karein.");
       }
     }
 
@@ -3206,7 +3163,6 @@
       fetchUserPrivateData();
     }
 
-    // 🚦 Sync Indicator Status Helper
     function updateSyncBadge(status) {
       var badge = document.getElementById('syncStatusBadge');
       if (!badge) return;
@@ -3232,7 +3188,6 @@
       var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
       var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
 
-      // Cache से डेटा तुरंत लोड करें
       if (cachedAccounts && cachedTxnsData) {
         try {
           globalAccounts = JSON.parse(cachedAccounts) || [];
@@ -3254,7 +3209,6 @@
 
       updateSyncBadge('syncing');
 
-      // 1st Step: गूगल शीट से पहले अकाउंट्स लिस्ट लाएं
       fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
         .then(res => res.json())
         .then(accountsResponse => {
@@ -3267,7 +3221,6 @@
           localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
           populateAccountsDropdown();
 
-          // 2nd Step: अब मास्टर ट्रांजेक्शन डेटा लाएं
           return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
         })
         .then(res => res.json())
@@ -3277,7 +3230,6 @@
             allAccountsDataCache = master.accountsMap || master.data || master || {};
             localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
             
-            // डेटा को रेस्पॉन्स से निकाल कर ग्लोबल अकाउंट्स अपडेट करें
             if (!globalAccounts || globalAccounts.length === 0) {
               globalAccounts = Object.keys(allAccountsDataCache).map(name => ({ name: name, phone: '' }));
               populateAccountsDropdown();
@@ -3298,7 +3250,6 @@
           console.error("Fetch Data Error:", err);
           updateSyncBadge('offline');
           
-          // एरर की स्थिति में ड्रॉपडाउन की लोडिंग स्टेट हटाएं
           var dropdown = document.getElementById('accountDropdown');
           if (dropdown && dropdown.value.includes("Loading")) {
             populateAccountsDropdown();
@@ -3306,7 +3257,6 @@
         });
     }
 
-    // 🔑 Professional FinTech 4-Digit Keypad & PIN Engine
     var enteredPinBuffer = "";
 
     function setupNewAppPin() {
@@ -3404,7 +3354,6 @@
       document.getElementById('authSubTitle').innerText = "Encrypted Personal Finance Ledger";
     }
 
-    // 🚪 2. Full Logout (Sidebar Drawer Option - Cache Cleared)
     function logoutUserFully() {
       if (confirm("Kya aap account logout karna chahte hain?")) {
         if (loggedInUser && loggedInUser.userId) {
@@ -3425,7 +3374,6 @@
         document.getElementById('netBalance').innerText = formatINR(0);
         document.getElementById('transactionList').innerHTML = '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
 
-        // Logout hone par hi Username/Password wala form wapas aayega
         var lockScreen = document.getElementById('lockScreen');
         if (lockScreen) {
           lockScreen.classList.remove('d-none');
@@ -3461,194 +3409,27 @@
       }
       return false;
     };
-    // 📥 Bulk Excel Data Reader & Importer Engine
+
     function triggerExcelImport() {
       var fileInput = document.getElementById('bulkExcelFileInput');
       if (fileInput) fileInput.click();
     }
 
-    function processBulkExcelImport(input) {
-      if (!input.files || !input.files[0]) return;
-      var file = input.files[0];
-
-      if (!confirm("Kya aap '" + file.name + "' se saara data bulk me import karna chahte hain?")) {
-        input.value = '';
-        return;
-      }
-
-      showLoader();
-      var reader = new FileReader();
-
-      reader.onload = function(e) {
-        try {
-          var data = new Uint8Array(e.target.result);
-          var workbook = XLSX.read(data, { type: 'array' });
-          var firstSheetName = workbook.SheetNames[0];
-          var worksheet = workbook.Sheets[firstSheetName];
-          var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-          if (!jsonData || jsonData.length < 2) {
-            hideLoader();
-            input.value = '';
-            return alert("Excel file khali hai ya galat format hai!");
-          }
-
-          // Header Column Mapping Finder
-          var headerRowIndex = -1;
-          var colMap = { date: -1, notes: -1, desc: -1, cashIn: -1, cashOut: -1, account: -1 };
-
-          for (var r = 0; r < Math.min(jsonData.length, 10); r++) {
-            var row = jsonData[r];
-            if (!row) continue;
-            for (var c = 0; c < row.length; c++) {
-              var val = (row[c] || '').toString().trim().toLowerCase();
-              if (val === 'date') colMap.date = c;
-              if (val === 'notes') colMap.notes = c;
-              if (val === 'description') colMap.desc = c;
-              if (val === 'cash in' || val === 'cashin') colMap.cashIn = c;
-              if (val === 'cash out' || val === 'cashout') colMap.cashOut = c;
-              if (val === 'accounts' || val === 'account') colMap.account = c;
-            }
-            if (colMap.cashIn !== -1 || colMap.cashOut !== -1 || colMap.account !== -1) {
-              headerRowIndex = r;
-              break;
-            }
-          }
-
-          if (headerRowIndex === -1 || colMap.account === -1) {
-            hideLoader();
-            input.value = '';
-            return alert("Excel format match nahi hua! Kripya 'Date', 'Notes', 'Cash In', 'Cash Out', 'Accounts' headers check karein.");
-          }
-
-          var importedTxnsCount = 0;
-          var newAccountsCreated = 0;
-          var newTxnsPayload = [];
-
-          // Process Each Row Data
-          for (var i = headerRowIndex + 1; i < jsonData.length; i++) {
-            var rowData = jsonData[i];
-            if (!rowData || rowData.length === 0) continue;
-
-            var accName = (rowData[colMap.account] || '').toString().trim();
-            if (!accName || accName.toLowerCase().startsWith('total') || accName.toLowerCase().startsWith('balance')) continue;
-
-            var rawDate = colMap.date !== -1 ? (rowData[colMap.date] || '') : '';
-            var notes = colMap.notes !== -1 ? (rowData[colMap.notes] || '') : '';
-            var desc = colMap.desc !== -1 ? (rowData[colMap.desc] || '') : '';
-            var remark = (notes + " " + desc).trim() || "Bulk Import";
-
-            var cashIn = parseFloat((rowData[colMap.cashIn] || '0').toString().replace(/,/g, '')) || 0;
-            var cashOut = parseFloat((rowData[colMap.cashOut] || '0').toString().replace(/,/g, '')) || 0;
-
-            if (cashIn === 0 && cashOut === 0) continue;
-
-            // Date Formatting
-            var dateStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
-            if (rawDate) {
-              dateStr = rawDate.toString().replace(/\n/g, ' ').trim();
-            }
-
-            // 1. Check & Create Account Locally if not present
-            if (!globalAccounts.some(function(a) { return (typeof a === 'string' ? a : a.name) === accName; })) {
-              globalAccounts.push({ name: accName, phone: '' });
-              newAccountsCreated++;
-            }
-
-            if (!allAccountsDataCache[accName]) {
-              allAccountsDataCache[accName] = { totalIn: 0, totalOut: 0, balance: 0, transactions: [] };
-            }
-
-            var currAccData = allAccountsDataCache[accName];
-            var type = cashIn > 0 ? 'Cash In' : 'Cash Out';
-            var amt = cashIn > 0 ? cashIn : cashOut;
-
-            if (type === 'Cash In') {
-              currAccData.totalIn += amt;
-              currAccData.balance += amt;
-            } else {
-              currAccData.totalOut += amt;
-              currAccData.balance -= amt;
-            }
-
-            var newEntry = {
-              date: dateStr,
-              type: type,
-              amount: amt,
-              remark: remark,
-              runningBalance: currAccData.balance
-            };
-
-            currAccData.transactions.push(newEntry);
-            importedTxnsCount++;
-
-            newTxnsPayload.push({
-              accountName: accName,
-              date: dateStr,
-              type: type,
-              amount: amt,
-              remark: remark
-            });
-          }
-
-          // Local Cache Instant Save
-          if (loggedInUser) {
-            localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
-            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
-          }
-
-          populateAccountsDropdown();
-          var dropdown = document.getElementById('accountDropdown');
-          if (dropdown && dropdown.options.length > 1) {
-            dropdown.selectedIndex = 1;
-            loadAccountDataFast();
-          }
-
-          hideLoader();
-          input.value = '';
-          alert("🎉 Success! " + importedTxnsCount + " Entries " + newAccountsCreated + " Naye Accounts ke sath import ho gayi hain.");
-
-          // Background Google Sheet Sync Payload
-          if (newTxnsPayload.length > 0) {
-            fetch(SCRIPT_URL, {
-              method: 'POST',
-              body: JSON.stringify({
-                action: "bulkAddTransactions",
-                userId: loggedInUser ? loggedInUser.userId : "",
-                transactions: newTxnsPayload
-              })
-            }).catch(function(err) { console.error("Bulk sync error:", err); });
-          }
-
-        } catch (err) {
-          hideLoader();
-          input.value = '';
-          console.error("Import Error:", err);
-          alert("Excel file parse karne me dikkat aayi: " + err.message);
-        }
-      };
-
-      reader.readAsArrayBuffer(file);
-    }
-    // 🔄 Force Download Engine: Clears Cache & Downloads Fresh Data From Google Sheet
     function forceDownloadFromSheet() {
       if (!loggedInUser) return alert("Pehle Login karein!");
 
       showLoader();
       updateSyncBadge('syncing');
 
-      // Sync Badge Status Text Update
       var badge = document.getElementById('syncStatusBadge');
       if (badge) {
         badge.className = 'badge rounded-pill bg-info text-white fw-bold';
         badge.innerHTML = '<i class="fas fa-cloud-download-alt fa-spin me-1"></i> Downloading...';
       }
 
-      // 1. Clear Local Cache to Force Fresh Fetch
       localStorage.removeItem('cashbook_user_accs_' + loggedInUser.userId);
       localStorage.removeItem('cashbook_user_master_txns_' + loggedInUser.userId);
 
-      // 2. Fetch Latest Accounts & Transactions from Google Sheet
       fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
         .then(function(res) { return res.json(); })
         .then(function(accounts) {
@@ -3685,7 +3466,6 @@
         });
     }
 
-    // 🚀 All Transactions Modal & Search Engine
     var globalAllTxnsMasterList = [];
 
     function openAllTransactionsModal() {
@@ -3709,7 +3489,6 @@
         });
       }
 
-      // Sort Date Wise (Latest entries first)
       globalAllTxnsMasterList.sort(function(a, b) {
         var dateA = new Date(a.date);
         var dateB = new Date(b.date);
@@ -3785,7 +3564,8 @@
 
       renderModalAllTxns(filtered);
     }
-    // 📄 100% Full Detailed All Accounts Ledger PDF Report
+
+    // 📄 100% Fixed All Accounts Detailed Ledger PDF Exporter
     function exportAllAccountsDetailedPDF() {
       if (!globalAccounts || globalAccounts.length === 0) return alert('Koi accounts data nahi hai!');
 
@@ -3794,7 +3574,6 @@
 
       var fullReportHTML = '';
 
-      // Loop through each account to generate detailed ledger tables
       globalAccounts.forEach(function(acc) {
         var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
         if (!accName || accName === "Account Name") return;
@@ -3804,7 +3583,6 @@
         var totalOut = Number(accData.totalOut || 0);
         var netBal = totalIn - totalOut;
 
-        // Sort Account Transactions by Date
         var sortedTxns = (accData.transactions || []).slice().sort(function(a, b) {
           var dateA = new Date(a.date);
           var dateB = new Date(b.date);
@@ -3855,19 +3633,14 @@
           '</table>';
       });
 
-      var pdfContainer = document.createElement('div');
-      pdfContainer.style.padding = '15px';
-      pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
-      pdfContainer.style.backgroundColor = '#ffffff';
-
-      pdfContainer.innerHTML = 
-        '<div style="background: linear-gradient(135deg, #881337 0%, #be123c 100%); color: white; padding: 15px; text-align: center; border-radius: 10px;">' +
-          '<h2 style="margin: 0; font-size: 20px; font-weight: bold;">CASH BOOK</h2>' +
-          '<p style="margin: 2px 0 0 0; font-size: 12px; opacity: 0.9;">All Accounts Detailed Transaction Ledger Report</p>' +
-          '<p style="margin: 2px 0 0 0; font-size: 10px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
-        '</div>' + fullReportHTML;
-
-      document.body.appendChild(pdfContainer);
+      var htmlTemplate = 
+        '<div style="padding: 15px; font-family: sans-serif; background-color: #ffffff; color: #000000;">' +
+          '<div style="background: linear-gradient(135deg, #881337 0%, #be123c 100%); color: white; padding: 15px; text-align: center; border-radius: 10px;">' +
+            '<h2 style="margin: 0; font-size: 20px; font-weight: bold;">CASH BOOK</h2>' +
+            '<p style="margin: 2px 0 0 0; font-size: 12px; opacity: 0.9;">All Accounts Detailed Transaction Ledger Report</p>' +
+            '<p style="margin: 2px 0 0 0; font-size: 10px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
+          '</div>' + fullReportHTML + 
+        '</div>';
 
       var filename = 'All_Accounts_Detailed_Report_' + todayStr.replace(/ /g, '_') + '.pdf';
 
@@ -3879,38 +3652,25 @@
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      html2pdf().set(opt).from(pdfContainer).output('blob').then(function(pdfBlob) {
-        hideLoader();
-        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
-
-        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
-          var reader = new FileReader();
-          reader.readAsDataURL(pdfBlob);
-          reader.onloadend = function() {
-            var base64data = reader.result.split(',')[1];
-            window.AndroidInterface.downloadBase64File(base64data, filename, "application/pdf");
-          };
-        } else {
-          var pdfUrl = URL.createObjectURL(pdfBlob);
-          var link = document.createElement('a');
-          link.href = pdfUrl;
-          link.download = filename;
-          link.target = '_blank';
-          document.body.appendChild(link);
-          link.click();
-          setTimeout(function() {
-            document.body.removeChild(link);
-            URL.revokeObjectURL(pdfUrl);
-          }, 100);
-        }
-      }).catch(function(err) {
-        hideLoader();
-        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
-        console.error("Detailed Report PDF Error:", err);
-        alert("Detailed PDF Generate karne me दिक्कत आई!");
-      });
+      if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+        html2pdf().set(opt).from(htmlTemplate, 'string').output('datauristring').then(function(pdfDataUri) {
+          hideLoader();
+          var pdfBase64 = pdfDataUri.split(',')[1];
+          window.AndroidInterface.downloadBase64File(pdfBase64, filename, "application/pdf");
+        }).catch(function(err) {
+          hideLoader();
+          alert("Detailed Report PDF Error: " + err.message);
+        });
+      } else {
+        html2pdf().set(opt).from(htmlTemplate, 'string').save().then(function() {
+          hideLoader();
+        }).catch(function(err) {
+          hideLoader();
+          alert("Detailed Report PDF Error: " + err.message);
+        });
+      }
     }
-    // 🌐 Offline Queue & Auto Background Sync Engine
+
     function saveTxnOfflineQueue(payload) {
       var queue = JSON.parse(localStorage.getItem('cashbook_offline_sync_queue') || '[]');
       queue.push(payload);
@@ -3940,7 +3700,6 @@
         }
       })
       .catch(() => {
-        // Re-queue on failure
         queue.unshift(item);
         localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
         updateSyncBadge('offline');
@@ -3949,7 +3708,6 @@
 
     window.addEventListener('online', processOfflineSyncQueue);
 
-    // 🔐 Forgot PIN Recovery Option
     function handleForgotPin() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
       if (!savedUser) return alert("Pehle Username aur Password se login karein!");
@@ -3979,6 +3737,7 @@
         .catch(err => { hideLoader(); alert("Error: " + err); });
       }
     }
+
     function promptAndSetFirstTimePin() {
       var newPin = prompt("🔐 Suraksha ke liye apna naya 4-Digit Passcode/PIN banayein:");
       if (newPin !== null) {
@@ -3988,7 +3747,6 @@
           if (confirmPin === newPin) {
             
             showLoader();
-            // Users sheet ke 'PIN' column me save hone ke liye payload
             fetch(SCRIPT_URL, {
               method: 'POST',
               body: JSON.stringify({
@@ -4002,7 +3760,7 @@
             .then(res => {
               hideLoader();
               localStorage.setItem('cashbook_app_pin', newPin);
-              alert("🎉 PIN aapke Users Sheet par 7th column me update ho gaya hai!");
+              alert("🎉 PIN aapke Users Sheet par update ho gaya hai!");
               document.getElementById('lockScreen').classList.add('d-none');
               updateWelcomeHeader();
               fetchUserPrivateData();
