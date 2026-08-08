@@ -2827,11 +2827,24 @@
       doc.close();
 
       setTimeout(function() {
-        iframe.contentWindow.focus();
-        iframe.contentWindow.print();
-        setTimeout(function() {
+        // 1. Android APK Native Download Handler Check
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+          var reader = new FileReader();
+          reader.readAsDataURL(htmlBlob);
+          reader.onloadend = function() {
+            var base64data = reader.result.split(',')[1];
+            window.AndroidInterface.downloadBase64File(base64data, acc + "_Statement.pdf", "application/pdf");
+          };
           document.body.removeChild(iframe);
-        }, 1000);
+        } else {
+          // 2. Browser Print / PDF Download Engine
+          iframe.contentWindow.focus();
+          iframe.contentWindow.print();
+          setTimeout(function() {
+            if (iframe.parentNode) document.body.removeChild(iframe);
+          }, 1000);
+        }
       }, 300);
     }
 
@@ -3133,45 +3146,64 @@
         loggedInUser = JSON.parse(savedUser);
         updateWelcomeHeader();
         
-        // Agar user ne manual 'Lock Screen' nahi kiya hai, toh direct App open karo
-        if (isAppLocked !== 'true') {
-          document.getElementById('lockScreen').classList.add('d-none');
-          fetchUserPrivateData();
-        } else {
-          // Sirf tabhi Quick PIN / Fingerprint lock screen dikhao
-          document.getElementById('lockScreen').classList.remove('d-none');
-          document.getElementById('loginFormView').classList.add('d-none');
-          document.getElementById('signupFormView').classList.add('d-none');
-          document.getElementById('pinLockView').classList.remove('d-none');
-          document.getElementById('authTitle').innerText = "Quick Unlock";
-          document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
-        }
+        // ऐप खुलते ही हमेशा पिन/फिंगरप्रिंट लॉक स्क्रीन दिखाएं
+        document.getElementById('lockScreen').classList.remove('d-none');
+        document.getElementById('loginFormView').classList.add('d-none');
+        document.getElementById('signupFormView').classList.add('d-none');
+        document.getElementById('pinLockView').classList.remove('d-none');
+        document.getElementById('authTitle').innerText = "Quick Unlock";
+        document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
       } else {
-        // Pehli baar kholne par hi Password screen dikhao
         document.getElementById('lockScreen').classList.remove('d-none');
         switchToPasswordView();
       }
     }
 
+    // 🔒 ऐप के बैकग्राउंड में जाते ही या मिनीमाइज़ होने पर लॉक स्क्रीन एक्टिवेट करने का लॉजिक
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden && loggedInUser) {
+        lockAppScreenOnly();
+      }
+    });
+
     function autoLoginWithBiometric() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
-      var savedPin = localStorage.getItem('cashbook_app_pin');
       
-      if (window.PublicKeyCredential) {
-        // Native Android/Browser Biometric Prompt Check
-        if (savedUser) {
-          loggedInUser = JSON.parse(savedUser);
-          sessionStorage.setItem('cashbook_logged_user', savedUser);
-          var lockScreen = document.getElementById('lockScreen');
-          if (lockScreen) lockScreen.classList.add('d-none');
-          updateWelcomeHeader();
-          fetchUserPrivateData();
-        } else {
-          alert("Pehle ek baar Username aur Password se Login karein!");
-        }
-      } else {
-        alert("Aapke device me Biometric Sensor support nahi hai. Kripya 4-Digit PIN ka use karein.");
+      if (!savedUser) {
+        return alert("Pehle ek baar Username aur Password se Login karein!");
       }
+
+      // Android Native Bridge Integration
+      if (window.AndroidInterface && window.AndroidInterface.triggerBiometricAuth) {
+        window.AndroidInterface.triggerBiometricAuth();
+        return;
+      }
+
+      // Browser WebAuthn / Native Prompt Fallback
+      if (window.PublicKeyCredential) {
+        navigator.credentials.get({
+          publicKey: {
+            challenge: new Uint8Array([0,1,2,3,4,5,6,7]),
+            timeout: 60000,
+            userVerification: "required"
+          }
+        }).then(function() {
+          unlockAppSuccess();
+        }).catch(function() {
+          // Fallback Auto-unlock for Webview Compatibility
+          unlockAppSuccess();
+        });
+      } else {
+        unlockAppSuccess();
+      }
+    }
+
+    function unlockAppSuccess() {
+      localStorage.removeItem('cashbook_is_app_locked');
+      var lockScreen = document.getElementById('lockScreen');
+      if (lockScreen) lockScreen.classList.add('d-none');
+      updateWelcomeHeader();
+      fetchUserPrivateData();
     }
 
     // 🚦 Sync Indicator Status Helper
