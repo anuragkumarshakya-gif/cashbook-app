@@ -9,6 +9,9 @@
   <!-- Direct Working CDN Links -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Custom Devanagari Font Support for jsPDF -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.66/vfs_fonts.js"></script>
   
   <!-- Export Libraries -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -584,10 +587,13 @@
           </div>
         </div>
 
-        <!-- 🖐️ Fingerprint / Biometric Quick Unlock Button -->
-        <div class="text-center mt-2">
+        <!-- 🖐️ Fingerprint & Forgot PIN Options -->
+        <div class="text-center mt-2 d-flex justify-content-center gap-2">
           <button class="btn btn-outline-light rounded-pill px-3 py-2 btn-sm fw-bold shadow-sm" onclick="autoLoginWithBiometric()">
-            <i class="fas fa-fingerprint me-1 text-warning fs-5 align-middle"></i> Use Fingerprint
+            <i class="fas fa-fingerprint me-1 text-warning fs-5 align-middle"></i> Fingerprint
+          </button>
+          <button class="btn btn-outline-warning rounded-pill px-3 py-2 btn-sm fw-bold shadow-sm" onclick="handleForgotPin()">
+            <i class="fas fa-key me-1 align-middle"></i> Forgot PIN?
           </button>
         </div>
       </div>
@@ -730,7 +736,7 @@
         <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('custom', this)"><i class="fas fa-calendar-alt me-1"></i> Custom</button>
       </div>
 
-      <div class="d-flex gap-1 align-items-center">
+      <div class="d-flex gap-1 align-items-center mb-2">
         <div class="input-group input-group-sm position-relative">
           <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fas fa-search text-muted style-sm"></i></span>
           <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3 py-1 pe-4" placeholder="Search remark, amount..." onkeyup="filterTransactions()">
@@ -741,6 +747,28 @@
         <button class="btn btn-outline-success btn-sm rounded-3 py-1 px-2" onclick="shareWhatsAppStatement()" title="WhatsApp Report"><i class="fab fa-whatsapp"></i></button>
         <button class="btn btn-outline-success btn-sm rounded-3 py-1 px-2" onclick="exportAccountExcel()" title="Excel Report"><i class="fas fa-file-excel text-success"></i></button>
         <button class="btn btn-outline-danger btn-sm rounded-3 py-1 px-2" onclick="exportAccountPDF()" title="PDF Report"><i class="fas fa-file-pdf text-danger"></i></button>
+      </div>
+
+      <!-- Advanced Category & Amount Filter Row -->
+      <div class="row g-1">
+        <div class="col-6">
+          <select id="categoryFilter" class="form-select form-select-sm rounded-3 compact-select fw-semibold" onchange="filterTransactions()">
+            <option value="">All Categories</option>
+            <option value="General">General</option>
+            <option value="Salary">Salary / Income</option>
+            <option value="Rent">Rent</option>
+            <option value="Bills">Bills & Utilities</option>
+            <option value="Groceries">Groceries</option>
+            <option value="Business">Business Sale</option>
+            <option value="Fuel">Fuel / Transport</option>
+          </select>
+        </div>
+        <div class="col-3">
+          <input type="number" id="minAmountInput" class="form-control form-control-sm rounded-3 compact-select" placeholder="Min ₹" onkeyup="filterTransactions()">
+        </div>
+        <div class="col-3">
+          <input type="number" id="maxAmountInput" class="form-control form-control-sm rounded-3 compact-select" placeholder="Max ₹" onkeyup="filterTransactions()">
+        </div>
       </div>
     </div>
 
@@ -1075,6 +1103,19 @@
             <label class="form-label fw-semibold">Amount (₹):</label>
             <input type="number" id="txnAmount" class="form-control form-control-lg fw-bold text-success rounded-3" placeholder="0.00">
           </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Category:</label>
+            <select id="txnCategory" class="form-select rounded-3 fw-semibold">
+              <option value="General">General</option>
+              <option value="Salary">Salary / Income</option>
+              <option value="Rent">Rent</option>
+              <option value="Bills">Bills & Utilities</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Business">Business Sale</option>
+              <option value="Fuel">Fuel / Transport</option>
+            </select>
+          </div>
           
           <div class="mb-3">
             <label class="form-label fw-semibold">Remark / Note:</label>
@@ -1091,7 +1132,7 @@
                 <label for="cameraInput" class="btn btn-outline-primary w-100 rounded-3 text-truncate py-2">
                   <i class="fas fa-camera me-1"></i> Open Camera
                 </label>
-                <input type="file" id="cameraInput" accept="image/*" capture="environment" class="d-none" onchange="captureGPSAndPreview(this)">
+                <input type="file" id="cameraInput" accept="image/*" capture="environment" class="d-none" onchange="captureGPSAndPreview(this)" onclick="localStorage.removeItem('cashbook_is_app_locked')">
               </div>
               <div class="col-6">
                 <label for="galleryInput" class="btn btn-outline-secondary w-100 rounded-3 text-truncate py-2">
@@ -1265,16 +1306,14 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwmBk_kfqobpGL8DCHc2fb9lYeHqxZ-Wfb2HSZI8VrIFNzBz5_YVbhrqQAstE83x_w8Pg/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxN9cpi7EmtP-6Z31hjbqGvwutEAqZIJY-l-CL9xOidD5_jzEla0iEkX5DoTC4wnQkH6g/exec";
 
-    var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal;
+    var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal;
     var globalAccounts = [];
     var allAccountsDataCache = {};
     var currentAccountTxns = [];
     var deletedTxnsLog = [];
     var loggedInUser = null;
-
-    var themeModal;
 
     var appThemesList = [
       { name: "Dark Blood Red", topBg: "linear-gradient(135deg, #881337 0%, #be123c 100%)", bodyBg: "#fff1f2" },
@@ -1320,6 +1359,15 @@
 
       var thEl = document.getElementById('themeModal');
       if (thEl) themeModal = new bootstrap.Modal(thEl);
+
+      var editTxnEl = document.getElementById('editTxnModal');
+      if (editTxnEl) editTxnModal = new bootstrap.Modal(editTxnEl);
+
+      var editAccEl = document.getElementById('editAccModal');
+      if (editAccEl) editAccModal = new bootstrap.Modal(editAccEl);
+
+      var allTxnEl = document.getElementById('allTxnsModal');
+      if (allTxnEl) allTxnsModal = new bootstrap.Modal(allTxnEl);
       
       loadSavedTheme();
       checkLoginStatus();
@@ -1649,59 +1697,98 @@
       renderTransactions(currentAccountTxns);
     }
 
-    function renderTransactions(txns) {
-      var html = '';
-      if (!txns || txns.length === 0) {
-        html = '<div class="text-center text-muted my-5 py-3 bg-white rounded-4 border border-light-subtle shadow-sm">' +
-                 '<i class="fas fa-receipt fa-2x mb-2 text-secondary opacity-50 d-block"></i>' +
-                 '<p class="small fw-semibold m-0">Is account me abhi koi transaction nahi hai.</p>' +
-               '</div>';
-      } else {
-        txns.forEach(function(t, index) {
-          var isIn = t.type === 'Cash In';
-          var amtClass = isIn ? 'text-in' : 'text-out';
-          var sign = isIn ? '+' : '-';
-          var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
-          
-          var imgLinkHTML = t.imageUrl ? '<a href="' + t.imageUrl + '" target="_blank" class="ms-1 text-primary fw-bold" style="font-size:10px;"><i class="fas fa-paperclip"></i> Photo</a>' : '';
-          var runningBalHTML = t.runningBalance !== undefined ? '<span class="text-muted txn-bal ms-2">| Bal: ' + formatINR(t.runningBalance) + '</span>' : '';
+    // 🚀 Pagination State
+    var currentPageSize = 25;
+    var activeFilteredTxns = [];
 
-          var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
-
-          var badgeHTML = isIn ? '<span class="badge-in-pill me-2">+ Cash In</span>' : '<span class="badge-out-pill me-2">- Cash Out</span>';
-
-          html += '<div class="card card-custom txn-card txn-card-compact p-3 mb-2 ' + cardStyleClass + '">' +
-                    '<div class="d-flex justify-content-between align-items-start">' +
-                      '<div class="pe-2 flex-grow-1" style="max-width: 72%; word-wrap: break-word;">' +
-                        '<div class="d-flex align-items-center mb-1">' + badgeHTML + '</div>' +
-                        '<h6 class="m-0 fw-bold text-dark txn-remark" style="font-size:14px; line-height: 1.4; word-break: break-word;">' + (t.remark || t.type) + '</h6>' +
-                        '<div class="text-secondary txn-date d-flex align-items-center mt-1" style="font-size:10px;">' +
-                          '<span><i class="far fa-clock me-1"></i>' + t.date + '</span>' +
-                          runningBalHTML +
-                          imgLinkHTML +
-                        '</div>' +
-                      '</div>' +
-                      '<div class="text-end text-nowrap ms-2">' +
-                        '<div class="' + amtClass + ' txn-amount fw-extrabold" style="font-size:15px;">' + sign + ' ' + formatINR(t.amount) + '</div>' +
-                        '<div class="mt-2 d-flex gap-2 justify-content-end">' +
-                          '<button class="btn btn-sm text-primary txn-action-btn p-0 me-1" onclick="openEditTxnModal(' + index + ')" title="Edit Entry"><i class="fas fa-pen-to-square"></i></button>' +
-                          '<button class="btn btn-sm text-danger txn-action-btn p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-can"></i></button>' +
-                        '</div>' +
-                      '</div>' +
-                    '</div>' +
-                  '</div>';
-        });
+    function openLightboxImage(url) {
+      var img = document.getElementById('lightboxImage');
+      if (img) img.src = url;
+      var modalEl = document.getElementById('imagePreviewModal');
+      if (modalEl) {
+        var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+        modal.show();
       }
-      document.getElementById('transactionList').innerHTML = html;
     }
 
-    window.addEventListener('DOMContentLoaded', function() {
+    function renderTransactions(txns, appendMode) {
+      if (!appendMode) {
+        activeFilteredTxns = txns || [];
+        currentPageSize = 25;
+      }
+
+      var container = document.getElementById('transactionList');
+      if (!activeFilteredTxns || activeFilteredTxns.length === 0) {
+        container.innerHTML = '<div class="text-center text-muted my-5 py-3 bg-white rounded-4 border border-light-subtle shadow-sm">' +
+                                '<i class="fas fa-receipt fa-2x mb-2 text-secondary opacity-50 d-block"></i>' +
+                                '<p class="small fw-semibold m-0">Koi transaction nahi mila.</p>' +
+                              '</div>';
+        return;
+      }
+
+      var slicedTxns = activeFilteredTxns.slice(0, currentPageSize);
+      var html = '';
+
+      slicedTxns.forEach(function(t, index) {
+        var isIn = t.type === 'Cash In';
+        var amtClass = isIn ? 'text-in' : 'text-out';
+        var sign = isIn ? '+' : '-';
+        var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
+        
+        // 🖼️ Thumbnail Preview with Lightbox Modal
+        var imgLinkHTML = t.imageUrl ? 
+          '<div class="mt-2"><img src="' + t.imageUrl + '" onclick="openLightboxImage(\'' + t.imageUrl + '\')" class="rounded-2 border shadow-sm cursor-pointer" style="width: 48px; height: 48px; object-fit: cover;" title="Click to Expand"></div>' : '';
+
+        var runningBalHTML = t.runningBalance !== undefined ? '<span class="text-muted txn-bal ms-2">| Bal: ' + formatINR(t.runningBalance) + '</span>' : '';
+        var badgeHTML = isIn ? '<span class="badge-in-pill me-2">+ Cash In</span>' : '<span class="badge-out-pill me-2">- Cash Out</span>';
+        var categoryTag = t.category ? '<span class="badge bg-light text-secondary border me-2" style="font-size:9px;">' + t.category + '</span>' : '';
+
+        html += '<div class="card card-custom txn-card txn-card-compact p-3 mb-2 ' + cardStyleClass + '">' +
+                  '<div class="d-flex justify-content-between align-items-start">' +
+                    '<div class="pe-2 flex-grow-1" style="max-width: 72%; word-wrap: break-word;">' +
+                      '<div class="d-flex align-items-center mb-1">' + badgeHTML + categoryTag + '</div>' +
+                      '<h6 class="m-0 fw-bold text-dark txn-remark" style="font-size:14px; line-height: 1.4; word-break: break-word;">' + (t.remark || t.type) + '</h6>' +
+                      '<div class="text-secondary txn-date d-flex align-items-center mt-1" style="font-size:10px;">' +
+                        '<span><i class="far fa-clock me-1"></i>' + t.date + '</span>' +
+                        runningBalHTML +
+                      '</div>' +
+                      imgLinkHTML +
+                    '</div>' +
+                    '<div class="text-end text-nowrap ms-2">' +
+                      '<div class="' + amtClass + ' txn-amount fw-extrabold" style="font-size:15px;">' + sign + ' ' + formatINR(t.amount) + '</div>' +
+                      '<div class="mt-2 d-flex gap-2 justify-content-end">' +
+                        '<button class="btn btn-sm text-primary txn-action-btn p-0 me-1" onclick="openEditTxnModal(' + currentAccountTxns.indexOf(t) + ')" title="Edit Entry"><i class="fas fa-pen-to-square"></i></button>' +
+                        '<button class="btn btn-sm text-danger txn-action-btn p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-can"></i></button>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>';
+      });
+
+      if (activeFilteredTxns.length > currentPageSize) {
+        html += '<div class="text-center my-3"><button class="btn btn-outline-primary btn-sm rounded-pill fw-bold px-4" onclick="loadMoreTransactions()"><i class="fas fa-chevron-down me-1"></i> Load More Entries</button></div>';
+      }
+
+      container.innerHTML = html;
+    }
+
+    function loadMoreTransactions() {
+      currentPageSize += 25;
+      renderTransactions(activeFilteredTxns, true);
+    }
+
+    var editTxnModal, editAccModal, allTxnsModal;
+
+    function initModals() {
       var el1 = document.getElementById('editTxnModal');
       if (el1 && !editTxnModal) editTxnModal = new bootstrap.Modal(el1);
       
       var el2 = document.getElementById('editAccModal');
       if (el2 && !editAccModal) editAccModal = new bootstrap.Modal(el2);
-    });
+
+      var el3 = document.getElementById('allTxnsModal');
+      if (el3 && !allTxnsModal) allTxnsModal = new bootstrap.Modal(el3);
+    }
 
     function openEditTxnModal(index) {
       var item = currentAccountTxns[index];
@@ -1728,24 +1815,95 @@
       if (editTxnModal) editTxnModal.show();
     }
 
+    function parseCustomDate(dateStr) {
+      if (!dateStr) return new Date(0);
+      var d = new Date(dateStr);
+      if (!isNaN(d.getTime())) return d;
+      
+      // "08 Aug 2026, 02:30 PM" जैसे स्ट्रिंग फॉर्मेट को सही समय में बदलने का सेफ पार्सर
+      try {
+        var parts = dateStr.split(',');
+        var dateParts = parts[0].trim().split(' ');
+        var timeStr = parts[1] ? parts[1].trim() : '12:00 AM';
+        
+        var day = parseInt(dateParts[0]);
+        var monthNames = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"];
+        var month = monthNames.indexOf(dateParts[1].toLowerCase().substring(0, 3));
+        var year = parseInt(dateParts[2]);
+        
+        var parsedDate = new Date(year, month, day);
+        if (!isNaN(parsedDate.getTime())) return parsedDate;
+      } catch (e) {}
+      
+      return new Date(0);
+    }
+
     function saveEditedTransaction() {
       var acc = document.getElementById('accountDropdown').value;
-      var index = document.getElementById('editTxnIndex').value;
+      var index = parseInt(document.getElementById('editTxnIndex').value);
       var newType = document.getElementById('editTxnType').value;
       var newAmount = Number(document.getElementById('editTxnAmount').value);
       var newRemark = document.getElementById('editTxnRemark').value;
       var newDateTime = document.getElementById('editTxnDateTime').value;
 
       if (!acc) return alert('Account select karein!');
-      if (!newAmount || newAmount <= 0) return alert('Sahi amount darj karein!');
+      if (isNaN(newAmount) || newAmount <= 0) return alert('Sahi amount darj karein!');
+      if (!currentAccountTxns || !currentAccountTxns[index]) return alert('Transaction entry nahi mili!');
 
-      var updatedDateStr = newDateTime ? new Date(newDateTime).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) : currentAccountTxns[index].date;
+      // तारीख की सेफ स्ट्रिंग बनाना
+      var updatedDateStr = newDateTime 
+        ? new Date(newDateTime).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) 
+        : currentAccountTxns[index].date;
 
-      showLoader();
+      // 1. चुनी हुई एंट्री के डेटा को अपडेट करें
+      var targetTxn = currentAccountTxns[index];
+      targetTxn.type = newType;
+      targetTxn.amount = newAmount;
+      targetTxn.remark = newRemark;
+      targetTxn.date = updatedDateStr;
+
+      // 2. 🗓️ लिस्ट को Safe Parser के साथ रि-सॉर्ट करें (Newest First)
+      if (allAccountsDataCache[acc] && allAccountsDataCache[acc].transactions) {
+        var accData = allAccountsDataCache[acc];
+
+        accData.transactions.sort(function(a, b) {
+          var dateA = parseCustomDate(a.date);
+          var dateB = parseCustomDate(b.date);
+          return dateB - dateA; // Nayi tareekh upar
+        });
+
+        // 3. Totals & Balance Recalculate
+        var calcIn = 0;
+        var calcOut = 0;
+
+        accData.transactions.forEach(function(item) {
+          if (item.type === 'Cash In') calcIn += Number(item.amount || 0);
+          else calcOut += Number(item.amount || 0);
+        });
+
+        accData.totalIn = calcIn;
+        accData.totalOut = calcOut;
+        accData.balance = calcIn - calcOut;
+
+        // Local Storage में सेव करें
+        if (loggedInUser) {
+          localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+        }
+      }
+
+      // Fast UI Render without reload
+      loadAccountDataFast();
+      updateDashboardOverviewStats();
+
+      if (editTxnModal) editTxnModal.hide();
+
+      // 4. Background Google Sheet Sync
+      updateSyncBadge('syncing');
       fetch(SCRIPT_URL, {
         method: 'POST',
         body: JSON.stringify({
           action: 'updateTransactionEntry',
+          userId: loggedInUser ? loggedInUser.userId : "",
           account: acc,
           index: index,
           newType: newType,
@@ -1755,13 +1913,13 @@
         })
       })
       .then(res => res.json())
-      .then(() => {
-        hideLoader();
-        if (editTxnModal) editTxnModal.hide();
-        fetchUserPrivateData();
-        alert('Transaction safaltapoorvak update ho gaya!');
+      .then(res => {
+        updateSyncBadge('synced');
       })
-      .catch(err => { hideLoader(); alert('Error: ' + err); });
+      .catch(err => {
+        console.error("Background Update Sync Error:", err);
+        updateSyncBadge('offline');
+      });
     }
 
     // Modal already initialized in DOMContentLoaded
@@ -1886,12 +2044,14 @@
     var selectedImageData = null;
 
     function captureGPSAndPreview(input) {
+      // Camera/Gallery kholne se pehle lock flag ko false set karein taaki app login hi rahe
+      localStorage.removeItem('cashbook_is_app_locked');
+
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
           window.currentLatitude = position.coords.latitude;
           window.currentLongitude = position.coords.longitude;
           
-          // Reverse Geocoding via Nominatim API (Free & Exact)
           fetch("https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=" + window.currentLatitude + "&lon=" + window.currentLongitude)
             .then(res => res.json())
             .then(data => {
@@ -2031,7 +2191,24 @@
     }
 
     function deleteTransaction(index) {
-      if (confirm("Kya aap sach me is entry ko delete karna chahte hain?")) {
+      var savedPin = localStorage.getItem('cashbook_app_pin');
+
+      if (!savedPin) {
+        alert("🔒 Suraksha ke liye pehle Sidebar Drawer me jaakar 4-Digit PIN set karein!");
+        return;
+      }
+
+      // 🔐 PIN verification alert prompt before deletion
+      var enteredPin = prompt("🔒 SECURITY CHECK: Entry delete karne ke liye apna 4-Digit Passcode/PIN darj karein:");
+
+      if (enteredPin === null) return; // User canceled the prompt
+
+      if (enteredPin.trim() !== savedPin) {
+        alert("❌ Galat PIN! Entry delete nahi ki gayi.");
+        return;
+      }
+
+      if (confirm("Kya aap sach me is entry ko permanently delete karna chahte hain?")) {
         var acc = document.getElementById('accountDropdown').value;
         var deletedItem = currentAccountTxns[index];
         deletedTxnsLog.push(deletedItem);
@@ -2041,6 +2218,7 @@
           method: 'POST',
           body: JSON.stringify({
             action: 'deleteTransaction',
+            userId: loggedInUser ? loggedInUser.userId : "",
             acc: acc,
             index: index
           })
@@ -2049,8 +2227,12 @@
         .then(() => {
           hideLoader();
           fetchUserPrivateData();
+          alert("🗑️ Entry safaltapoorvak delete ho gayi hai!");
         })
-        .catch(err => { hideLoader(); alert('Error: ' + err); });
+        .catch(err => { 
+          hideLoader(); 
+          alert('Error: ' + err); 
+        });
       }
     }
 
@@ -2187,15 +2369,20 @@
       }
       var recognition = new SpeechRecognition();
       recognition.lang = 'hi-IN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+      
       recognition.start();
       
       recognition.onresult = function(event) {
-        var transcript = event.results[0][0].transcript;
-        document.getElementById('txnRemark').value = transcript;
+        if (event.results && event.results[0] && event.results[0][0]) {
+          var transcript = event.results[0][0].transcript;
+          document.getElementById('txnRemark').value = transcript;
+        }
       };
       
       recognition.onerror = function(event) {
-        alert("Voice recognition error: " + event.error);
+        console.warn("Voice recognition error: ", event.error);
       };
     }
 
@@ -2249,7 +2436,7 @@
         var topTxns = data.transactions.slice(0, 5);
         topTxns.forEach(function(t) {
           var color = t.type === 'Cash In' ? '#059669' : '#dc2626';
-          recentRows += '<div style="display:flex; justify-size: space-between; font-size:11px; margin-bottom:6px; border-bottom:1px dashed #ccc; padding-bottom:4px;">' +
+          recentRows += '<div style="display:flex; justify-content: space-between; font-size:11px; margin-bottom:6px; border-bottom:1px dashed #ccc; padding-bottom:4px;">' +
                           '<span>' + (t.remark || t.type) + '<br><small style="color:#666;">' + t.date + '</small></span>' +
                           '<strong style="color:' + color + ';">' + formatINR(t.amount) + '</strong>' +
                         '</div>';
@@ -2348,8 +2535,14 @@
       if (startDate > endDate) return alert('Start date, End date se badi nahi ho sakti!');
 
       var filtered = currentAccountTxns.filter(function(t) {
-        var tDate = new Date(t.date);
-        return tDate >= startDate && tDate <= endDate;
+        if (!t.date) return false;
+        var parsedDate = new Date(t.date);
+        if (isNaN(parsedDate.getTime())) {
+          // Custom String Date Parsing (e.g., 07 Aug 2026)
+          var parts = t.date.split(',');
+          parsedDate = new Date(parts[0]);
+        }
+        return !isNaN(parsedDate.getTime()) && parsedDate >= startDate && parsedDate <= endDate;
       });
 
       renderTransactions(filtered);
@@ -2359,23 +2552,34 @@
     function filterTransactions() {
       var inputEl = document.getElementById('searchInput');
       var clearBtn = document.getElementById('btnClearSearch');
-      var input = inputEl.value.toLowerCase().trim();
+      var query = inputEl ? inputEl.value.toLowerCase().trim() : '';
+
+      var catEl = document.getElementById('categoryFilter');
+      var selectedCat = catEl ? catEl.value : '';
+
+      var minAmtEl = document.getElementById('minAmountInput');
+      var maxAmtEl = document.getElementById('maxAmountInput');
+      var minAmt = minAmtEl && minAmtEl.value !== '' ? parseFloat(minAmtEl.value) : null;
+      var maxAmt = maxAmtEl && maxAmtEl.value !== '' ? parseFloat(maxAmtEl.value) : null;
 
       if (clearBtn) {
-        if (input.length > 0) clearBtn.classList.remove('d-none');
+        if (query.length > 0) clearBtn.classList.remove('d-none');
         else clearBtn.classList.add('d-none');
-      }
-
-      if (!input) {
-        renderTransactions(currentAccountTxns);
-        return;
       }
 
       var filtered = currentAccountTxns.filter(function(t) {
         var remark = (t.remark || '').toLowerCase();
-        var amount = (t.amount || '').toString();
+        var amountNum = parseFloat(t.amount || 0);
+        var amountStr = amountNum.toString();
         var date = (t.date || '').toLowerCase();
-        return remark.includes(input) || amount.includes(input) || date.includes(input);
+        var category = t.category || 'General';
+
+        var matchesQuery = !query || remark.includes(query) || amountStr.includes(query) || date.includes(query);
+        var matchesCategory = !selectedCat || category === selectedCat;
+        var matchesMin = minAmt === null || amountNum >= minAmt;
+        var matchesMax = maxAmt === null || amountNum <= maxAmt;
+
+        return matchesQuery && matchesCategory && matchesMin && matchesMax;
       });
 
       renderTransactions(filtered);
@@ -2499,130 +2703,136 @@
       return "Rs. " + formatted;
     }
 
-    // 📄 100% Pure Hindi Supported PDF Exporter Engine
+    // 📄 High-Contrast Dark Text Professional PDF Statement Exporter
     function exportAccountPDF() {
       var acc = document.getElementById('accountDropdown').value;
       if (!acc) return alert('Kripya pehle koi account select karein!');
-
-      showLoader();
 
       var data = allAccountsDataCache[acc] || { totalIn: 0, totalOut: 0, balance: 0 };
       var exactTotalIn = Number(data.totalIn || 0);
       var exactTotalOut = Number(data.totalOut || 0);
       var exactNetBalance = exactTotalIn - exactTotalOut;
-      var todayStr = new Date().toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' });
 
-      // 📅 Sort Transactions By Date for PDF
+      // 🕒 तारीख और लाइव समय
+      var now = new Date();
+      var todayDateTimeStr = now.toLocaleDateString('en-IN', { 
+        day: '2-digit', 
+        month: 'short', 
+        year: 'numeric' 
+      }) + ', ' + now.toLocaleTimeString('en-IN', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        hour12: true 
+      });
+
+      // 📅 Sort Transactions (Oldest to Newest)
       var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
         var dateA = new Date(a.date);
         var dateB = new Date(b.date);
         if (isNaN(dateA.getTime())) return 1;
         if (isNaN(dateB.getTime())) return -1;
-        return dateA - dateB; // Purani date pehle, nayi date baad me
+        return dateA - dateB;
       });
 
-      // Table Rows Builder (Preserves Hindi Font Perfectly)
       var rowsHTML = '';
       sortedTxns.forEach(function(t, idx) {
         var isIn = t.type === 'Cash In';
-        var amtColor = isIn ? '#059669' : '#e11d48';
+        var amtColor = isIn ? '#047857' : '#b91c1c'; // Solid Dark Emerald & Crimson Red
+        var badgeBg = isIn ? '#d1fae5' : '#fee2e2';
+        var badgeBorder = isIn ? '#059669' : '#dc2626';
         var runningBalText = t.runningBalance !== undefined ? formatINR(t.runningBalance) : '-';
 
-        rowsHTML += '<tr style="border-bottom: 1px solid #e2e8f0;">' +
-                      '<td style="padding: 8px; text-align: center;">' + (idx + 1) + '</td>' +
-                      '<td style="padding: 8px; text-align: center;">' + (t.date || '-') + '</td>' +
-                      '<td style="padding: 8px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + t.type + '</td>' +
-                      '<td style="padding: 8px; text-align: center; font-weight: bold; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
-                      '<td style="padding: 8px; text-align: center;">' + runningBalText + '</td>' +
-                      '<td style="padding: 8px; text-align: center; word-break: break-word;">' + (t.remark || '-') + '</td>' +
+        rowsHTML += '<tr style="border-bottom: 1.5px solid #cbd5e1; font-size: 11px;">' +
+                      '<td style="padding: 10px 6px; text-align: center; color: #000000; font-weight: 800;">' + (idx + 1) + '</td>' +
+                      '<td style="padding: 10px 6px; text-align: center; white-space: nowrap; color: #000000; font-weight: 800;">' + (t.date || '-') + '</td>' +
+                      '<td style="padding: 10px 6px; text-align: center;">' +
+                        '<span style="background: ' + badgeBg + '; color: ' + amtColor + '; border: 1.5px solid ' + badgeBorder + '; padding: 3px 10px; border-radius: 12px; font-weight: 900; font-size: 10px;">' + t.type + '</span>' +
+                      '</td>' +
+                      '<td style="padding: 10px 6px; text-align: right; font-weight: 900; color: ' + amtColor + ';">' + formatINR(t.amount) + '</td>' +
+                      '<td style="padding: 10px 6px; text-align: right; font-weight: 900; color: #000000;">' + runningBalText + '</td>' +
+                      '<td style="padding: 10px 6px; text-align: left; word-break: break-word; color: #000000; font-weight: 800; font-family: \'Inter\', system-ui, sans-serif;">' + (t.remark || '-') + '</td>' +
                     '</tr>';
       });
 
-      // Temporary Hidden HTML Container for High-Quality Rendering
-      var pdfContainer = document.createElement('div');
-      pdfContainer.style.padding = '20px';
-      pdfContainer.style.fontFamily = "'Plus Jakarta Sans', system-ui, -apple-system, sans-serif";
-      pdfContainer.style.backgroundColor = '#ffffff';
-      pdfContainer.style.color = '#0f172a';
+      // Hidden Frame Strategy
+      var iframe = document.createElement('iframe');
+      iframe.style.position = 'fixed';
+      iframe.style.right = '0';
+      iframe.style.bottom = '0';
+      iframe.style.width = '0';
+      iframe.style.height = '0';
+      iframe.style.border = '0';
+      document.body.appendChild(iframe);
 
-      pdfContainer.innerHTML = 
-        '<div style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color: white; padding: 16px; text-align: center; border-radius: 12px; mb-3">' +
-          '<h2 style="margin: 0; font-size: 22px; font-weight: bold;">CASH BOOK</h2>' +
-          '<p style="margin: 4px 0 0 0; font-size: 12px; opacity: 0.9;">Account Statement & Transaction Ledger</p>' +
-          '<p style="margin: 2px 0 0 0; font-size: 10px; opacity: 0.8;">Generated On: ' + todayStr + '</p>' +
-        '</div>' +
+      var doc = iframe.contentWindow.document;
 
-        '<div style="background-color: #f0fdfa; border: 1px solid #ccfbf1; padding: 14px; border-radius: 12px; margin-top: 15px; margin-bottom: 20px; text-align: center;">' +
-          '<h3 style="margin: 0 0 10px 0; font-size: 16px; color: #0f172a;">Account Name: ' + acc + '</h3>' +
-          '<div style="display: flex; justify-content: space-around; font-size: 13px; font-weight: bold;">' +
-            '<span style="color: #059669;">Total In: ' + formatINR(exactTotalIn) + '</span>' +
-            '<span style="color: #e11d48;">Total Out: ' + formatINR(exactTotalOut) + '</span>' +
-            '<span style="color: ' + (exactNetBalance >= 0 ? '#059669' : '#e11d48') + ';">Net Balance: ' + formatINR(exactNetBalance) + '</span>' +
+      var htmlContent = '<html><head><title>' + acc + '_Statement</title>' +
+        '<link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700;800;900&display=swap" rel="stylesheet">' +
+        '<style>' +
+          'body { font-family: "Inter", system-ui, -apple-system, sans-serif; padding: 20px; color: #000000; background-color: #ffffff; }' +
+          '@page { size: A4; margin: 8mm; }' +
+          'table { width: 100%; border-collapse: collapse; margin-top: 15px; border: 1.5px solid #000000; }' +
+          'th { background: #e2e8f0; color: #000000; padding: 10px 6px; font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; border: 1.5px solid #000000; }' +
+          'tr:nth-child(even) { background-color: #f8fafc; }' +
+        '</style>' +
+        '</head><body>' +
+        
+        '<!-- 🏷️ High-Contrast Header with Dark Text -->' +
+        '<div style="background: #f1f5f9; border: 2px solid #000000; padding: 16px 20px; border-radius: 12px; margin-bottom: 16px;">' +
+          '<div style="display: flex; justify-content: space-between; align-items: center;">' +
+            '<div>' +
+              '<h2 style="margin: 0; font-size: 22px; font-weight: 900; letter-spacing: 0.5px; color: #000000;">CASH BOOK STATEMENT</h2>' +
+              '<p style="margin: 4px 0 0 0; font-size: 12px; font-weight: 800; color: #000000;">Official Transaction Ledger</p>' +
+            '</div>' +
+            '<div style="text-align: right; font-size: 11px; color: #000000; font-weight: 800;">' +
+              '<div style="color: #000000; font-size: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-weight: 900;">Generated On</div>' +
+              '<div style="font-size: 12px; font-weight: 900; margin-top: 2px; color: #000000;">' + todayDateTimeStr + '</div>' +
+            '</div>' +
           '</div>' +
         '</div>' +
 
-        '<table style="width: 100%; border-collapse: collapse; font-size: 12px; margin-top: 10px;">' +
+        '<!-- 💳 Summary Info Card with Dark Text -->' +
+        '<div style="background: #ffffff; border: 2px solid #000000; padding: 14px 18px; border-radius: 12px; margin-bottom: 16px;">' +
+          '<div style="font-size: 16px; font-weight: 900; color: #000000; margin-bottom: 10px;">Account Name: ' + acc + '</div>' +
+          '<div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 900; background: #f8fafc; padding: 10px 16px; border-radius: 8px; border: 1.5px solid #000000;">' +
+            '<span style="color: #047857;">Total In: ' + formatINR(exactTotalIn) + '</span>' +
+            '<span style="color: #b91c1c;">Total Out: ' + formatINR(exactTotalOut) + '</span>' +
+            '<span style="color: #000000;">Net Balance: ' + formatINR(exactNetBalance) + '</span>' +
+          '</div>' +
+        '</div>' +
+
+        '<!-- 📊 High-Contrast Transactions Table -->' +
+        '<table>' +
           '<thead>' +
-            '<tr style="background-color: #0f766e; color: white;">' +
-              '<th style="padding: 10px; text-align: center;">#</th>' +
-              '<th style="padding: 10px; text-align: center;">Date & Time</th>' +
-              '<th style="padding: 10px; text-align: center;">Type</th>' +
-              '<th style="padding: 10px; text-align: center;">Amount</th>' +
-              '<th style="padding: 10px; text-align: center;">Balance</th>' +
-              '<th style="padding: 10px; text-align: center;">Remark / Note</th>' +
+            '<tr>' +
+              '<th style="width: 5%;">#</th>' +
+              '<th style="width: 22%;">Date & Time</th>' +
+              '<th style="width: 14%;">Type</th>' +
+              '<th style="width: 17%; text-align: right;">Amount</th>' +
+              '<th style="width: 17%; text-align: right;">Balance</th>' +
+              '<th style="width: 25%; text-align: left;">Remark / Note</th>' +
             '</tr>' +
           '</thead>' +
           '<tbody>' + rowsHTML + '</tbody>' +
         '</table>' +
 
-        '<div style="margin-top: 30px; border-top: 1px solid #e2e8f0; padding-top: 10px; text-align: center; font-size: 10px; color: #94a3b8;">' +
-          'Cash Book - Official Computer Generated Report' +
-        '</div>';
+        '<div style="margin-top: 25px; border-top: 2px solid #000000; padding-top: 10px; text-align: center; font-size: 11px; color: #000000; font-weight: 900;">' +
+          'Cash Book Pro • Encrypted Personal Finance Ledger' +
+        '</div>' +
 
-      document.body.appendChild(pdfContainer);
+        '</body></html>';
 
-      var filename = acc + '_Statement_' + todayStr.replace(/ /g, '_') + '.pdf';
+      doc.open();
+      doc.write(htmlContent);
+      doc.close();
 
-      var opt = {
-        margin:       10,
-        filename:     filename,
-        image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
-      };
-
-      // Safe Universal Android & Browser PDF Downloader
-      html2pdf().set(opt).from(pdfContainer).output('blob').then(function(pdfBlob) {
-        hideLoader();
-        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
-
-        var pdfUrl = URL.createObjectURL(pdfBlob);
-
-        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
-          var reader = new FileReader();
-          reader.readAsDataURL(pdfBlob);
-          reader.onloadend = function() {
-            var base64data = reader.result.split(',')[1];
-            window.AndroidInterface.downloadBase64File(base64data, filename, "application/pdf");
-          };
-        } else {
-          var link = document.createElement('a');
-          link.href = pdfUrl;
-          link.download = filename;
-          link.target = '_blank';
-          document.body.appendChild(link);
-          link.click();
-          setTimeout(function() {
-            document.body.removeChild(link);
-            URL.revokeObjectURL(pdfUrl);
-          }, 100);
-        }
-      }).catch(function(err) {
-        hideLoader();
-        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
-        console.error("PDF Gen Error:", err);
-        alert("PDF Generate karne me dikkat aayi. Phir se koshish karein!");
-      });
+      setTimeout(function() {
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+        setTimeout(function() {
+          document.body.removeChild(iframe);
+        }, 1000);
+      }, 300);
     }
 
     // 📊 Master Summary Excel Export (With Red/Green Colors)
@@ -2917,17 +3127,27 @@
 
     function checkLoginStatus() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
+      var isAppLocked = localStorage.getItem('cashbook_is_app_locked');
+
       if (savedUser) {
         loggedInUser = JSON.parse(savedUser);
-        // User logged in hai, toh Username/Password form gayab karo aur sirf PIN / Fingerprint screen dikhao
-        document.getElementById('lockScreen').classList.remove('d-none');
-        document.getElementById('loginFormView').classList.add('d-none');
-        document.getElementById('signupFormView').classList.add('d-none');
-        document.getElementById('pinLockView').classList.remove('d-none');
-        document.getElementById('authTitle').innerText = "Quick Unlock";
-        document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
+        updateWelcomeHeader();
+        
+        // Agar user ne manual 'Lock Screen' nahi kiya hai, toh direct App open karo
+        if (isAppLocked !== 'true') {
+          document.getElementById('lockScreen').classList.add('d-none');
+          fetchUserPrivateData();
+        } else {
+          // Sirf tabhi Quick PIN / Fingerprint lock screen dikhao
+          document.getElementById('lockScreen').classList.remove('d-none');
+          document.getElementById('loginFormView').classList.add('d-none');
+          document.getElementById('signupFormView').classList.add('d-none');
+          document.getElementById('pinLockView').classList.remove('d-none');
+          document.getElementById('authTitle').innerText = "Quick Unlock";
+          document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
+        }
       } else {
-        // First Time User - Show Username/Password Form
+        // Pehli baar kholne par hi Password screen dikhao
         document.getElementById('lockScreen').classList.remove('d-none');
         switchToPasswordView();
       }
@@ -2935,15 +3155,22 @@
 
     function autoLoginWithBiometric() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
-      if (savedUser) {
-        loggedInUser = JSON.parse(savedUser);
-        sessionStorage.setItem('cashbook_logged_user', savedUser);
-        var lockScreen = document.getElementById('lockScreen');
-        if (lockScreen) lockScreen.classList.add('d-none');
-        updateWelcomeHeader();
-        fetchUserPrivateData();
+      var savedPin = localStorage.getItem('cashbook_app_pin');
+      
+      if (window.PublicKeyCredential) {
+        // Native Android/Browser Biometric Prompt Check
+        if (savedUser) {
+          loggedInUser = JSON.parse(savedUser);
+          sessionStorage.setItem('cashbook_logged_user', savedUser);
+          var lockScreen = document.getElementById('lockScreen');
+          if (lockScreen) lockScreen.classList.add('d-none');
+          updateWelcomeHeader();
+          fetchUserPrivateData();
+        } else {
+          alert("Pehle ek baar Username aur Password se Login karein!");
+        }
       } else {
-        alert("Pehle ek baar Username aur Password se Login karein!");
+        alert("Aapke device me Biometric Sensor support nahi hai. Kripya 4-Digit PIN ka use karein.");
       }
     }
 
@@ -3067,13 +3294,13 @@
     }
 
     function lockAppScreenOnly() {
+      localStorage.setItem('cashbook_is_app_locked', 'true');
       var lockScreen = document.getElementById('lockScreen');
       if (lockScreen) {
         lockScreen.classList.remove('d-none');
         enteredPinBuffer = "";
         updatePinDotsUI();
 
-        // Lock karte hi Username/Password gayab rahega, sirf PIN/Fingerprint dikhega
         document.getElementById('loginFormView').classList.add('d-none');
         document.getElementById('signupFormView').classList.add('d-none');
         document.getElementById('pinLockView').classList.remove('d-none');
@@ -3126,6 +3353,7 @@
       }
 
       if (enteredPinBuffer === savedPin) {
+        localStorage.removeItem('cashbook_is_app_locked');
         document.getElementById('lockScreen').classList.add('d-none');
         clearAllPinDigits();
         updateWelcomeHeader();
@@ -3426,32 +3654,28 @@
     }
 
     // 🚀 All Transactions Modal & Search Engine
-    var allTxnsModal;
     var globalAllTxnsMasterList = [];
-
-    window.addEventListener('DOMContentLoaded', function() {
-      var el = document.getElementById('allTxnsModal');
-      if (el) allTxnsModal = new bootstrap.Modal(el);
-    });
 
     function openAllTransactionsModal() {
       globalAllTxnsMasterList = [];
 
-      Object.keys(allAccountsDataCache).forEach(function(accName) {
-        var accObj = allAccountsDataCache[accName];
-        if (accObj && accObj.transactions && Array.isArray(accObj.transactions)) {
-          accObj.transactions.forEach(function(t) {
-            globalAllTxnsMasterList.push({
-              accountName: accName,
-              date: t.date || '-',
-              type: t.type || 'Cash In',
-              amount: t.amount || 0,
-              remark: t.remark || '-',
-              runningBalance: t.runningBalance
+      if (allAccountsDataCache && typeof allAccountsDataCache === 'object') {
+        Object.keys(allAccountsDataCache).forEach(function(accName) {
+          var accObj = allAccountsDataCache[accName];
+          if (accObj && accObj.transactions && Array.isArray(accObj.transactions)) {
+            accObj.transactions.forEach(function(t) {
+              globalAllTxnsMasterList.push({
+                accountName: accName,
+                date: t.date || '-',
+                type: t.type || 'Cash In',
+                amount: t.amount || 0,
+                remark: t.remark || '-',
+                runningBalance: t.runningBalance
+              });
             });
-          });
-        }
-      });
+          }
+        });
+      }
 
       // Sort Date Wise (Latest entries first)
       globalAllTxnsMasterList.sort(function(a, b) {
@@ -3654,6 +3878,75 @@
         alert("Detailed PDF Generate karne me दिक्कत आई!");
       });
     }
+    // 🌐 Offline Queue & Auto Background Sync Engine
+    function saveTxnOfflineQueue(payload) {
+      var queue = JSON.parse(localStorage.getItem('cashbook_offline_sync_queue') || '[]');
+      queue.push(payload);
+      localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
+      updateSyncBadge('offline');
+    }
+
+    function processOfflineSyncQueue() {
+      if (!navigator.onLine) return;
+      var queue = JSON.parse(localStorage.getItem('cashbook_offline_sync_queue') || '[]');
+      if (queue.length === 0) return;
+
+      updateSyncBadge('syncing');
+      var item = queue.shift();
+
+      fetch(SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(item)
+      })
+      .then(res => res.json())
+      .then(() => {
+        localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
+        if (queue.length > 0) {
+          processOfflineSyncQueue();
+        } else {
+          updateSyncBadge('synced');
+        }
+      })
+      .catch(() => {
+        // Re-queue on failure
+        queue.unshift(item);
+        localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
+        updateSyncBadge('offline');
+      });
+    }
+
+    window.addEventListener('online', processOfflineSyncQueue);
+
+    // 🔐 Forgot PIN Recovery Option
+    function handleForgotPin() {
+      var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
+      if (!savedUser) return alert("Pehle Username aur Password se login karein!");
+      
+      var userObj = JSON.parse(savedUser);
+      var enterPassword = prompt("PIN Reset karne ke liye apna Login Password darj karein:");
+      
+      if (enterPassword) {
+        showLoader();
+        fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({
+            action: 'loginUser',
+            u: userObj.username,
+            p: enterPassword
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          hideLoader();
+          if (res.success) {
+            setupNewAppPin();
+          } else {
+            alert("❌ Galat Password! PIN Reset nahi ho saka.");
+          }
+        })
+        .catch(err => { hideLoader(); alert("Error: " + err); });
+      }
+    }
     function promptAndSetFirstTimePin() {
       var newPin = prompt("🔐 Suraksha ke liye apna naya 4-Digit Passcode/PIN banayein:");
       if (newPin !== null) {
@@ -3704,6 +3997,18 @@
       }
     }
   </script>
+
+  <!-- Modal: Full Screen Photo Lightbox Preview -->
+  <div class="modal fade" id="imagePreviewModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content bg-transparent border-0">
+        <div class="modal-body text-center p-0 position-relative">
+          <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal"></button>
+          <img id="lightboxImage" src="" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh; object-fit: contain;" alt="Bill Preview">
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
