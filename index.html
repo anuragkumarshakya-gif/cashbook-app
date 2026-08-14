@@ -494,46 +494,9 @@
       font-size: 12px !important;
     }
 
-    /* Fix for Hidden Modals & Floating Bottom Bar */
+    /* Fix for Backdrop Modals */
     .modal {
       background-color: rgba(0, 0, 0, 0.5);
-    }
-
-    .bottom-action-bar {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 650px;
-      background: #ffffff;
-      padding: 12px 16px;
-      box-shadow: 0 -5px 25px rgba(0, 0, 0, 0.1);
-      border-top-left-radius: 20px;
-      border-top-right-radius: 20px;
-      z-index: 1000;
-    }
-
-    .btn-cash-in {
-      background-color: var(--cash-in);
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 10px 24px;
-      border: none;
-      width: 48%;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.3);
-    }
-
-    .btn-cash-out {
-      background-color: var(--cash-out);
-      color: white;
-      font-weight: 700;
-      border-radius: 12px;
-      padding: 10px 24px;
-      border: none;
-      width: 48%;
-      box-shadow: 0 4px 12px rgba(190, 18, 60, 0.3);
     }
   </style>
 </head>
@@ -1080,7 +1043,15 @@
   <div class="modal fade" id="addTxnModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-0"><h5 class="modal-title fw-bold" id="txnModalTitle">Add Transaction</h5></div>
+        <div class="modal-header border-0 pb-0 d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="modal-title fw-bold m-0" id="txnModalTitle">Add Transaction</h5>
+            <small class="text-muted fw-semibold" style="font-size: 12px;">
+              Account: <span id="txnTargetAccountBadge" class="badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 fw-bold">Select Account</span>
+            </small>
+          </div>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
         <div class="modal-body">
           <input type="hidden" id="txnType">
           
@@ -1630,9 +1601,17 @@
         options = '<option value="">-- No Account Found (Add New) --</option>';
       }
 
+      var currentSelected = dropdown.value;
       dropdown.innerHTML = options;
       if (fromSel) fromSel.innerHTML = options;
       if (toSel) toSel.innerHTML = options;
+
+      // Agar pehle se koi account chuna hua tha to use wahi rakhein, nahi to blank rakhein
+      if (currentSelected && dropdown.querySelector('option[value="' + currentSelected + '"]')) {
+        dropdown.value = currentSelected;
+      } else {
+        dropdown.selectedIndex = 0;
+      }
 
       updateWelcomeHeader();
       updateDashboardOverviewStats();
@@ -1711,8 +1690,20 @@
         var sign = isIn ? '+' : '-';
         var cardStyleClass = isIn ? 'txn-card-in' : 'txn-card-out';
         
-        var imgLinkHTML = t.imageUrl ? 
-          '<div class="mt-2"><img src="' + t.imageUrl + '" onclick="openLightboxImage(\'' + t.imageUrl + '\')" class="rounded-2 border shadow-sm cursor-pointer" style="width: 48px; height: 48px; object-fit: cover;" title="Click to Expand"></div>' : '';
+        // Drive link ko direct displayable image URL me convert karne ka safe check
+        var safeImageUrl = "";
+        if (t.imageUrl) {
+          safeImageUrl = t.imageUrl;
+          if (safeImageUrl.includes("drive.google.com/file/d/")) {
+            var idMatch = safeImageUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+            if (idMatch && idMatch[1]) {
+              safeImageUrl = "https://lh3.googleusercontent.com/d/" + idMatch[1];
+            }
+          }
+        }
+
+        var imgLinkHTML = safeImageUrl ? 
+          '<div class="mt-2"><img src="' + safeImageUrl + '" referrerpolicy="no-referrer" loading="lazy" onclick="openLightboxImage(\'' + safeImageUrl + '\')" class="rounded-2 border shadow-sm cursor-pointer" style="width: 48px; height: 48px; object-fit: cover;" title="Click to Expand" onerror="this.style.display=\'none\';"></div>' : '';
 
         var runningBalHTML = t.runningBalance !== undefined ? '<span class="text-muted txn-bal ms-2">| Bal: ' + formatINR(t.runningBalance) + '</span>' : '';
         var badgeHTML = isIn ? '<span class="badge-in-pill me-2">+ Cash In</span>' : '<span class="badge-out-pill me-2">- Cash Out</span>';
@@ -1979,10 +1970,21 @@
 
     function openTxnModal(type) {
       var acc = document.getElementById('accountDropdown').value;
-      if (!acc) return alert('Pehle koi account select karein!');
+      if (!acc || acc === "" || acc.includes("Choose Account")) {
+        return alert('Pehle dropdown se koi account select karein!');
+      }
 
       document.getElementById('txnType').value = type;
-      document.getElementById('txnModalTitle').innerText = 'Add ' + type + ' Entry';
+      document.getElementById('txnModalTitle').innerText = (type === 'Cash In' ? '🟢 Add Cash In' : '🔴 Add Cash Out');
+      
+      // Modal me target account ka naam show karein
+      var accBadge = document.getElementById('txnTargetAccountBadge');
+      if (accBadge) {
+        accBadge.innerText = acc;
+        accBadge.className = type === 'Cash In' 
+          ? 'badge bg-success-subtle text-success border border-success-subtle rounded-pill px-2 py-1 fw-bold' 
+          : 'badge bg-danger-subtle text-danger border border-danger-subtle rounded-pill px-2 py-1 fw-bold';
+      }
       
       var now = new Date();
       now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
@@ -2033,14 +2035,19 @@
     }
 
     function saveTransactionFast() {
-      var acc = document.getElementById('accountDropdown').value;
+      var dropdown = document.getElementById('accountDropdown');
+      var acc = dropdown ? dropdown.value : '';
       var amt = parseFloat(document.getElementById('txnAmount').value);
       var type = document.getElementById('txnType').value;
       var remark = document.getElementById('txnRemark').value || '-';
       var customDateTimeVal = document.getElementById('txnCustomDateTime').value;
 
-      if (!acc) return alert('Kripya account select karein!');
-      if (!amt || amt <= 0) return alert('Kripya sahi amount dalein!');
+      if (!acc || acc === "" || acc.includes("Choose Account")) {
+        return alert('Kripya pehle sahi account select karein!');
+      }
+      if (!amt || amt <= 0 || isNaN(amt)) {
+        return alert('Kripya sahi amount dalein!');
+      }
 
       var entryDateObj = customDateTimeVal ? new Date(customDateTimeVal) : new Date();
       var dateStr = entryDateObj.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
@@ -2050,12 +2057,14 @@
       }
 
       var currAccData = allAccountsDataCache[acc];
+      if (!currAccData.transactions) currAccData.transactions = [];
+
       if (type === 'Cash In') {
-        currAccData.totalIn += amt;
-        currAccData.balance += amt;
+        currAccData.totalIn = (Number(currAccData.totalIn) || 0) + amt;
+        currAccData.balance = (Number(currAccData.balance) || 0) + amt;
       } else {
-        currAccData.totalOut += amt;
-        currAccData.balance -= amt;
+        currAccData.totalOut = (Number(currAccData.totalOut) || 0) + amt;
+        currAccData.balance = (Number(currAccData.balance) || 0) - amt;
       }
 
       var newTxn = {
@@ -2072,6 +2081,8 @@
         localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
       }
 
+      // Selected account ko drop-down par lock rakhein
+      dropdown.value = acc;
       loadAccountDataFast();
       updateDashboardOverviewStats();
 
@@ -2102,9 +2113,11 @@
         selectedImageData = null;
         var imgPreview = document.getElementById('imagePreviewText');
         if (imgPreview) imgPreview.classList.add('d-none');
+        updateSyncBadge('synced');
       })
       .catch(function(err) {
-        console.error("Background Sync Error:", err);
+        console.error("Background Sync Error, saving to offline queue:", err);
+        saveTxnOfflineQueue(payload);
       });
     }
 
@@ -3174,23 +3187,6 @@
           globalAccounts = JSON.parse(cachedAccounts) || [];
           allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
           populateAccountsDropdown();
-
-          function fetchUserPrivateData() {
-      if (!loggedInUser || !loggedInUser.userId) {
-        hideLoader();
-        return;
-      }
-
-      var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
-      var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
-
-      if (cachedAccounts && cachedTxnsData) {
-        try {
-          globalAccounts = JSON.parse(cachedAccounts) || [];
-          allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
-          populateAccountsDropdown();
-          
-          // 🌅 ऐप अनलॉक होते ही पहला अकाउंट न खुलकर सिर्फ Welcome Splash Banner दिखाएं
           renderWelcomeDashboardBanner();
           updateSyncBadge('offline');
         } catch(e) {
@@ -3227,8 +3223,6 @@
               globalAccounts = Object.keys(allAccountsDataCache).map(name => ({ name: name, phone: '' }));
               populateAccountsDropdown();
             }
-
-            // 🌅 बैकएंड डेटा सिंक होने के बाद भी केवल Welcome Banner ही रहेगा
             renderWelcomeDashboardBanner();
           }
           updateSyncBadge('synced');
@@ -3240,7 +3234,6 @@
         });
     }
 
-    // 🌅 Greeting & Welcome Banner Helper Function
     function renderWelcomeDashboardBanner() {
       var hour = new Date().getHours();
       var greeting = "Good Morning";
@@ -3268,63 +3261,6 @@
 
       var dropdown = document.getElementById('accountDropdown');
       if (dropdown) dropdown.selectedIndex = 0;
-    }
-          updateSyncBadge('offline');
-        } catch(e) {
-          console.error("Cache Read Error:", e);
-        }
-      } else {
-        showLoader();
-      }
-
-      updateSyncBadge('syncing');
-
-      fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
-        .then(res => res.json())
-        .then(accountsResponse => {
-          if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
-            globalAccounts = accountsResponse;
-          } else if (accountsResponse && accountsResponse.accounts) {
-            globalAccounts = accountsResponse.accounts;
-          }
-
-          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
-          populateAccountsDropdown();
-
-          return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
-        })
-        .then(res => res.json())
-        .then(master => {
-          hideLoader();
-          if (master && typeof master === 'object') {
-            allAccountsDataCache = master.accountsMap || master.data || master || {};
-            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
-            
-            if (!globalAccounts || globalAccounts.length === 0) {
-              globalAccounts = Object.keys(allAccountsDataCache).map(name => ({ name: name, phone: '' }));
-              populateAccountsDropdown();
-            }
-
-            var dropdown = document.getElementById('accountDropdown');
-            if (dropdown && dropdown.options.length > 1) {
-              if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
-                dropdown.selectedIndex = 1;
-              }
-              loadAccountDataFast();
-            }
-          }
-          updateSyncBadge('synced');
-        })
-        .catch(err => {
-          hideLoader();
-          console.error("Fetch Data Error:", err);
-          updateSyncBadge('offline');
-          
-          var dropdown = document.getElementById('accountDropdown');
-          if (dropdown && dropdown.value.includes("Loading")) {
-            populateAccountsDropdown();
-          }
-        });
     }
 
     var enteredPinBuffer = "";
@@ -3518,13 +3454,16 @@
           }
 
           var dropdown = document.getElementById('accountDropdown');
-          if (dropdown && dropdown.options.length > 1) {
-            if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading")) {
-              dropdown.selectedIndex = 1;
+          if (dropdown) {
+            // Agar user ne abhi tak koi account select nahi kiya hai to welcome screen hi rakhein
+            if (!dropdown.value || dropdown.value === "" || dropdown.value.includes("Loading") || dropdown.value.includes("Choose Account")) {
+              dropdown.selectedIndex = 0;
+              renderWelcomeDashboardBanner();
+            } else {
+              // Agar user pehle se kisi account ko open karke baitha hai to usi account ko refresh karein
+              loadAccountDataFast();
             }
-            loadAccountDataFast();
           }
-
           updateSyncBadge('synced');
           alert("🎉 Google Sheet se naya data safaltapoorvak download ho gaya hai!");
         })
@@ -3864,7 +3803,7 @@
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body text-center p-0 position-relative">
           <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal"></button>
-          <img id="lightboxImage" src="" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh; object-fit: contain;" alt="Bill Preview">
+          <img id="lightboxImage" src="" referrerpolicy="no-referrer" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh; object-fit: contain;" alt="Bill Preview">
         </div>
       </div>
     </div>
