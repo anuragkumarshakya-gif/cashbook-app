@@ -1054,6 +1054,7 @@
         </div>
         <div class="modal-body">
           <input type="hidden" id="txnType">
+          <input type="hidden" id="txnTargetAccountName">
           
           <div class="mb-3">
             <label class="form-label fw-semibold">Date & Time:</label>
@@ -1263,7 +1264,7 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyeYISGjl_BiNxm_qMsq52bAkAiDM5nl6rKZmafu_3UT76jo5qzrI6YeHRsTAfLXja8yA/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzb4x9OdvcoBXJsQIRj4-6zbjdQCa8Id8-wg46JLa7XysAjBbgFy8VCDQAaMr1_a7ujZQ/exec";
 
     var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal;
     var globalAccounts = [];
@@ -1443,9 +1444,9 @@
           if (!accName || accName === "Account Name") return;
 
           var data = allAccountsDataCache[accName] || { totalIn: 0, totalOut: 0, balance: 0 };
-          var totalIn = Number(data.totalIn || 0);
-          var totalOut = Number(data.totalOut || 0);
-          var netBal = totalIn - totalOut;
+          var totalIn = parseFloat(data.totalIn) || 0;
+          var totalOut = parseFloat(data.totalOut) || 0;
+          var netBal = (data.balance !== undefined && !isNaN(parseFloat(data.balance))) ? parseFloat(data.balance) : (totalIn - totalOut);
 
           grandTotalIn += totalIn;
           grandTotalOut += totalOut;
@@ -1606,10 +1607,13 @@
       if (fromSel) fromSel.innerHTML = options;
       if (toSel) toSel.innerHTML = options;
 
-      // Agar pehle se koi account chuna hua tha to use wahi rakhein, nahi to blank rakhein
-      if (currentSelected && dropdown.querySelector('option[value="' + currentSelected + '"]')) {
-        dropdown.value = currentSelected;
-      } else {
+      // Agar modal khula hai ya user ne select kar rakha hai to selection preserve karein
+      var activeModalAcc = document.getElementById('txnTargetAccountName') ? document.getElementById('txnTargetAccountName').value : '';
+      var targetSelection = activeModalAcc || currentSelected;
+
+      if (targetSelection && dropdown.querySelector('option[value="' + targetSelection + '"]')) {
+        dropdown.value = targetSelection;
+      } else if (!currentSelected || currentSelected === "") {
         dropdown.selectedIndex = 0;
       }
 
@@ -1724,7 +1728,7 @@
                       '<div class="' + amtClass + ' txn-amount fw-extrabold" style="font-size:15px;">' + sign + ' ' + formatINR(t.amount) + '</div>' +
                       '<div class="mt-2 d-flex gap-2 justify-content-end">' +
                         '<button class="btn btn-sm text-primary txn-action-btn p-0 me-1" onclick="openEditTxnModal(' + currentAccountTxns.indexOf(t) + ')" title="Edit Entry"><i class="fas fa-pen-to-square"></i></button>' +
-                        '<button class="btn btn-sm text-danger txn-action-btn p-0" onclick="deleteTransaction(' + index + ')" title="Delete Entry"><i class="fas fa-trash-can"></i></button>' +
+                        '<button class="btn btn-sm text-danger txn-action-btn p-0" onclick="deleteTransaction(' + currentAccountTxns.indexOf(t) + ')" title="Delete Entry"><i class="fas fa-trash-can"></i></button>' +
                       '</div>' +
                     '</div>' +
                   '</div>' +
@@ -1802,9 +1806,13 @@
       if (isNaN(newAmount) || newAmount <= 0) return alert('Sahi amount darj karein!');
       if (!currentAccountTxns || !currentAccountTxns[index]) return alert('Transaction entry nahi mili!');
 
-      var updatedDateStr = newDateTime 
-        ? new Date(newDateTime).toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' }) 
-        : currentAccountTxns[index].date;
+      var updatedDateStr = currentAccountTxns[index].date;
+      if (newDateTime) {
+        var d = new Date(newDateTime);
+        if (!isNaN(d.getTime())) {
+          updatedDateStr = d.toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric' }) + ', ' + d.toLocaleTimeString('en-IN', { hour:'2-digit', minute:'2-digit', hour12: true });
+        }
+      }
 
       var targetTxn = currentAccountTxns[index];
       targetTxn.type = newType;
@@ -1899,6 +1907,7 @@
         method: 'POST',
         body: JSON.stringify({
           action: 'updateAccountInfo',
+          userId: loggedInUser ? loggedInUser.userId : "",
           oldName: oldName,
           newName: newName,
           newPhone: newPhone
@@ -1978,6 +1987,9 @@
       document.getElementById('txnModalTitle').innerText = (type === 'Cash In' ? '🟢 Add Cash In' : '🔴 Add Cash Out');
       
       // Modal me target account ka naam show karein
+      var targetAccInput = document.getElementById('txnTargetAccountName');
+      if (targetAccInput) targetAccInput.value = acc;
+
       var accBadge = document.getElementById('txnTargetAccountBadge');
       if (accBadge) {
         accBadge.innerText = acc;
@@ -2023,12 +2035,32 @@
         var file = input.files[0];
         var reader = new FileReader();
         reader.onload = function(e) {
-          selectedImageData = {
-            data: e.target.result.split(',')[1],
-            mimeType: file.type,
-            name: file.name
+          var img = new Image();
+          img.onload = function() {
+            var canvas = document.createElement('canvas');
+            var maxDim = 1024;
+            var width = img.width;
+            var height = img.height;
+            if (width > height && width > maxDim) {
+              height = Math.round((height * maxDim) / width);
+              width = maxDim;
+            } else if (height > maxDim) {
+              width = Math.round((width * maxDim) / height);
+              height = maxDim;
+            }
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext('2d');
+            ctx.drawImage(img, 0, 0, width, height);
+            var compressedBase64 = canvas.toDataURL('image/jpeg', 0.7);
+            selectedImageData = {
+              data: compressedBase64.split(',')[1],
+              mimeType: 'image/jpeg',
+              name: file.name.replace(/\.[^/.]+$/, "") + ".jpg"
+            };
+            document.getElementById('imagePreviewText').classList.remove('d-none');
           };
-          document.getElementById('imagePreviewText').classList.remove('d-none');
+          img.src = e.target.result;
         };
         reader.readAsDataURL(file);
       }
@@ -2036,7 +2068,8 @@
 
     function saveTransactionFast() {
       var dropdown = document.getElementById('accountDropdown');
-      var acc = dropdown ? dropdown.value : '';
+      var lockedAcc = document.getElementById('txnTargetAccountName') ? document.getElementById('txnTargetAccountName').value : '';
+      var acc = lockedAcc || (dropdown ? dropdown.value : '');
       var amt = parseFloat(document.getElementById('txnAmount').value);
       var type = document.getElementById('txnType').value;
       var remark = document.getElementById('txnRemark').value || '-';
@@ -2044,6 +2077,11 @@
 
       if (!acc || acc === "" || acc.includes("Choose Account")) {
         return alert('Kripya pehle sahi account select karein!');
+      }
+
+      // Dropdown ko sync me rakhein taaki UI background update ho sake
+      if (dropdown && dropdown.value !== acc) {
+        dropdown.value = acc;
       }
       if (!amt || amt <= 0 || isNaN(amt)) {
         return alert('Kripya sahi amount dalein!');
@@ -3181,26 +3219,40 @@
 
       var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
       var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
+      var hasLocalData = false;
 
+      // 1. Instant Local Storage Load (Pehle turant local data dikhayega)
       if (cachedAccounts && cachedTxnsData) {
         try {
           globalAccounts = JSON.parse(cachedAccounts) || [];
           allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
-          populateAccountsDropdown();
-          renderWelcomeDashboardBanner();
-          updateSyncBadge('offline');
+          if (globalAccounts.length > 0 || Object.keys(allAccountsDataCache).length > 0) {
+            hasLocalData = true;
+            populateAccountsDropdown();
+
+            var currentDropdownVal = document.getElementById('accountDropdown') ? document.getElementById('accountDropdown').value : '';
+            if (currentDropdownVal && currentDropdownVal !== "" && !currentDropdownVal.includes("Choose Account")) {
+              loadAccountDataFast();
+            } else {
+              renderWelcomeDashboardBanner();
+            }
+          }
         } catch(e) {
           console.error("Cache Read Error:", e);
         }
-      } else {
+      }
+
+      // Agar bilkul pehli baar khul raha hai aur cache khali hai tabhi screen loader aayega
+      if (!hasLocalData) {
         showLoader();
       }
 
+      // 2. Silent Background Sync (Upar sirf chhota sync badge ghumega, screen block nahi hogi)
       updateSyncBadge('syncing');
 
       fetch(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId))
-        .then(res => res.json())
-        .then(accountsResponse => {
+        .then(function(res) { return res.json(); })
+        .then(function(accountsResponse) {
           if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
             globalAccounts = accountsResponse;
           } else if (accountsResponse && accountsResponse.accounts) {
@@ -3212,24 +3264,31 @@
 
           return fetch(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId));
         })
-        .then(res => res.json())
-        .then(master => {
+        .then(function(res) { return res.json(); })
+        .then(function(master) {
           hideLoader();
           if (master && typeof master === 'object') {
             allAccountsDataCache = master.accountsMap || master.data || master || {};
             localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
             
             if (!globalAccounts || globalAccounts.length === 0) {
-              globalAccounts = Object.keys(allAccountsDataCache).map(name => ({ name: name, phone: '' }));
+              globalAccounts = Object.keys(allAccountsDataCache).map(function(name) { return { name: name, phone: '' }; });
               populateAccountsDropdown();
             }
-            renderWelcomeDashboardBanner();
+
+            // Silent update: UI bina screen freeze kiye data refresh kar degi
+            var accDropdown = document.getElementById('accountDropdown');
+            if (accDropdown && accDropdown.value && accDropdown.value !== "" && !accDropdown.value.includes("Choose Account")) {
+              loadAccountDataFast();
+            } else {
+              updateDashboardOverviewStats();
+            }
           }
           updateSyncBadge('synced');
         })
-        .catch(err => {
+        .catch(function(err) {
           hideLoader();
-          console.error("Fetch Data Error:", err);
+          console.warn("Background Silent Sync Error:", err);
           updateSyncBadge('offline');
         });
     }
