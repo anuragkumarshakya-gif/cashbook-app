@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <base target="_self">
+  <!-- <base target="_self"> हटा दिया -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cash Book</title>
@@ -11,7 +11,7 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600&display=swap" rel="stylesheet">
   <!-- Export Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -335,9 +335,444 @@
       border-color: #3f3f46 !important;
     }
 
+    /* ═══════════════════════════════════════════ */
+    /* 🎬 REGISTRATION LOADING OVERLAY */
+    /* ═══════════════════════════════════════════ */
+    #registrationOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 15, 18, 0.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      z-index: 1000001;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      animation: regOverlayFadeIn 0.3s ease;
+    }
+
+    @keyframes regOverlayFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .registration-card {
+      background: rgba(24, 24, 27, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px 24px 28px;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: regCardSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes regCardSlide {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* 🌀 Rounded Animated Spinner */
+    .reg-spinner-wrapper {
+      position: relative;
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .reg-spinner-ring {
+      position: absolute;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      border: 4px solid transparent;
+      border-top-color: #10b981;
+      border-right-color: #10b981;
+      animation: regSpin 0.9s linear infinite;
+    }
+
+    .reg-spinner-ring-2 {
+      position: absolute;
+      width: 62px;
+      height: 62px;
+      border-radius: 50%;
+      border: 3px solid transparent;
+      border-bottom-color: #f59e0b;
+      border-left-color: #f59e0b;
+      animation: regSpinReverse 1.2s linear infinite;
+    }
+
+    .reg-spinner-ring-3 {
+      position: absolute;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 2.5px solid transparent;
+      border-top-color: #be123c;
+      border-right-color: #be123c;
+      animation: regSpin 1.5s linear infinite;
+    }
+
+    .reg-spinner-core {
+      position: absolute;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #be123c 0%, #6d0f2b 100%);
+      box-shadow: 0 0 20px rgba(190, 18, 60, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.15);
+      animation: regCorePulse 1.5s ease-in-out infinite;
+    }
+
+    @keyframes regSpin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes regSpinReverse {
+      0% { transform: rotate(360deg); }
+      100% { transform: rotate(0deg); }
+    }
+
+    @keyframes regCorePulse {
+      0%, 100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 20px rgba(190, 18, 60, 0.6), inset 0 0 8px rgba(255, 255, 255, 0.15);
+      }
+      50% { 
+        transform: scale(1.15); 
+        box-shadow: 0 0 32px rgba(190, 18, 60, 0.9), inset 0 0 12px rgba(255, 255, 255, 0.25);
+      }
+    }
+
+    /* 📝 Text */
+    .reg-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.3px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .reg-subtitle {
+      font-size: 11.5px;
+      color: rgba(255, 255, 255, 0.55);
+      font-weight: 500;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.2px;
+    }
+
+    /* 🔥 Animated dots */
+    .reg-dots {
+      display: inline-flex;
+      gap: 3px;
+      margin-left: 2px;
+    }
+
+    .reg-dots span {
+      width: 3px;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.6);
+      border-radius: 50%;
+      animation: regDotBounce 1.2s infinite ease-in-out;
+    }
+
+    .reg-dots span:nth-child(2) { animation-delay: 0.15s; }
+    .reg-dots span:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes regDotBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-5px); opacity: 1; }
+    }
+
+    /* ✨ Success State */
+    .reg-success-icon {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 16px;
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 30px rgba(16, 185, 129, 0.6);
+      animation: regSuccessPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reg-success-icon i {
+      color: #ffffff;
+      font-size: 28px;
+    }
+
+    @keyframes regSuccessPop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /* 💬 CUSTOM PROFESSIONAL ALERT MODAL */
+    /* ═══════════════════════════════════════════ */
+    #customAlertModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 15, 18, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000002;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      animation: alertFadeIn 0.25s ease;
+    }
+
+    @keyframes alertFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .custom-alert-card {
+      background: rgba(24, 24, 27, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px 22px 20px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: alertSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+
+    @keyframes alertSlide {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .custom-alert-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 16px;
+      animation: alertIconPop 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes alertIconPop {
+      0% { transform: scale(0); opacity: 0; }
+      60% { transform: scale(1.15); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .custom-alert-icon.error {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      box-shadow: 0 0 28px rgba(220, 38, 38, 0.5);
+    }
+
+    .custom-alert-icon.success {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      box-shadow: 0 0 28px rgba(16, 185, 129, 0.5);
+    }
+
+    .custom-alert-icon.warning {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      box-shadow: 0 0 28px rgba(245, 158, 11, 0.5);
+    }
+
+    .custom-alert-icon.info {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      box-shadow: 0 0 28px rgba(59, 130, 246, 0.5);
+    }
+
+    .custom-alert-icon i {
+      color: #ffffff;
+      font-size: 24px;
+    }
+
+    .custom-alert-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .custom-alert-message {
+      font-size: 12.5px;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.6;
+      margin-bottom: 20px;
+      font-family: 'Inter', sans-serif;
+      padding: 0 4px;
+      word-break: break-word;
+    }
+
+    .custom-alert-btn {
+      width: 100%;
+      padding: 11px;
+      border-radius: 12px;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      color: #ffffff;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.3px;
+      transition: all 0.2s ease;
+    }
+
+    .custom-alert-btn.error {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.35);
+    }
+
+    .custom-alert-btn.success {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    .custom-alert-btn.warning {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+    }
+
+    .custom-alert-btn.info {
+      background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+    }
+
+    .custom-alert-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    .custom-alert-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* ═══════════════════════════════════════════ */
+    /* ❓ CUSTOM CONFIRM MODAL (2 buttons) */
+    /* ═══════════════════════════════════════════ */
+    #customConfirmModal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(15, 15, 18, 0.75);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      z-index: 1000003;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      animation: alertFadeIn 0.25s ease;
+    }
+
+    .custom-confirm-card {
+      background: rgba(24, 24, 27, 0.98);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 24px 22px 20px;
+      width: 100%;
+      max-width: 340px;
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      animation: alertSlide 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      text-align: center;
+    }
+
+    .custom-confirm-card .custom-alert-icon {
+      margin-bottom: 16px;
+    }
+
+    .custom-confirm-buttons {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+
+    .custom-confirm-btn {
+      flex: 1;
+      padding: 11px;
+      border-radius: 12px;
+      border: none;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      letter-spacing: 0.3px;
+      transition: all 0.2s ease;
+    }
+
+    .custom-confirm-btn.cancel {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #ffffff;
+    }
+
+    .custom-confirm-btn.cancel:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .custom-confirm-btn.confirm {
+      background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(220, 38, 38, 0.35);
+    }
+
+    .custom-confirm-btn.confirm.success {
+      background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.35);
+    }
+
+    .custom-confirm-btn.confirm.warning {
+      background: linear-gradient(135deg, #f59e0b 0%, #b45309 100%);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+    }
+
+    .custom-confirm-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    .custom-confirm-btn:active {
+      transform: scale(0.98);
+    }
+
     /* ✨ NEW Premium Split Login Screen */
     #lockScreen { 
-      position: fixed; top:0; left:0; width:100vw; height:100vh; 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      right: 0;
+      bottom: 0;
+      width: 100%;
+      height: 100%;
+      min-height: 100vh;
       background: #0f0f12;
       z-index: 999999; 
       display: flex; 
@@ -347,6 +782,8 @@
       color: white;
       overflow-y: auto;
       padding: 20px 16px;
+      box-sizing: border-box;
+      margin: 0;
     }
 
     /* Soft background glow orbs */
@@ -373,6 +810,16 @@
       border-radius: 50%;
       filter: blur(50px);
       pointer-events: none;
+    }
+
+    /* 🔐 Custom PIN Modal Animations */
+    @keyframes pinModalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes pinModalSlide {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
     .login-card {
@@ -652,6 +1099,93 @@
       border-bottom-color: #10b981;
       animation: syncSpin 1.5s linear infinite reverse;
     }
+      <!-- 💾 MODAL: Backup & Restore -->
+  <div class="modal fade" id="backupModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 90vh;">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-2" style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
+          <div class="d-flex align-items-center gap-2 w-100">
+            <div style="width:40px; height:40px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; border-radius:11px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(59,130,246,0.3);">
+              <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-bold text-dark" style="font-size:14px;">Backup & Restore</div>
+              <div class="text-muted" style="font-size:10px;">Safeguard your financial data</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+
+        <div class="modal-body p-3">
+
+          <!-- Info Box -->
+          <div class="p-3 mb-3 rounded-3" style="background:#f0f9ff; border:1px solid #bae6fd;">
+            <div class="d-flex gap-2">
+              <i class="fas fa-shield-halved text-primary mt-1" style="font-size:14px;"></i>
+              <div style="font-size:11px; line-height:1.6; color:#075985;">
+                <b>Why backup?</b> Your data stays on Google Sheets, but a local JSON backup ensures you can restore everything even if something goes wrong.
+              </div>
+            </div>
+          </div>
+
+          <!-- Last Backup Info -->
+          <div class="p-3 mb-3 rounded-3" style="background:#f8fafc; border:1px solid #e2e8f0;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Manual Backup</span>
+              <span class="fw-bold text-dark" style="font-size:11px;" id="lastManualBackupText">Never</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Auto Backup</span>
+              <span class="fw-bold text-success" style="font-size:11px;" id="lastAutoBackupText">Not yet</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Next Auto Backup</span>
+              <span class="fw-bold text-primary" style="font-size:11px;" id="nextAutoBackupText">Within 24 hours</span>
+            </div>
+          </div>
+
+          <!-- Auto Backup Toggle -->
+          <div class="p-3 mb-3 rounded-3" style="background:#fefce8; border:1px solid #fde68a;">
+            <div class="form-check form-switch d-flex align-items-center" style="padding-left:0;">
+              <input class="form-check-input me-2" type="checkbox" id="autoBackupToggle" 
+                     onchange="toggleAutoBackup(this.checked)" 
+                     style="width:38px; height:20px; margin-top:0; cursor:pointer;">
+              <label class="form-check-label flex-grow-1" for="autoBackupToggle" style="cursor:pointer;">
+                <div class="fw-bold text-dark" style="font-size:12px;">Auto Backup</div>
+                <div class="text-muted" style="font-size:10px;">Download backup file every 24 hours</div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Manual Download Button -->
+          <button class="btn w-100 mb-2 rounded-3 fw-bold" 
+                  onclick="downloadBackupJSON()"
+                  style="background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; padding:12px; font-size:13px; box-shadow:0 8px 20px rgba(59,130,246,0.35);">
+            <i class="fas fa-download me-2"></i> Download Backup (JSON)
+          </button>
+
+          <!-- Restore Button -->
+          <label for="restoreBackupInput" 
+                 class="btn w-100 rounded-3 fw-bold mb-0" 
+                 style="background:rgba(15,23,42,0.06); color:#0f172a; padding:12px; font-size:13px; border:1.5px dashed #cbd5e1; cursor:pointer;">
+            <i class="fas fa-upload me-2"></i> Restore from Backup
+          </label>
+          <input type="file" id="restoreBackupInput" accept=".json,application/json" class="d-none" onchange="restoreFromBackupFile(this)">
+
+          <!-- Warning Note -->
+          <div class="mt-3 p-2 rounded-2" style="background:#fef2f2; border:1px solid #fecaca;">
+            <div class="d-flex gap-2">
+              <i class="fas fa-exclamation-triangle text-danger" style="font-size:12px; margin-top:1px;"></i>
+              <div style="font-size:10px; color:#991b1b; line-height:1.5;">
+                <b>Important:</b> Restore will <b>replace</b> all current data with the backup file. Always keep backups in a safe place.
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
 
     @keyframes syncSpin {
       0% { transform: rotate(0deg); }
@@ -1384,6 +1918,22 @@
             <i class="fas fa-key me-1"></i> Forgot PIN?
           </button>
         </div>
+
+        <!-- 🆕 New User Divider -->
+        <div class="d-flex align-items-center gap-2 my-3">
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+          <small class="text-white-50 fw-semibold" style="font-size:10px; letter-spacing:1px;">OR</small>
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+        </div>
+
+        <!-- 🆕 New User Register Button -->
+        <button class="btn w-100 mb-2" 
+                onclick="goToSignupFromLockScreen()" 
+                style="background: rgba(255, 255, 255, 0.08); border: 1.5px dashed rgba(245, 158, 11, 0.5); color: #fbbf24; font-weight: 700; font-size: 12.5px; padding: 11px; border-radius: 12px; letter-spacing: 0.3px; transition: all 0.2s ease;"
+                onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'; this.style.borderColor='#f59e0b';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(245, 158, 11, 0.5)';">
+          <i class="fas fa-user-plus me-2"></i> New User? Create Account
+        </button>
       </div>
 
       <!-- 🔑 Standard Password Login View -->
@@ -1391,44 +1941,258 @@
         <div class="mb-2">
           <div class="input-group">
             <span class="input-group-text bg-white-10 border-0 text-white-50" style="font-size:12px;"><i class="fas fa-user"></i></span>
-            <input type="text" id="loginUsername" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Username">
+            <input type="text" id="loginUsername" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Enter username">
           </div>
         </div>
         <div class="mb-3">
           <div class="input-group">
             <span class="input-group-text bg-white-10 border-0 text-white-50" style="font-size:12px;"><i class="fas fa-lock"></i></span>
-            <input type="password" id="loginPassword" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Password">
+            <input type="password" id="loginPassword" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Enter password">
           </div>
         </div>
         <button class="btn-auth-primary mb-3" onclick="handleUserLogin()">
-          <i class="fas fa-shield-alt me-1"></i> Secure Access
+          <i class="fas fa-shield-alt me-1"></i> Sign In Securely
         </button>
-        <p class="text-center text-white-50 small m-0" style="font-size: 11px;">
-          New to Cash Book? 
-          <a href="javascript:void(0);" class="text-warning text-decoration-none fw-semibold" onclick="toggleAuthView('signup')">Create Account</a>
+
+        <!-- 🔥 Divider -->
+        <div class="d-flex align-items-center gap-2 my-3">
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+          <small class="text-white-50 fw-semibold" style="font-size:10px; letter-spacing:1px;">OR</small>
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+        </div>
+
+        <!-- 🆕 New User Register Button -->
+        <button class="btn w-100 mb-3" 
+                onclick="toggleAuthView('signup')" 
+                style="background: rgba(255, 255, 255, 0.08); border: 1.5px dashed rgba(245, 158, 11, 0.5); color: #fbbf24; font-weight: 700; font-size: 12.5px; padding: 11px; border-radius: 12px; letter-spacing: 0.3px; transition: all 0.2s ease;"
+                onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'; this.style.borderColor='#f59e0b';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(245, 158, 11, 0.5)';">
+          <i class="fas fa-user-plus me-2"></i> New User? Create Account
+        </button>
+
+               <!-- Small helper text -->
+        <p class="text-center text-white-50 small m-0" style="font-size: 10px; letter-spacing: 0.2px;">
+          <i class="fas fa-circle-info me-1" style="color:#3b82f6; font-size:9px;"></i>
+          Existing account? Switch to <strong style="color:#ffffff;">Sign In</strong> above
         </p>
       </div>
 
       <!-- 📝 Sign Up View -->
       <div id="signupFormView" class="d-none">
         <div class="mb-2">
-          <input type="text" id="regUsername" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Choose Username">
+          <input type="text" id="regUsername" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Create a username">
         </div>
         <div class="mb-2">
-          <input type="password" id="regPassword" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Choose Password">
+          <input type="password" id="regPassword" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Create a password">
         </div>
         <div class="mb-3">
-          <input type="tel" id="regPhone" class="form-control bg-white-10 text-white border-0 py-2" placeholder="10-Digit Mobile Number">
+          <input type="tel" id="regPhone" class="form-control bg-white-10 text-white border-0 py-2" placeholder="Mobile number (10 digits)">
         </div>
         <button class="btn-auth-success mb-3" onclick="handleUserRegister()">
-          <i class="fas fa-user-plus me-1"></i> Register Account
+          <i class="fas fa-user-plus me-1"></i> Create Account
         </button>
-        <p class="text-center text-white-50 small m-0" style="font-size: 11px;">
-          Already registered? 
-          <a href="javascript:void(0);" class="text-warning text-decoration-none fw-semibold" onclick="toggleAuthView('login')">Sign In</a>
+
+        <!-- 🔥 Divider -->
+        <div class="d-flex align-items-center gap-2 my-3">
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+          <small class="text-white-50 fw-semibold" style="font-size:10px; letter-spacing:1px;">OR</small>
+          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
+        </div>
+
+        <!-- 🔙 Back to Login Button -->
+        <button class="btn w-100 mb-3" 
+                onclick="toggleAuthView('login')" 
+                style="background: rgba(255, 255, 255, 0.08); border: 1.5px dashed rgba(16, 185, 129, 0.5); color: #34d399; font-weight: 700; font-size: 12.5px; padding: 11px; border-radius: 12px; letter-spacing: 0.3px; transition: all 0.2s ease;"
+                onmouseover="this.style.background='rgba(16, 185, 129, 0.15)'; this.style.borderColor='#10b981';"
+                onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(16, 185, 129, 0.5)';">
+          <i class="fas fa-arrow-right-to-bracket me-2"></i> Already have an account? Sign In
+        </button>
+
+        <!-- Small helper text -->
+        <p class="text-center text-white-50 small m-0" style="font-size: 10px; letter-spacing: 0.2px;">
+          <i class="fas fa-shield-halved me-1" style="color:#3b82f6;"></i>
+          Existing user? Sign in above to continue
         </p>
       </div>
 
+      <!-- 🔐 CUSTOM PIN SETUP MODAL (prompt() ki jagah) -->
+      <div id="customPinModal" class="d-none" style="
+        position: fixed; top:0; left:0; right:0; bottom:0;
+        width:100%; height:100%;
+        background: rgba(0,0,0,0.75);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 1000000;
+        display: flex; align-items: center; justify-content: center;
+        padding: 20px;
+        box-sizing: border-box;
+        animation: pinModalFadeIn 0.25s ease;
+      ">
+        <div style="
+          background: rgba(24, 24, 27, 0.95);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 20px;
+          padding: 24px 20px;
+          width: 100%; max-width: 340px;
+          box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+          animation: pinModalSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        ">
+          <!-- Header -->
+          <div class="d-flex align-items-center gap-2 mb-3">
+            <div style="
+              width: 44px; height: 44px; border-radius: 12px;
+              background: linear-gradient(135deg, #be123c 0%, #6d0f2b 100%);
+              display: flex; align-items: center; justify-content: center;
+              box-shadow: 0 8px 20px rgba(190, 18, 60, 0.4);
+              flex-shrink: 0;
+            ">
+              <i class="fas fa-shield-alt text-white" style="font-size: 18px;"></i>
+            </div>
+            <div style="min-width:0;">
+              <div id="pinModalTitle" style="font-size: 15px; font-weight: 700; color: #ffffff; letter-spacing: -0.3px; line-height: 1.2;">
+                Set Your 4-Digit PIN
+              </div>
+              <div id="pinModalSubtitle" style="font-size: 11px; color: rgba(255,255,255,0.5); margin-top: 2px; font-weight: 500;">
+                Apni suraksha ke liye
+              </div>
+            </div>
+          </div>
+
+          <!-- PIN Dots -->
+          <div class="d-flex justify-content-center gap-3 mb-4" id="pinModalDots">
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+            <div class="pin-dot"></div>
+          </div>
+
+          <!-- Error message -->
+          <div id="pinModalError" class="text-center mb-2 d-none" style="
+            font-size: 11px; font-weight: 600; color: #f87171;
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+            padding: 6px 10px; border-radius: 8px;
+          "></div>
+
+          <!-- Numeric Keypad -->
+          <div class="row g-2 mb-3">
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(1)">1</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(2)">2</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(3)">3</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(4)">4</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(5)">5</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(6)">6</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(7)">7</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(8)">8</button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(9)">9</button></div>
+            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="pinModalClear()"><i class="fas fa-times text-white-50" style="font-size:13px;"></i></button></div>
+            <div class="col-4"><button class="btn key-btn" onclick="pinModalPress(0)">0</button></div>
+            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="pinModalDelete()"><i class="fas fa-backspace text-white" style="font-size:13px;"></i></button></div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex gap-2">
+            <button class="btn flex-grow-1" onclick="pinModalCancel()" style="
+              background: rgba(255, 255, 255, 0.06);
+              border: 1px solid rgba(255, 255, 255, 0.12);
+              color: #ffffff;
+              font-weight: 600; font-size: 12px;
+              padding: 10px; border-radius: 10px;
+            ">
+              Cancel
+            </button>
+            <button class="btn flex-grow-1" id="pinModalSubmitBtn" onclick="pinModalSubmit()" style="
+              background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+              border: none;
+              color: #ffffff;
+              font-weight: 700; font-size: 12px;
+              padding: 10px; border-radius: 10px;
+              box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+            ">
+              <i class="fas fa-check me-1"></i> Confirm
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 👨‍💻 DEVELOPER CREDIT — Har view pe dikhega -->
+      <div class="text-center mt-4 pt-3" style="border-top: 1px solid rgba(255,255,255,0.08);">
+        <div style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(255,255,255,0.04); border-radius:20px; border:1px solid rgba(255,255,255,0.08);">
+          <i class="fas fa-code" style="font-size:10px; color:#f59e0b;"></i>
+          <span style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.6);">Developed by</span>
+          <span style="font-size:10.5px; font-weight:700; color:#ffffff;">Anurag Shakya</span>
+          <span style="font-size:10px; color:rgba(255,255,255,0.3);">|</span>
+          <a href="tel:9761414105" style="font-size:10.5px; font-weight:700; color:#10b981; text-decoration:none;">
+            <i class="fas fa-phone-alt" style="font-size:9px;"></i> 9761414105
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 🎬 REGISTRATION LOADING OVERLAY -->
+  <div id="registrationOverlay" class="d-none">
+    <div class="registration-card">
+      <!-- Spinner (Loading state) -->
+      <div id="regLoadingState">
+        <div class="reg-spinner-wrapper">
+          <div class="reg-spinner-ring"></div>
+          <div class="reg-spinner-ring-2"></div>
+          <div class="reg-spinner-ring-3"></div>
+          <div class="reg-spinner-core"></div>
+        </div>
+
+        <div class="reg-title">
+          Creating Account
+          <span class="reg-dots">
+            <span></span><span></span><span></span>
+          </span>
+        </div>
+        <div class="reg-subtitle">Registering your account securely</div>
+      </div>
+
+      <!-- Success State -->
+      <div id="regSuccessState" class="d-none">
+        <div class="reg-success-icon">
+          <i class="fas fa-check"></i>
+        </div>
+        <div class="reg-title" style="color:#10b981;">Registration Successful!</div>
+        <div class="reg-subtitle">Redirecting to sign in...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💬 CUSTOM PROFESSIONAL ALERT MODAL -->
+  <div id="customAlertModal" class="d-none">
+    <div class="custom-alert-card">
+      <div id="customAlertIcon" class="custom-alert-icon info">
+        <i id="customAlertIconInner" class="fas fa-info-circle"></i>
+      </div>
+      <div id="customAlertTitle" class="custom-alert-title">Information</div>
+      <div id="customAlertMessage" class="custom-alert-message">Message here</div>
+      <button id="customAlertBtn" class="custom-alert-btn info" onclick="closeCustomAlert()">
+        OK
+      </button>
+    </div>
+  </div>
+
+  <!-- ❓ CUSTOM PROFESSIONAL CONFIRM MODAL (2 Buttons) -->
+  <div id="customConfirmModal" class="d-none">
+    <div class="custom-confirm-card">
+      <div id="customConfirmIcon" class="custom-alert-icon warning">
+        <i id="customConfirmIconInner" class="fas fa-question-circle"></i>
+      </div>
+      <div id="customConfirmTitle" class="custom-alert-title">Are you sure?</div>
+      <div id="customConfirmMessage" class="custom-alert-message">Message here</div>
+      <div class="custom-confirm-buttons">
+        <button id="customConfirmCancelBtn" class="custom-confirm-btn cancel" onclick="closeCustomConfirm(false)">
+          Cancel
+        </button>
+        <button id="customConfirmOkBtn" class="custom-confirm-btn confirm" onclick="closeCustomConfirm(true)">
+          Confirm
+        </button>
+      </div>
     </div>
   </div>
 
@@ -1574,6 +2338,20 @@
         </div>
       </div>
 
+      <!-- 📈 6-Month Analytics Chart -->
+      <div class="card card-custom p-2 mb-2">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.4px;">
+            <i class="fas fa-chart-line me-1"></i> Last 6 Months Comparison
+          </div>
+          <span id="sixMonthTrendBadge" class="badge" style="font-size:8px; background:#f1f5f9; color:#475569; padding:2px 6px;"></span>
+        </div>
+        <div style="height:150px; position:relative;">
+          <canvas id="dashboardSixMonthChart"></canvas>
+        </div>
+        <div id="sixMonthSummary" class="mt-2 pt-2" style="border-top: 1px solid var(--border-subtle); font-size:10px;"></div>
+      </div>
+
       <!-- 👨‍💻 Developer Credit (Dashboard के नीचे) -->
       <div class="text-center mt-3 mb-3" style="padding: 12px 8px;">
         <div style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(15,23,42,0.04); border-radius:20px; border:1px solid var(--border-subtle);">
@@ -1613,6 +2391,9 @@
           <button class="btn btn-old-book d-none" id="btnPuranaHisab" onclick="openOldBookDetailForCurrentAccount()" title="Purana Hisab Dekhein">
             <i class="fas fa-book"></i>
             <span class="ob-badge" id="oldBookCountBadge">0</span>
+          </button>
+          <button class="btn btn-edit-account" onclick="hideCurrentAccount()" title="Hide This Account" style="color:#64748b;">
+            <i class="fas fa-eye-slash"></i>
           </button>
           <button class="btn btn-edit-account" onclick="showEditAccountModal()" title="Edit Account">
             <i class="fas fa-edit"></i>
@@ -1664,16 +2445,18 @@
     <div class="card card-custom card-compact-box">
       <div class="filter-scroll-container mb-2">
         <button class="btn btn-primary btn-filter btn-filter-compact" onclick="filterByDate('all', this)">All</button>
-        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('daily', this)">Daily</button>
-        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('weekly', this)">Weekly</button>
-        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('monthly', this)">Monthly</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('daily', this)">Today</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('yesterday', this)">Yesterday</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('weekly', this)">Last 7 Days</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('monthly', this)">This Month</button>
+        <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('lastmonth', this)">Last Month</button>
         <button class="btn btn-light btn-filter btn-filter-compact" onclick="filterByDate('custom', this)"><i class="fas fa-calendar-alt me-1"></i> Custom</button>
       </div>
 
       <div class="d-flex gap-1 align-items-center mb-2">
         <div class="input-group input-group-sm position-relative">
           <span class="input-group-text bg-light border-end-0 rounded-start-3"><i class="fas fa-search text-muted style-sm"></i></span>
-          <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3 py-1 pe-4" placeholder="Search remark, amount..." onkeyup="filterTransactions()">
+          <input type="text" id="searchInput" class="form-control bg-light border-start-0 rounded-end-3 py-1 pe-4" placeholder="Search remark, amount, date..." onkeyup="filterTransactions()">
           <button class="btn btn-sm text-muted position-absolute end-0 top-50 translate-middle-y d-none z-3 p-0 me-2" id="btnClearSearch" onclick="clearSearchInput()" style="border:none; background:transparent;">
             <i class="fas fa-times-circle"></i>
           </button>
@@ -1775,24 +2558,45 @@
       </div>
 
       <div class="py-2">
+        
+        <!-- ⭐ Quick Access — सबसे ऊपर -->
+        <a href="javascript:void(0);" class="drawer-item" onclick="openInterestCalculator()">
+          <i class="fas fa-percent text-success"></i> Interest Calculator
+        </a>
+        
+        <div class="dropdown-divider my-2"></div>
+        
+        <!-- 📊 Reports & Summary -->
         <a href="javascript:void(0);" class="drawer-item" onclick="showMasterSummaryModal()">
           <i class="fas fa-clipboard-list text-primary"></i> Summary
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="openAllTransactionsModal()">
-          <i class="fas fa-list-ul text-info"></i> Transaction-All Accounts
+          <i class="fas fa-list-ul text-info"></i> All Transactions
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="openTransferModal()">
           <i class="fas fa-exchange-alt text-warning"></i> Transfer Funds
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="exportAllAccountsDetailedPDF()">
-          <i class="fas fa-file-alt text-danger"></i> Report-All Accounts
+          <i class="fas fa-file-alt text-danger"></i> All Accounts Report
         </a>
         
         <div class="dropdown-divider my-2"></div>
         
-        <a href="javascript:void(0);" class="drawer-item" onclick="openInterestCalculator()">
-          <i class="fas fa-percent text-success"></i> Interest Calculator
+        <!-- 👁️ Accounts Management -->
+        <a href="javascript:void(0);" class="drawer-item" onclick="openHiddenAccountsModal()">
+          <i class="fas fa-eye-slash text-secondary"></i> Hide / Unhide Accounts 
+          <span class="badge bg-secondary ms-2" id="hiddenCountBadge" style="display:none;">0</span>
         </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openCloseReopenModal()" id="drawerCloseReopenBtn">
+          <i class="fas fa-lock text-danger" id="drawerCloseReopenIcon"></i> <span id="drawerCloseReopenText">Close Account</span>
+        </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openManageCategories()">
+          <i class="fas fa-tags text-success"></i> Manage Categories
+        </a>
+        
+        <div class="dropdown-divider my-2"></div>
+        
+        <!-- 🛠️ Tools -->
         <a href="javascript:void(0);" class="drawer-item" onclick="openAttachmentCenter()">
           <i class="fas fa-images text-info"></i> Attachment Center
         </a>
@@ -1803,22 +2607,17 @@
           <i class="fas fa-palette text-danger"></i> Change App Theme
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="syncBackup()">
-          <i class="fas fa-cloud-upload-alt text-primary"></i> Backup and Restore
+          <i class="fas fa-cloud-upload-alt text-primary"></i> Backup & Restore
         </a>
         <a href="javascript:void(0);" class="drawer-item" onclick="setupNewAppPin()">
-          <i class="fas fa-key text-success"></i> Set / Change 4-Digit PIN
+          <i class="fas fa-key text-success"></i> Set / Change Security PIN
         </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="lockAppScreenOnly()">
-          <i class="fas fa-user-lock text-warning"></i> Lock Screen
-        </a>
+        
+        <div class="dropdown-divider my-2"></div>
+        
+        <!-- 🚪 Logout -->
         <a href="javascript:void(0);" class="drawer-item text-danger fw-bold" onclick="logoutUserFully()">
           <i class="fas fa-sign-out-alt text-danger"></i> Logout Account
-        </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="openCloseReopenModal()" id="drawerCloseReopenBtn">
-          <i class="fas fa-lock text-danger" id="drawerCloseReopenIcon"></i> <span id="drawerCloseReopenText">Account Close Karo</span>
-        </a>
-        <a href="javascript:void(0);" class="drawer-item" onclick="viewDeletedTransactions()">
-          <i class="fas fa-trash-alt text-secondary"></i> Deleted Transactions
         </a>
       </div>
     </div>
@@ -2237,14 +3036,63 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx47FIe4fJk0maVVpV2ttC-zSpwxC-bwpovQbUGc0UFZmDH-yRc9D9b9gP41eECFdsVsQ/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd9qe8CQhbadjLtEjLCIdkvAvyPSI0ftKn7mq4LpI4j_Y_cS_QaLiYQUWXgq2Cq5Uk7g/exec";
+var API_SECRET = "CashBook_2026_SuperSecret_Anurag_9761414105_XYZ";
 
-        var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal, customDateModal, txnDetailModal, closeAccountModal, reopenAccountModal, oldBookDetailModal, trashModal, interestModal, attachmentModal;
+var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal, customDateModal, txnDetailModal, closeAccountModal, reopenAccountModal, oldBookDetailModal, trashModal, interestModal, attachmentModal, hiddenAccountsModal, manageCategoriesModal;
+
+// 🔐 FIX #5: GET URL me token add karega
+function buildApiUrl(action, params) {
+  var url = SCRIPT_URL + "?action=" + encodeURIComponent(action) + "&authToken=" + encodeURIComponent(API_SECRET);
+  if (params) {
+    Object.keys(params).forEach(function(key) {
+      url += "&" + key + "=" + encodeURIComponent(params[key]);
+    });
+  }
+  return url;
+}
+
+// 🔐 FIX #5: POST body me token add karega
+function apiFetch(payload) {
+  payload.authToken = API_SECRET;
+  return fetch(SCRIPT_URL, {
+    method: 'POST',
+    mode: 'cors',
+    redirect: 'follow',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+}
+    // 🏷️ Default categories — इन्हें सबसे ऊपर declare करें
+    var DEFAULT_CATEGORIES = [
+      'General',
+      'Salary',
+      'Rent',
+      'Bills',
+      'Groceries',
+      'Business',
+      'Fuel'
+    ];
+
     var globalAccounts = [];
     var allAccountsDataCache = {};
     var currentAccountTxns = [];
     var deletedTxnsLog = [];
     var loggedInUser = null;
+
+    // 🛡️ SAFETY: हर API call से पहले user verify करें
+    function getVerifiedUserId() {
+      if (!loggedInUser || !loggedInUser.userId) {
+        console.error('❌ No logged in user!');
+        return null;
+      }
+      var uid = String(loggedInUser.userId).trim();
+      if (uid.length < 5 || uid.indexOf('USR_') !== 0) {
+        console.error('❌ Invalid userId format:', uid);
+        return null;
+      }
+      return uid;
+    }
 
     var appThemesList = [
       { name: "Classic Dark", topBg: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)", bodyBg: "#f4f5f7" },
@@ -2309,11 +3157,21 @@
       var attachEl = document.getElementById('attachmentModal');
       if (attachEl) attachmentModal = new bootstrap.Modal(attachEl);
 
+      var hiddenAccEl = document.getElementById('hiddenAccountsModal');
+      if (hiddenAccEl) hiddenAccountsModal = new bootstrap.Modal(hiddenAccEl);
+
+      var catMgrEl = document.getElementById('manageCategoriesModal');
+      if (catMgrEl) manageCategoriesModal = new bootstrap.Modal(catMgrEl);
+
       loadSavedTheme();
       checkLoginStatus();
 
       // 🏠 Dashboard तुरंत दिखाएँ — बिना wait किए
       updateTrashBadge();
+      updateHiddenCountBadge();
+      
+      // 🏷️ Custom categories load करें
+      populateCategoryDropdowns();
       
       // Cached data से Dashboard को भरें (अगर है तो)
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
@@ -2540,7 +3398,7 @@
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
       });
       var nameEl = document.getElementById('dashUserName');
-      if (nameEl) nameEl.innerText = '— ' + properName;
+      if (nameEl) nameEl.innerText = properName;
 
       // 📅 Date & Time
       var dateTimeEl = document.getElementById('dashDateTime');
@@ -2625,6 +3483,156 @@
 
       // 7. Mini Chart
       renderDashboardMiniChart();
+      
+      // 8. 6-Month Analytics Chart
+      renderDashboardSixMonthChart();
+    }
+        // 📈 6-Month Analytics Chart
+    var dashboardSixMonthChartInstance = null;
+
+    function renderDashboardSixMonthChart() {
+      var ctx = document.getElementById('dashboardSixMonthChart');
+      if (!ctx) return;
+
+      // Last 6 months का data collect करें
+      var months = [];
+      var inData = [];
+      var outData = [];
+      
+      var today = new Date();
+      today.setHours(0,0,0,0);
+
+      // 6 महीने पीछे तक
+      for (var i = 5; i >= 0; i--) {
+        var monthStart = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        var monthEnd = new Date(today.getFullYear(), today.getMonth() - i + 1, 0, 23, 59, 59, 999);
+
+        var monthIn = 0, monthOut = 0;
+
+        if (globalAccounts && Array.isArray(globalAccounts)) {
+          globalAccounts.forEach(function(acc) {
+            var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+            var accData = allAccountsDataCache[accName];
+            if (!accData || !accData.transactions) return;
+
+            accData.transactions.forEach(function(t) {
+              var txnDate = parseCustomDate(t.date);
+              if (txnDate >= monthStart && txnDate <= monthEnd) {
+                var amt = Math.abs(Number(t.amount) || 0);
+                if (t.type === 'Cash In') monthIn += amt;
+                else monthOut += amt;
+              }
+            });
+          });
+        }
+
+        // Label — "Jan 26" जैसा
+        var label = monthStart.toLocaleDateString('en-IN', { month: 'short', year: '2-digit' });
+        months.push(label);
+        inData.push(monthIn);
+        outData.push(monthOut);
+      }
+
+      if (dashboardSixMonthChartInstance) dashboardSixMonthChartInstance.destroy();
+
+      dashboardSixMonthChartInstance = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: months,
+          datasets: [
+            {
+              label: 'In',
+              data: inData,
+              borderColor: '#059669',
+              backgroundColor: 'rgba(5, 150, 105, 0.1)',
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 3,
+              pointBackgroundColor: '#059669',
+              fill: true
+            },
+            {
+              label: 'Out',
+              data: outData,
+              borderColor: '#dc2626',
+              backgroundColor: 'rgba(220, 38, 38, 0.1)',
+              borderWidth: 2,
+              tension: 0.35,
+              pointRadius: 3,
+              pointBackgroundColor: '#dc2626',
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: true, position: 'top', labels: { boxWidth: 8, font: { size: 9 } } },
+            tooltip: { 
+              callbacks: { 
+                label: function(c) { 
+                  return ' ' + c.dataset.label + ': ' + formatINR(c.raw); 
+                } 
+              } 
+            }
+          },
+          scales: {
+            x: { grid: { display: false }, ticks: { font: { size: 9 } } },
+            y: { 
+              grid: { color: '#f1f5f9' }, 
+              ticks: { font: { size: 8 }, callback: function(v) { return '₹' + v; } } 
+            }
+          }
+        }
+      });
+
+      // 6-month summary text
+      var totalIn = inData.reduce(function(a,b) { return a+b; }, 0);
+      var totalOut = outData.reduce(function(a,b) { return a+b; }, 0);
+      var net = totalIn - totalOut;
+      var trend = totalIn - totalOut;
+
+      // Trend calculation — पिछले महीने vs इस महीने
+      var lastMonthIn = inData[4] || 0;
+      var thisMonthIn = inData[5] || 0;
+      var trendPct = lastMonthIn > 0 ? Math.round(((thisMonthIn - lastMonthIn) / lastMonthIn) * 100) : 0;
+
+      var summaryEl = document.getElementById('sixMonthSummary');
+      if (summaryEl) {
+        summaryEl.innerHTML = 
+          '<div class="d-flex justify-content-between mb-1">' +
+            '<span class="text-muted">6-Month Total In:</span>' +
+            '<span class="fw-bold text-success">' + formatINR(totalIn) + '</span>' +
+          '</div>' +
+          '<div class="d-flex justify-content-between mb-1">' +
+            '<span class="text-muted">6-Month Total Out:</span>' +
+            '<span class="fw-bold text-danger">' + formatINR(totalOut) + '</span>' +
+          '</div>' +
+          '<div class="d-flex justify-content-between">' +
+            '<span class="text-muted">Net Change:</span>' +
+            '<span class="fw-bold ' + (net >= 0 ? 'text-success' : 'text-danger') + '">' + 
+              (net >= 0 ? '+' : '') + formatINR(net) + 
+            '</span>' +
+          '</div>';
+      }
+
+      var trendBadge = document.getElementById('sixMonthTrendBadge');
+      if (trendBadge) {
+        if (trendPct > 0) {
+          trendBadge.innerHTML = '<i class="fas fa-arrow-up"></i> ' + trendPct + '% this month';
+          trendBadge.style.background = '#ecfdf5';
+          trendBadge.style.color = '#059669';
+        } else if (trendPct < 0) {
+          trendBadge.innerHTML = '<i class="fas fa-arrow-down"></i> ' + Math.abs(trendPct) + '% this month';
+          trendBadge.style.background = '#fef2f2';
+          trendBadge.style.color = '#dc2626';
+        } else {
+          trendBadge.innerHTML = '<i class="fas fa-minus"></i> No change';
+          trendBadge.style.background = '#f1f5f9';
+          trendBadge.style.color = '#475569';
+        }
+      }
     }
 function renderDashboardMiniChart() {
       var ctx = document.getElementById('dashboardMiniChart');
@@ -2995,6 +4003,12 @@ var days = [];
         return a.name.localeCompare(b.name, 'hi', { sensitivity: 'base' });
       });
 
+      // 👁️ Hidden accounts को filter करें
+      var hiddenAccs = getHiddenAccounts();
+      validAccounts = validAccounts.filter(function(acc) {
+        return hiddenAccs.indexOf(acc.name) === -1;
+      });
+
       // ✅ STEP 3: Build options WITHOUT avatar, with clean names
       var options = '<option value="">🏠 -- Home --</option>';
 
@@ -3053,6 +4067,9 @@ var days = [];
         showDashboard();
         return;
       }
+
+      // ✅ Hidden accounts ab dropdown me nahi aate, isliye yahan check ki zaroorat nahi
+      // (pehle yahan check tha jo closed account select karne par bhi block kar deta tha)
 
       // Account select हुआ — Detail view दिखाएँ
       var dash = document.getElementById('dashboardOverview');
@@ -3120,10 +4137,10 @@ var days = [];
 
       if (isClosed) {
         icon.className = 'fas fa-unlock text-success';
-        text.innerText = 'Account Reopen Karo';
+        text.innerText = 'Reopen Account';
       } else {
         icon.className = 'fas fa-lock text-danger';
-        text.innerText = 'Account Close Karo';
+        text.innerText = 'Close Account';
       }
     }
 
@@ -3165,6 +4182,9 @@ var days = [];
       }, 220);
     }
 
+    // 🔍 Global variable — current txn index track करने के लिए
+    var currentTxnDetailIndex = 0;
+
     // 🔍 Entry पर click करने से Detail Popup खुलेगा
     function openTxnDetailPopup(displayIndex) {
       var t = activeFilteredTxns[displayIndex];
@@ -3174,6 +4194,9 @@ var days = [];
       if (t.isFromOldBook === true) {
         return;
       }
+
+      // ✅ Current index save करें
+      currentTxnDetailIndex = displayIndex;
 
       var acc = document.getElementById('accountDropdown').value;
       var isIn = t.type === 'Cash In';
@@ -3226,7 +4249,180 @@ var days = [];
       }
 
       // Edit / Delete buttons with click handlers
-      var realIndex = currentAccountTxns.indexOf(t);
+      document.getElementById('txnDetailEditBtn').onclick = function() {
+        var modalEl = document.getElementById('txnDetailModal');
+        var modalInst = bootstrap.Modal.getInstance(modalEl);
+        if (modalInst) modalInst.hide();
+        setTimeout(function() { openEditTxnModal(currentTxnDetailIndex); }, 250);
+      };
+      document.getElementById('txnDetailDeleteBtn').onclick = function() {
+        var modalEl = document.getElementById('txnDetailModal');
+        var modalInst = bootstrap.Modal.getInstance(modalEl);
+        if (modalInst) modalInst.hide();
+        setTimeout(function() { deleteTransaction(currentTxnDetailIndex); }, 250);
+      };
+
+      // ✅ Counter update करें (1 of 10)
+      updateTxnDetailCounter();
+
+      // ✅ Prev/Next buttons enable/disable
+      updateNavButtons();
+
+      var modalEl = document.getElementById('txnDetailModal');
+      var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+      modal.show();
+    }
+
+    // ═══════════════════════════════════════════
+    // 🔄 NAVIGATE — अगली/पिछली transaction
+    // ═══════════════════════════════════════════
+    function navigateTxnDetail(direction) {
+      // direction: -1 = previous, 1 = next
+      var newIndex = currentTxnDetailIndex + direction;
+
+      // Boundary check
+      if (newIndex < 0 || newIndex >= activeFilteredTxns.length) return;
+
+      var newTxn = activeFilteredTxns[newIndex];
+      if (!newTxn) return;
+
+      // Locked entry को skip करें
+      if (newTxn.isFromOldBook === true) {
+        // अगली तरफ जाओ
+        var skipIndex = newIndex + direction;
+        while (skipIndex >= 0 && skipIndex < activeFilteredTxns.length) {
+          if (activeFilteredTxns[skipIndex].isFromOldBook !== true) {
+            newIndex = skipIndex;
+            break;
+          }
+          skipIndex += direction;
+        }
+        // अगर कोई valid नहीं मिला तो वापस
+        if (skipIndex < 0 || skipIndex >= activeFilteredTxns.length) return;
+        newTxn = activeFilteredTxns[newIndex];
+      }
+
+      currentTxnDetailIndex = newIndex;
+
+      // Content update करें (naya popup खोले बिना)
+      renderTxnDetailContent(newIndex);
+
+      // Counter update
+      updateTxnDetailCounter();
+
+      // Buttons update
+      updateNavButtons();
+
+      // 🔥 Smooth animation effect
+      var body = document.getElementById('txnDetailBody');
+      if (body) {
+        body.style.opacity = '0';
+        body.style.transform = 'translateX(' + (direction * 20) + 'px)';
+        body.style.transition = 'none';
+        setTimeout(function() {
+          body.style.transition = 'opacity 0.25s ease, transform 0.25s ease';
+          body.style.opacity = '1';
+          body.style.transform = 'translateX(0)';
+        }, 20);
+      }
+
+      // Body को top पर scroll करें
+      if (body) body.scrollTop = 0;
+    }
+
+    // 📊 Counter update — "1 of 10"
+    function updateTxnDetailCounter() {
+      var counterEl = document.getElementById('txnDetailCounter');
+      if (counterEl) {
+        var total = activeFilteredTxns.length;
+        var current = currentTxnDetailIndex + 1;
+        counterEl.innerText = current + ' of ' + total;
+      }
+    }
+
+    // 🎯 Prev/Next buttons enable/disable
+    function updateNavButtons() {
+      var prevBtn = document.getElementById('txnDetailPrevBtn');
+      var nextBtn = document.getElementById('txnDetailNextBtn');
+
+      if (prevBtn) {
+        if (currentTxnDetailIndex <= 0) {
+          prevBtn.style.opacity = '0.3';
+          prevBtn.style.cursor = 'not-allowed';
+        } else {
+          prevBtn.style.opacity = '1';
+          prevBtn.style.cursor = 'pointer';
+        }
+      }
+
+      if (nextBtn) {
+        if (currentTxnDetailIndex >= activeFilteredTxns.length - 1) {
+          nextBtn.style.opacity = '0.3';
+          nextBtn.style.cursor = 'not-allowed';
+        } else {
+          nextBtn.style.opacity = '1';
+          nextBtn.style.cursor = 'pointer';
+        }
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // 🎨 RENDER — Transaction Detail Content
+    // ═══════════════════════════════════════════
+    function renderTxnDetailContent(displayIndex) {
+      var t = activeFilteredTxns[displayIndex];
+      if (!t) return;
+
+      var acc = document.getElementById('accountDropdown').value;
+      var isIn = t.type === 'Cash In';
+
+      var header = document.getElementById('txnDetailHeader');
+      var iconBox = document.getElementById('txnDetailIconBox');
+      var typeEl = document.getElementById('txnDetailType');
+      var amountEl = document.getElementById('txnDetailAmount');
+
+      if (isIn) {
+        header.style.background = 'linear-gradient(135deg, #ecfdf5 0%, #f0fdf4 100%)';
+        iconBox.style.background = '#d1fae5';
+        iconBox.style.color = '#059669';
+        iconBox.innerHTML = '<i class="fas fa-arrow-down" style="font-size: 15px;"></i>';
+        amountEl.style.color = '#059669';
+      } else {
+        header.style.background = 'linear-gradient(135deg, #fef2f2 0%, #fff1f2 100%)';
+        iconBox.style.background = '#fecaca';
+        iconBox.style.color = '#dc2626';
+        iconBox.innerHTML = '<i class="fas fa-arrow-up" style="font-size: 15px;"></i>';
+        amountEl.style.color = '#dc2626';
+      }
+
+      typeEl.innerText = t.type;
+      document.getElementById('txnDetailAccountName').innerText = acc || '—';
+
+      var sign = isIn ? '+' : '-';
+      amountEl.innerText = sign + ' ' + formatINR(t.amount);
+
+      document.getElementById('txnDetailDate').innerText = t.date || '—';
+      document.getElementById('txnDetailBalance').innerText = (t.runningBalance !== undefined && t.runningBalance !== null) ? formatINR(t.runningBalance) : '—';
+      document.getElementById('txnDetailRemark').innerText = t.remark || '—';
+      document.getElementById('txnDetailCategoryBadge').innerText = t.category || 'General';
+
+      // Photo handling
+      var photoWrapper = document.getElementById('txnDetailPhotoWrapper');
+      var photoEl = document.getElementById('txnDetailPhoto');
+      if (t.imageUrl) {
+        var safeUrl = t.imageUrl;
+        if (safeUrl.includes("drive.google.com/file/d/")) {
+          var m = safeUrl.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+          if (m && m[1]) safeUrl = "https://lh3.googleusercontent.com/d/" + m[1];
+        }
+        photoEl.src = safeUrl;
+        photoWrapper.classList.remove('d-none');
+      } else {
+        photoEl.src = '';
+        photoWrapper.classList.add('d-none');
+      }
+
+      // Edit / Delete button handlers update करें
       document.getElementById('txnDetailEditBtn').onclick = function() {
         var modalEl = document.getElementById('txnDetailModal');
         var modalInst = bootstrap.Modal.getInstance(modalEl);
@@ -3239,10 +4435,6 @@ var days = [];
         if (modalInst) modalInst.hide();
         setTimeout(function() { deleteTransaction(displayIndex); }, 250);
       };
-
-      var modalEl = document.getElementById('txnDetailModal');
-      var modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
-      modal.show();
     }
 
 
@@ -3539,23 +4731,15 @@ var days = [];
 
       // Background sync
       updateSyncBadge('syncing');
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        mode: 'cors',
-        redirect: 'follow',
-        headers: {
-          'Content-Type': 'text/plain;charset=utf-8'
-        },
-        body: JSON.stringify({
-          action: 'updateTransactionEntry',
-          userId: loggedInUser ? loggedInUser.userId : "",
-          account: acc,
-          index: index,
-          newType: newType,
-          newAmount: newAmount,
-          newRemark: newRemark,
-          newDate: updatedDateStr
-        })
+      apiFetch({
+        action: 'updateTransactionEntry',
+        userId: loggedInUser ? loggedInUser.userId : "",
+        account: acc,
+        index: index,
+        newType: newType,
+        newAmount: newAmount,
+        newRemark: newRemark,
+        newDate: updatedDateStr
       })
       .then(res => res.json())
       .then(res => {
@@ -3565,6 +4749,20 @@ var days = [];
         console.error("Background Update Sync Error:", err);
         updateSyncBadge('offline');
       });
+    }
+
+    // 👁️ Hide current selected account
+    function hideCurrentAccount() {
+      var accName = document.getElementById('accountDropdown').value;
+      if (!accName || accName === "") return alert('Pehle account select karein!');
+
+      if (!confirm('👁️ Kya aap is account ko dropdown se hide karna chahte hain?\n\n"' + accName + '"\n\nData safe rahega. Sidebar → "Hide / Unhide Accounts" se wapas la sakte hain.')) {
+        return;
+      }
+
+      hideAccount(accName);
+      showDashboard();
+      alert('✅ Account hide ho gaya! Sidebar → "Hide / Unhide Accounts" me milega.');
     }
 
     function showEditAccountModal() {
@@ -3595,15 +4793,12 @@ var days = [];
       if (!newName) return alert('Kripya naam darj karein!');
 
       showLoader();
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'updateAccountInfo',
-          userId: loggedInUser ? loggedInUser.userId : "",
-          oldName: oldName,
-          newName: newName,
-          newPhone: newPhone
-        })
+      apiFetch({
+        action: 'updateAccountInfo',
+        userId: loggedInUser ? loggedInUser.userId : "",
+        oldName: oldName,
+        newName: newName,
+        newPhone: newPhone
       })
       .then(res => res.json())
       .then(() => {
@@ -3658,14 +4853,11 @@ var days = [];
         btn.innerHTML = '<i class="fas fa-plus me-1"></i> Add Account';
       }
 
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: "addAccount",
-          userId: loggedInUser ? loggedInUser.userId : "",
-          accountName: accName,
-          phone: accPhone
-        })
+      apiFetch({
+        action: "addAccount",
+        userId: loggedInUser && loggedInUser.userId ? String(loggedInUser.userId).trim() : "",
+        accountName: accName,
+        phone: accPhone
       }).catch(function(err) { console.error("Account sync error:", err); });
     }
 
@@ -3854,10 +5046,7 @@ var days = [];
         locationText: window.currentLocationText || ''
       };
 
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(payload)
-      })
+      apiFetch(payload)
       .then(res => res.json())
       .then(res => {
         selectedImageData = null;
@@ -3881,14 +5070,12 @@ var days = [];
       if (fromAcc === toAcc) return alert('Dono account alag hone chahiye!');
 
       showLoader();
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'transferFunds',
-          fromAcc: fromAcc,
-          toAcc: toAcc,
-          amount: amount
-        })
+      apiFetch({
+        action: 'transferFunds',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        fromAcc: fromAcc,
+        toAcc: toAcc,
+        amount: amount
       })
       .then(res => res.json())
       .then(() => {
@@ -3934,14 +5121,11 @@ var days = [];
         deletedTxnsLog.push(deletedItem);
 
         showLoader();
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'deleteTransaction',
-            userId: loggedInUser ? loggedInUser.userId : "",
-            acc: acc,
-            index: realIndex
-          })
+        apiFetch({
+          action: 'deleteTransaction',
+          userId: loggedInUser ? loggedInUser.userId : "",
+          acc: acc,
+          index: realIndex
         })
         .then(res => res.json())
         .then(() => {
@@ -3967,14 +5151,11 @@ var days = [];
           addToTrash(deletedItem, acc);
 
           // 🗑️ Server पर भी trash में भेजें
-          fetch(SCRIPT_URL, {
-            method: 'POST',
-            body: JSON.stringify({
-              action: 'moveToTrash',
-              userId: loggedInUser ? loggedInUser.userId : '',
-              accountName: acc,
-              transaction: deletedItem
-            })
+          apiFetch({
+            action: 'moveToTrash',
+            userId: loggedInUser ? loggedInUser.userId : '',
+            accountName: acc,
+            transaction: deletedItem
           })
           .then(function(r) { return r.json(); })
           .then(function(r) { console.log('✅ Trash synced:', r); })
@@ -4093,7 +5274,10 @@ var days = [];
         currentAccountNotes = JSON.parse(localData);
         renderKeepNotes();
       }
-      fetch(SCRIPT_URL + "?action=getAccountNotes&acc=" + encodeURIComponent(acc))
+      fetch(buildApiUrl('getAccountNotes', { 
+        userId: loggedInUser ? loggedInUser.userId : '',
+        acc: acc 
+      }))
         .then(res => res.json())
         .then(res => {
           if (res && res.notes) {
@@ -4105,10 +5289,13 @@ var days = [];
     }
 
     function syncNotesWithServer(acc) {
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ action: 'saveAccountNotes', acc: acc, notes: currentAccountNotes })
-      }).catch(err => console.error('Notes sync save error:', err));
+      apiFetch({ 
+        action: 'saveAccountNotes', 
+        userId: loggedInUser ? loggedInUser.userId : '',
+        acc: acc, 
+        notes: currentAccountNotes 
+      })
+      .catch(err => console.error('Notes sync save error:', err));
     }
 
     // ═══════════════════════════════════════════════════════════
@@ -4372,14 +5559,11 @@ var days = [];
       }
 
       // 🔄 Server पर भी restore करें
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'restoreFromTrash',
-          userId: loggedInUser ? loggedInUser.userId : '',
-          accountName: accName,
-          transaction: txn
-        })
+      apiFetch({
+        action: 'restoreFromTrash',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        accountName: accName,
+        transaction: txn
       })
       .then(function(r) { return r.json(); })
       .then(function(r) { console.log('✅ Restore synced:', r); })
@@ -4432,12 +5616,406 @@ var days = [];
     }
 
     function syncBackup() {
-      showLoader();
+      // Sidebar को बंद करें
+      var drawer = document.getElementById('sidebarDrawer');
+      if (drawer) {
+        var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+        if (bsDrawer) bsDrawer.hide();
+      }
+
+      // Backup Modal खोलें
       setTimeout(function() {
-        hideLoader();
-        alert('Data Google Drive Spreadsheet me completely synced hai!');
+        openBackupModal();
+      }, 250);
+    }
+
+    // ═══════════════════════════════════════════
+    // 💾 BACKUP & RESTORE SYSTEM
+    // ═══════════════════════════════════════════
+    function openBackupModal() {
+      updateBackupInfo();
+      var el = document.getElementById('backupModal');
+      if (el) {
+        var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        m.show();
+      }
+    }
+
+    // 📊 Backup info update करें
+    function updateBackupInfo() {
+      var lastBackup = localStorage.getItem('cashbook_last_backup_time_' + (loggedInUser ? loggedInUser.userId : 'guest'));
+      var lastAutoBackup = localStorage.getItem('cashbook_last_auto_backup_' + (loggedInUser ? loggedInUser.userId : 'guest'));
+
+      var manualEl = document.getElementById('lastManualBackupText');
+      var autoEl = document.getElementById('lastAutoBackupText');
+      var nextEl = document.getElementById('nextAutoBackupText');
+
+      if (manualEl) {
+        if (lastBackup) {
+          var d = new Date(parseInt(lastBackup));
+          manualEl.innerText = d.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        } else {
+          manualEl.innerText = 'Never';
+        }
+      }
+
+      if (autoEl) {
+        if (lastAutoBackup) {
+          var d2 = new Date(parseInt(lastAutoBackup));
+          autoEl.innerText = d2.toLocaleString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        } else {
+          autoEl.innerText = 'Not yet';
+        }
+      }
+
+      if (nextEl) {
+        if (lastAutoBackup) {
+          var next = parseInt(lastAutoBackup) + (24 * 60 * 60 * 1000);
+          var diff = next - Date.now();
+          if (diff <= 0) {
+            nextEl.innerText = 'Due now';
+          } else {
+            var hours = Math.floor(diff / (60 * 60 * 1000));
+            var mins = Math.floor((diff % (60 * 60 * 1000)) / (60 * 1000));
+            nextEl.innerText = 'In ' + hours + 'h ' + mins + 'm';
+          }
+        } else {
+          nextEl.innerText = 'Within 24 hours';
+        }
+      }
+
+      // Auto backup toggle state
+      var autoToggle = document.getElementById('autoBackupToggle');
+      if (autoToggle) {
+        var isAutoEnabled = localStorage.getItem('cashbook_auto_backup_enabled_' + (loggedInUser ? loggedInUser.userId : 'guest')) !== 'false';
+        autoToggle.checked = isAutoEnabled;
+      }
+    }
+
+    // 🔄 Auto backup toggle
+    function toggleAutoBackup(enabled) {
+      var uid = loggedInUser ? loggedInUser.userId : 'guest';
+      localStorage.setItem('cashbook_auto_backup_enabled_' + uid, enabled ? 'true' : 'false');
+      showToastMessage(enabled ? '✅ Auto backup enabled' : '⚠️ Auto backup disabled', enabled ? 'success' : 'warning');
+    }
+
+    // 📥 Manual Download Backup (JSON)
+    function downloadBackupJSON() {
+      if (!loggedInUser || !loggedInUser.userId) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Not Signed In',
+          message: 'Please sign in to download your backup.',
+          buttonText: 'OK'
+        });
+      }
+
+      showLoader();
+
+      setTimeout(function() {
+        try {
+          var backupData = generateBackupData();
+          var jsonStr = JSON.stringify(backupData, null, 2);
+          var filename = 'Cash_Book_Pro_' + new Date().toISOString().slice(0, 10) + '.json';
+
+          // Last backup time save करें
+          localStorage.setItem('cashbook_last_backup_time_' + loggedInUser.userId, Date.now().toString());
+
+          // Download करें
+          if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+            // Android APK — Base64 method
+            var base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
+            window.AndroidInterface.downloadBase64File(base64Str, filename, "application/json");
+          } else {
+            // Browser — Blob method
+            var blob = new Blob([jsonStr], { type: 'application/json' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+          }
+
+          hideLoader();
+          updateBackupInfo();
+
+          showCustomAlert({
+            type: 'success',
+            title: 'Backup Downloaded',
+            message: 'Your data has been saved as "' + filename + '". Keep it safe!',
+            buttonText: 'Great!'
+          });
+
+        } catch (err) {
+          hideLoader();
+          console.error('Backup error:', err);
+          showCustomAlert({
+            type: 'error',
+            title: 'Backup Failed',
+            message: 'Unable to create backup. Please try again.',
+            buttonText: 'Retry'
+          });
+        }
+      }, 400);
+    }
+
+    // 📊 Backup data generate करें
+    function generateBackupData() {
+      var uid = loggedInUser.userId;
+
+      var backup = {
+        app: 'Cash Book Pro',
+        version: '2.4',
+        exportedAt: new Date().toISOString(),
+        exportedOn: new Date().toLocaleString('en-IN'),
+        user: {
+          userId: uid,
+          username: loggedInUser.username || '',
+          phone: loggedInUser.phone || ''
+        },
+        accounts: globalAccounts || [],
+        data: allAccountsDataCache || {},
+        notes: getAllNotesForBackup(uid),
+        categories: getCustomCategories ? getCustomCategories() : [],
+        hiddenAccounts: getHiddenAccounts ? getHiddenAccounts() : [],
+        trash: getTrash ? getTrash() : [],
+        oldBooks: getAllOldBooksForBackup(uid)
+      };
+
+      return backup;
+    }
+
+    // सारे notes इकट्ठे करें
+    function getAllNotesForBackup(uid) {
+      var allNotes = {};
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf('keep_notes_') === 0) {
+            allNotes[k] = JSON.parse(localStorage.getItem(k) || '[]');
+          }
+        }
+      } catch(e) {}
+      return allNotes;
+    }
+
+    // सारी old books इकट्ठी करें
+    function getAllOldBooksForBackup(uid) {
+      var allBooks = {};
+      try {
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && k.indexOf('cashbook_old_books_' + uid + '_') === 0) {
+            var accName = k.replace('cashbook_old_books_' + uid + '_', '');
+            allBooks[accName] = JSON.parse(localStorage.getItem(k) || '[]');
+          }
+        }
+      } catch(e) {}
+      return allBooks;
+    }
+
+    // 📤 Restore from JSON
+    function restoreFromBackupFile(input) {
+      if (!input.files || !input.files[0]) return;
+
+      var file = input.files[0];
+
+      if (!file.name.endsWith('.json')) {
+        return showCustomAlert({
+          type: 'error',
+          title: 'Invalid File',
+          message: 'Please select a valid Cash Book Pro backup file (.json).',
+          buttonText: 'OK'
+        });
+      }
+
+      showCustomConfirm({
+        type: 'warning',
+        title: 'Restore Backup?',
+        message: 'This will REPLACE all your current data with the backup file. Make sure you have a recent backup before proceeding.',
+        okText: 'Yes, Restore',
+        cancelText: 'Cancel',
+        onConfirm: function() {
+          var reader = new FileReader();
+          reader.onload = function(e) {
+            try {
+              var backupData = JSON.parse(e.target.result);
+
+              // Validate
+              if (!backupData.app || backupData.app !== 'Cash Book Pro') {
+                throw new Error('Invalid backup file');
+              }
+
+              if (!backupData.user || backupData.user.userId !== loggedInUser.userId) {
+                throw new Error('This backup belongs to a different user');
+              }
+
+              // Restore करें
+              performRestore(backupData);
+
+            } catch (err) {
+              showCustomAlert({
+                type: 'error',
+                title: 'Restore Failed',
+                message: err.message || 'Backup file is invalid or corrupted.',
+                buttonText: 'OK'
+              });
+            }
+          };
+          reader.readAsText(file);
+        }
+      });
+    }
+
+    // 🔄 Actual restore
+    function performRestore(backupData) {
+      showLoader();
+
+      setTimeout(function() {
+        try {
+          var uid = loggedInUser.userId;
+
+          // 1️⃣ Accounts restore
+          if (backupData.accounts) {
+            globalAccounts = backupData.accounts;
+            localStorage.setItem('cashbook_user_accs_' + uid, JSON.stringify(globalAccounts));
+          }
+
+          // 2️⃣ Data (transactions) restore
+          if (backupData.data) {
+            allAccountsDataCache = backupData.data;
+            localStorage.setItem('cashbook_user_master_txns_' + uid, JSON.stringify(allAccountsDataCache));
+          }
+
+          // 3️⃣ Notes restore
+          if (backupData.notes) {
+            Object.keys(backupData.notes).forEach(function(k) {
+              localStorage.setItem(k, JSON.stringify(backupData.notes[k]));
+            });
+          }
+
+          // 4️⃣ Categories restore
+          if (backupData.categories) {
+            localStorage.setItem('cashbook_custom_categories_' + uid, JSON.stringify(backupData.categories));
+          }
+
+          // 5️⃣ Hidden accounts restore
+          if (backupData.hiddenAccounts) {
+            localStorage.setItem('cashbook_hidden_accs_' + uid, JSON.stringify(backupData.hiddenAccounts));
+          }
+
+          // 6️⃣ Trash restore
+          if (backupData.trash) {
+            localStorage.setItem('cashbook_trash_' + uid, JSON.stringify(backupData.trash));
+          }
+
+          // 7️⃣ Old books restore
+          if (backupData.oldBooks) {
+            Object.keys(backupData.oldBooks).forEach(function(accName) {
+              localStorage.setItem('cashbook_old_books_' + uid + '_' + accName, JSON.stringify(backupData.oldBooks[accName]));
+            });
+          }
+
+          hideLoader();
+
+          // UI refresh
+          populateAccountsDropdown();
+          populateCategoryDropdowns();
+          renderDashboard();
+          updateTrashBadge();
+          updateHiddenCountBadge();
+
+          showCustomAlert({
+            type: 'success',
+            title: 'Restore Successful',
+            message: 'Your data has been restored from backup (' + (backupData.exportedOn || 'unknown date') + ').',
+            buttonText: 'Great!'
+          });
+
+        } catch (err) {
+          hideLoader();
+          console.error('Restore error:', err);
+          showCustomAlert({
+            type: 'error',
+            title: 'Restore Failed',
+            message: 'Unable to restore data: ' + err.message,
+            buttonText: 'OK'
+          });
+        }
       }, 500);
     }
+
+    // ═══════════════════════════════════════════
+    // 🔄 AUTO BACKUP — हर 24 घंटे में
+    // ═══════════════════════════════════════════
+    function checkAutoBackup() {
+      if (!loggedInUser || !loggedInUser.userId) return;
+
+      var uid = loggedInUser.userId;
+      var isEnabled = localStorage.getItem('cashbook_auto_backup_enabled_' + uid) !== 'false';
+      
+      if (!isEnabled) return;
+
+      var lastAuto = parseInt(localStorage.getItem('cashbook_last_auto_backup_' + uid) || '0');
+      var now = Date.now();
+      var TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
+
+      // अगर 24 घंटे हो गए हैं
+      if (now - lastAuto >= TWENTY_FOUR_HOURS) {
+        console.log('⏰ 24 hours passed — triggering auto backup...');
+        triggerAutoBackup();
+      }
+    }
+
+    function triggerAutoBackup() {
+      if (!loggedInUser || !loggedInUser.userId) return;
+
+      try {
+        var backupData = generateBackupData();
+        var jsonStr = JSON.stringify(backupData, null, 2);
+        var filename = 'Cash_Book_Pro_' + new Date().toISOString().slice(0, 10) + '.json';
+
+        // Download करें
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var base64Str = btoa(unescape(encodeURIComponent(jsonStr)));
+          window.AndroidInterface.downloadBase64File(base64Str, filename, "application/json");
+        } else {
+          var blob = new Blob([jsonStr], { type: 'application/json' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = filename;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        }
+
+        // Time save करें
+        localStorage.setItem('cashbook_last_auto_backup_' + loggedInUser.userId, Date.now().toString());
+
+        console.log('✅ Auto backup complete:', filename);
+
+        // Toast notification
+        showToastMessage('✅ Auto backup saved: ' + filename, 'success');
+
+      } catch (err) {
+        console.error('❌ Auto backup error:', err);
+      }
+    }
+
+    // हर 1 घंटे में check करो कि 24 घंटे हो गए या नहीं
+    setInterval(function() {
+      checkAutoBackup();
+    }, 60 * 60 * 1000);  // 1 hour
+
+    // App खुलने पर भी check करो
+    window.addEventListener('load', function() {
+      setTimeout(checkAutoBackup, 5000);  // 5 second बाद
+    });
 
     function shareWhatsAppStatement() {
       var accName = document.getElementById('accountDropdown').value;
@@ -4550,14 +6128,24 @@ var days = [];
       }
 
       var now = new Date();
-      var filtered = currentAccountTxns.filter(function(t) {
-        var parts = t.date ? t.date.split(',')[0].split('/') : [];
-        var tDate = parts.length === 3 ? new Date(parts[2], parts[1] - 1, parts[0]) : new Date(t.date);
-        if (isNaN(tDate.getTime())) return true;
+      now.setHours(0,0,0,0);
+      var today = new Date(now);
+      var yesterday = new Date(now); yesterday.setDate(yesterday.getDate() - 1);
+      var weekAgo = new Date(now); weekAgo.setDate(weekAgo.getDate() - 7);
+      var monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+      var lastMonthStart = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+      var lastMonthEnd = new Date(now.getFullYear(), now.getMonth(), 0, 23, 59, 59, 999);
 
-        if (range === 'daily') return tDate.toDateString() === now.toDateString();
-        if (range === 'weekly') return (now - tDate) / (1000 * 60 * 60 * 24) <= 7;
-        if (range === 'monthly') return tDate.getMonth() === now.getMonth() && tDate.getFullYear() === now.getFullYear();
+      var filtered = currentAccountTxns.filter(function(t) {
+        var tDate = parseCustomDate(t.date);
+        if (isNaN(tDate.getTime())) return true;
+        tDate.setHours(0,0,0,0);
+
+        if (range === 'daily') return tDate.getTime() === today.getTime();
+        if (range === 'yesterday') return tDate.getTime() === yesterday.getTime();
+        if (range === 'weekly') return tDate >= weekAgo;
+        if (range === 'monthly') return tDate >= monthStart;
+        if (range === 'lastmonth') return tDate >= lastMonthStart && tDate <= lastMonthEnd;
         return true;
       });
 
@@ -4667,23 +6255,28 @@ var days = [];
       var exactNetBalance = exactTotalIn - exactTotalOut;
 
       var sortedTxns = (currentAccountTxns || []).slice().sort(function(a, b) {
-        var dateA = new Date(a.date);
-        var dateB = new Date(b.date);
-        if (isNaN(dateA.getTime())) return 1;
-        if (isNaN(dateB.getTime())) return -1;
-        return dateA - dateB;
+        return parseCustomDate(a.date).getTime() - parseCustomDate(b.date).getTime();
       });
 
-      // Prepare Excel Sheet Data Structure
-      var excelRows = [];
-      excelRows.push(["CASH BOOK STATEMENT"]);
-      excelRows.push(["Account Name:", acc]);
-      excelRows.push(["Total Cash In:", exactTotalIn, "Total Cash Out:", exactTotalOut, "Net Balance:", exactNetBalance]);
-      excelRows.push([]); // Blank Line
-      excelRows.push(["#", "Date & Time", "Type", "Amount (₹)", "Running Balance (₹)", "Remark / Note"]);
+      // ============ BUILD WORKSHEET ============
+      var ws = {};
+      var wsData = [];
+      var rowHeights = [];
 
+      // ----- Row 1: TITLE -----
+      wsData.push(["CASH BOOK STATEMENT"]);
+      // ----- Row 2: Account -----
+      wsData.push(["Account Name:", acc]);
+      // ----- Row 3: Summary -----
+      wsData.push(["Total Cash In:", exactTotalIn, "", "Total Cash Out:", exactTotalOut, "", "Net Balance:", exactNetBalance]);
+      // ----- Row 4: Blank -----
+      wsData.push([]);
+      // ----- Row 5: Headers -----
+      wsData.push(["#", "Date & Time", "Type", "Amount (₹)", "Running Balance (₹)", "Remark / Note"]);
+
+      // ----- Row 6+: Data -----
       sortedTxns.forEach(function(t, idx) {
-        excelRows.push([
+        wsData.push([
           idx + 1,
           t.date || '-',
           t.type || '-',
@@ -4693,19 +6286,185 @@ var days = [];
         ]);
       });
 
-      // Build SheetJS Workbook
-      var ws = XLSX.utils.aoa_to_sheet(excelRows);
+      // ============ CREATE SHEET FROM DATA ============
+      ws = XLSX.utils.aoa_to_sheet(wsData);
+
+      // ============ APPLY MERGES ============
+      // Title को पूरे 6 columns में merge करें
+      ws['!merges'] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 5 } }  // Row 1, Col A-F
+      ];
+
+      // ============ COLUMN WIDTHS (Auto-fit) ============
+      ws['!cols'] = [
+        { wch: 5 },   // # 
+        { wch: 22 },  // Date & Time
+        { wch: 12 },  // Type
+        { wch: 14 },  // Amount
+        { wch: 18 },  // Running Balance
+        { wch: 40 }   // Remark
+      ];
+
+      // ============ ROW HEIGHTS ============
+      ws['!rows'] = [];
+      ws['!rows'][0] = { hpt: 28 }; // Title row
+      ws['!rows'][4] = { hpt: 24 }; // Header row
+
+      // ============ STYLING ============
+      var range = XLSX.utils.decode_range(ws['!ref']);
+
+      // ----- Title Row (Row 1) -----
+      var titleCell = XLSX.utils.encode_cell({ r: 0, c: 0 });
+      if (!ws[titleCell]) ws[titleCell] = { t: 's', v: 'CASH BOOK STATEMENT' };
+      ws[titleCell].s = {
+        font: { name: 'Calibri', sz: 14, bold: true, color: { rgb: 'FFFFFF' } },
+        fill: { fgColor: { rgb: '0F172A' } },        // Dark navy
+        alignment: { horizontal: 'center', vertical: 'center' },
+        border: {
+          top: { style: 'thin', color: { rgb: '0F172A' } },
+          bottom: { style: 'thin', color: { rgb: '0F172A' } },
+          left: { style: 'thin', color: { rgb: '0F172A' } },
+          right: { style: 'thin', color: { rgb: '0F172A' } }
+        }
+      };
+
+      // ----- Account Row (Row 2) -----
+      var accCell = XLSX.utils.encode_cell({ r: 1, c: 0 });
+      var accValCell = XLSX.utils.encode_cell({ r: 1, c: 1 });
+      if (ws[accCell]) ws[accCell].s = {
+        font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '0F172A' } },
+        alignment: { horizontal: 'left', vertical: 'center' }
+      };
+      if (ws[accValCell]) ws[accValCell].s = {
+        font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: '9F1239' } },
+        alignment: { horizontal: 'left', vertical: 'center' }
+      };
+
+      // ----- Summary Row (Row 3) -----
+      ['A3', 'B3', 'D3', 'E3', 'G3', 'H3'].forEach(function(addr) {
+        if (ws[addr]) {
+          ws[addr].s = {
+            font: { name: 'Calibri', sz: 9, bold: true },
+            alignment: { horizontal: 'center', vertical: 'center' }
+          };
+        }
+      });
+      if (ws['A3']) ws['A3'].s.fill = { fgColor: { rgb: 'ECFDF5' } };
+      if (ws['A3']) ws['A3'].s.font.color = { rgb: '059669' };
+      if (ws['D3']) ws['D3'].s.fill = { fgColor: { rgb: 'FEF2F2' } };
+      if (ws['D3']) ws['D3'].s.font.color = { rgb: 'DC2626' };
+      if (ws['G3']) ws['G3'].s.fill = { fgColor: { rgb: 'F1F5F9' } };
+      if (ws['G3']) ws['G3'].s.font.color = { rgb: '0F172A' };
+
+      // ----- Header Row (Row 5) -----
+      var headerRow = 4; // 0-based index
+      var headerLabels = ["#", "Date & Time", "Type", "Amount (₹)", "Running Balance (₹)", "Remark / Note"];
+      
+      headerLabels.forEach(function(label, colIdx) {
+        var addr = XLSX.utils.encode_cell({ r: headerRow, c: colIdx });
+        if (!ws[addr]) ws[addr] = { t: 's', v: label };
+        ws[addr].s = {
+          font: { name: 'Calibri', sz: 10, bold: true, color: { rgb: 'FFFFFF' } },
+          fill: { fgColor: { rgb: '065F46' } },      // 🔥 Dark Green header
+          alignment: { horizontal: 'center', vertical: 'center', wrapText: true },
+          border: {
+            top: { style: 'thin', color: { rgb: '064E3B' } },
+            bottom: { style: 'thin', color: { rgb: '064E3B' } },
+            left: { style: 'thin', color: { rgb: '064E3B' } },
+            right: { style: 'thin', color: { rgb: '064E3B' } }
+          }
+        };
+      });
+
+      // ----- Data Rows (Row 6 onwards) -----
+      var dataStartRow = 5;
+      sortedTxns.forEach(function(t, idx) {
+        var r = dataStartRow + idx;
+        var isIn = t.type === 'Cash In';
+        var bgColor = isIn ? 'F0FDF4' : 'FEF2F2';      // हल्का हरा / हल्का लाल
+        var amountColor = isIn ? '059669' : 'DC2626';   // गाढ़ा हरा / गाढ़ा लाल
+
+        // Har cell ko style karo
+        for (var c = 0; c <= 5; c++) {
+          var addr = XLSX.utils.encode_cell({ r: r, c: c });
+          if (!ws[addr]) continue;
+
+          var cellStyle = {
+            font: { name: 'Calibri', sz: 9, color: { rgb: '0F172A' } },
+            fill: { fgColor: { rgb: bgColor } },
+            alignment: { vertical: 'center', wrapText: true },
+            border: {
+              top: { style: 'thin', color: { rgb: 'E2E8F0' } },
+              bottom: { style: 'thin', color: { rgb: 'E2E8F0' } },
+              left: { style: 'thin', color: { rgb: 'E2E8F0' } },
+              right: { style: 'thin', color: { rgb: 'E2E8F0' } }
+            }
+          };
+
+          // Column-specific formatting
+          if (c === 0) { // #
+            cellStyle.alignment.horizontal = 'center';
+            cellStyle.font.bold = true;
+            cellStyle.font.color = { rgb: '64748B' };
+          } else if (c === 1) { // Date
+            cellStyle.alignment.horizontal = 'left';
+            cellStyle.font.sz = 8;
+          } else if (c === 2) { // Type
+            cellStyle.alignment.horizontal = 'center';
+            cellStyle.font.bold = true;
+            cellStyle.font.color = { rgb: amountColor };
+            cellStyle.font.sz = 9;
+          } else if (c === 3) { // Amount
+            cellStyle.alignment.horizontal = 'right';
+            cellStyle.font.bold = true;
+            cellStyle.font.color = { rgb: amountColor };
+            cellStyle.font.sz = 10;
+          } else if (c === 4) { // Running Balance
+            cellStyle.alignment.horizontal = 'right';
+            cellStyle.font.sz = 9;
+          } else if (c === 5) { // Remark
+            cellStyle.alignment.horizontal = 'left';
+            cellStyle.font.sz = 9;
+          }
+
+          ws[addr].s = cellStyle;
+        }
+
+        // Amount और Running Balance को number format do
+        var amtAddr = XLSX.utils.encode_cell({ r: r, c: 3 });
+        if (ws[amtAddr] && typeof ws[amtAddr].v === 'number') {
+          ws[amtAddr].z = '₹#,##0';
+        }
+        var balAddr = XLSX.utils.encode_cell({ r: r, c: 4 });
+        if (ws[balAddr] && typeof ws[balAddr].v === 'number') {
+          ws[balAddr].z = '₹#,##0';
+        }
+      });
+
+      // ============ FREEZE HEADER ROW ============
+      ws['!freeze'] = { xSplit: 0, ySplit: 5 };  // Header row (5) tak freeze
+
+      // ============ CREATE WORKBOOK ============
       var wb = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(wb, ws, "Statement");
 
+      // ============ AUTO-FIT ROW HEIGHT (Data rows) ============
+      for (var rr = dataStartRow; rr <= dataStartRow + sortedTxns.length; rr++) {
+        ws['!rows'][rr] = { hpt: 22 };
+      }
+
+      // ============ WRITE FILE ============
       var filename = acc + "_Statement.xlsx";
 
-      // Download Handler (Android APK Native Bridge or Browser)
       if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
-        var wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'base64' });
+        var wbout = XLSX.write(wb, { 
+          bookType: 'xlsx', 
+          type: 'base64',
+          cellStyles: true    // 🔥 Important: styling ke liye
+        });
         window.AndroidInterface.downloadBase64File(wbout, filename, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
       } else {
-        XLSX.writeFile(wb, filename);
+        XLSX.writeFile(wb, filename, { cellStyles: true });
       }
     }
     async function exportAccountPDF() {
@@ -4737,13 +6496,10 @@ var days = [];
         'color: #0f172a; ' +
         'padding: 30px; ' +
         'font-family: "Noto Sans Devanagari", "Hind", Arial, sans-serif; ' +
-        'position: absolute; ' +
+        'position: fixed; ' +
         'top: 0; ' +
-        'left: 0; ' +
-        'opacity: 0; ' +
-        'pointer-events: none; ' +
-        'z-index: -1; ' +
-        'visibility: hidden;';
+        'left: -99999px; ' +     // ✅ screen ke bahar rakho, hidden nahi
+        'z-index: 1;';
 
       // Build transaction rows
       var rowsHTML = '';
@@ -5184,64 +6940,436 @@ var days = [];
     }
 
     function toggleAuthView(view) {
+      var loginView = document.getElementById('loginFormView');
+      var signupView = document.getElementById('signupFormView');
+      var titleEl = document.getElementById('authTitle');
+      var subEl = document.getElementById('authSubTitle');
+
       if (view === 'signup') {
-        document.getElementById('loginFormView').classList.add('d-none');
-        document.getElementById('signupFormView').classList.remove('d-none');
-        document.getElementById('authTitle').innerText = "Create Account";
+        // Signup dikhao
+        loginView.classList.add('d-none');
+        signupView.classList.remove('d-none');
+        
+        if (titleEl) titleEl.innerText = "Create New Account";
+        if (subEl) subEl.innerText = "Quick signup — Get started in seconds";
+        
+        // Signup fields clear karo
+        var ru = document.getElementById('regUsername');
+        var rp = document.getElementById('regPassword');
+        var rph = document.getElementById('regPhone');
+        if (ru) ru.value = '';
+        if (rp) rp.value = '';
+        if (rph) rph.value = '';
+        
+        // Username pe focus
+        setTimeout(function() {
+          if (ru) ru.focus();
+        }, 300);
+        
       } else {
-        document.getElementById('signupFormView').classList.add('d-none');
-        document.getElementById('loginFormView').classList.remove('d-none');
-        document.getElementById('authTitle').innerText = "Cash Book";
+        // Login dikhao
+        signupView.classList.add('d-none');
+        loginView.classList.remove('d-none');
+        
+        if (titleEl) titleEl.innerText = "Cash Book Pro";
+        if (subEl) subEl.innerText = "Encrypted Personal Finance Ledger";
+        
+        // Login fields clear karo
+        var lu = document.getElementById('loginUsername');
+        var lp = document.getElementById('loginPassword');
+        if (lu) lu.value = '';
+        if (lp) lp.value = '';
+        
+        // Username pe focus
+        setTimeout(function() {
+          if (lu) lu.focus();
+        }, 300);
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // 💬 CUSTOM PROFESSIONAL ALERT SYSTEM
+    // ═══════════════════════════════════════════
+    var customAlertCallback = null;
+
+    function showCustomAlert(options) {
+      // options = { type, title, message, buttonText, onClose }
+      var modal = document.getElementById('customAlertModal');
+      var iconBox = document.getElementById('customAlertIcon');
+      var iconInner = document.getElementById('customAlertIconInner');
+      var titleEl = document.getElementById('customAlertTitle');
+      var msgEl = document.getElementById('customAlertMessage');
+      var btnEl = document.getElementById('customAlertBtn');
+
+      if (!modal) return;
+
+      var type = options.type || 'info';  // error / success / warning / info
+      var icons = {
+        'error': 'fa-times-circle',
+        'success': 'fa-check-circle',
+        'warning': 'fa-exclamation-triangle',
+        'info': 'fa-info-circle'
+      };
+
+      var titles = {
+        'error': 'Oops! Something went wrong',
+        'success': 'Success',
+        'warning': 'Please Check',
+        'info': 'Information'
+      };
+
+      // Icon set करें
+      if (iconBox) iconBox.className = 'custom-alert-icon ' + type;
+      if (iconInner) iconInner.className = 'fas ' + (icons[type] || icons.info);
+
+      // Title
+      if (titleEl) titleEl.innerText = options.title || titles[type] || 'Information';
+
+      // Message
+      if (msgEl) msgEl.innerText = options.message || '';
+
+      // Button
+      if (btnEl) {
+        btnEl.className = 'custom-alert-btn ' + type;
+        btnEl.innerText = options.buttonText || 'OK';
+      }
+
+      // Callback
+      customAlertCallback = options.onClose || null;
+
+      // Show modal
+      modal.classList.remove('d-none');
+    }
+
+    function closeCustomAlert() {
+      var modal = document.getElementById('customAlertModal');
+      if (modal) {
+        modal.style.opacity = '0';
+        modal.style.transition = 'opacity 0.2s ease';
+        setTimeout(function() {
+          modal.classList.add('d-none');
+          modal.style.opacity = '1';
+          if (typeof customAlertCallback === 'function') {
+            var cb = customAlertCallback;
+            customAlertCallback = null;
+            cb();
+          }
+        }, 200);
+      }
+    }
+
+    // ═══════════════════════════════════════════
+    // ❓ CUSTOM CONFIRM SYSTEM (2 Buttons)
+    // ═══════════════════════════════════════════
+    var customConfirmCallback = null;
+
+    function showCustomConfirm(options) {
+      // options = { type, title, message, okText, cancelText, onConfirm, onCancel }
+      var modal = document.getElementById('customConfirmModal');
+      var iconBox = document.getElementById('customConfirmIcon');
+      var iconInner = document.getElementById('customConfirmIconInner');
+      var titleEl = document.getElementById('customConfirmTitle');
+      var msgEl = document.getElementById('customConfirmMessage');
+      var okBtn = document.getElementById('customConfirmOkBtn');
+      var cancelBtn = document.getElementById('customConfirmCancelBtn');
+
+      if (!modal) return;
+
+      var type = options.type || 'warning';  // error / success / warning / info
+      var icons = {
+        'error': 'fa-exclamation-circle',
+        'success': 'fa-check-circle',
+        'warning': 'fa-question-circle',
+        'info': 'fa-info-circle'
+      };
+
+      // Icon set करें
+      if (iconBox) iconBox.className = 'custom-alert-icon ' + type;
+      if (iconInner) iconInner.className = 'fas ' + (icons[type] || icons.warning);
+
+      // Title
+      if (titleEl) titleEl.innerText = options.title || 'Are you sure?';
+
+      // Message
+      if (msgEl) msgEl.innerText = options.message || '';
+
+      // Buttons
+      if (okBtn) {
+        okBtn.className = 'custom-confirm-btn confirm ' + (type === 'success' ? 'success' : (type === 'warning' ? 'warning' : ''));
+        okBtn.innerText = options.okText || 'Confirm';
+      }
+      if (cancelBtn) {
+        cancelBtn.innerText = options.cancelText || 'Cancel';
+      }
+
+      // Callbacks store करें
+      customConfirmCallback = {
+        onConfirm: options.onConfirm || null,
+        onCancel: options.onCancel || null
+      };
+
+      // Show modal
+      modal.classList.remove('d-none');
+    }
+
+    function closeCustomConfirm(isConfirmed) {
+      var modal = document.getElementById('customConfirmModal');
+      if (modal) {
+        modal.style.opacity = '0';
+        modal.style.transition = 'opacity 0.2s ease';
+        setTimeout(function() {
+          modal.classList.add('d-none');
+          modal.style.opacity = '1';
+
+          var cb = customConfirmCallback;
+          customConfirmCallback = null;
+
+          if (cb) {
+            if (isConfirmed && typeof cb.onConfirm === 'function') {
+              cb.onConfirm();
+            } else if (!isConfirmed && typeof cb.onCancel === 'function') {
+              cb.onCancel();
+            }
+          }
+        }, 200);
+      }
+    }
+
+    // 🎬 Registration Overlay Controllers
+    function showRegistrationOverlay() {
+      var overlay = document.getElementById('registrationOverlay');
+      var loading = document.getElementById('regLoadingState');
+      var success = document.getElementById('regSuccessState');
+      
+      if (!overlay) return;
+      
+      // Reset to loading state
+      if (loading) loading.classList.remove('d-none');
+      if (success) success.classList.add('d-none');
+      
+      overlay.classList.remove('d-none');
+    }
+
+    function showRegistrationSuccess() {
+      var loading = document.getElementById('regLoadingState');
+      var success = document.getElementById('regSuccessState');
+      
+      if (loading) loading.classList.add('d-none');
+      if (success) success.classList.remove('d-none');
+    }
+
+    function hideRegistrationOverlay() {
+      var overlay = document.getElementById('registrationOverlay');
+      if (overlay) {
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.3s ease';
+        setTimeout(function() {
+          overlay.classList.add('d-none');
+          overlay.style.opacity = '1';
+        }, 300);
       }
     }
 
     function handleUserRegister() {
-      var u = document.getElementById('regUsername').value;
-      var p = document.getElementById('regPassword').value;
-      var ph = document.getElementById('regPhone').value;
+      var u = (document.getElementById('regUsername').value || '').trim();
+      var p = (document.getElementById('regPassword').value || '').trim();
+      var ph = (document.getElementById('regPhone').value || '').trim();
 
-      if (!u || !p) return alert("Username aur Password dono darj karein!");
+      // ✅ Validation
+      if (!u || !p) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Missing Information',
+          message: 'Please enter both username and password to continue.',
+          buttonText: 'Got it'
+        });
+      }
 
-      showLoader();
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'registerUser',
-          u: u, p: p, ph: ph
-        })
+      if (u.length < 3) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Username Too Short',
+          message: 'Username must be at least 3 characters long. Please try a longer one.',
+          buttonText: 'Try Again'
+        });
+      }
+
+      if (p.length < 4) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Password Too Short',
+          message: 'For your security, password must be at least 4 characters long.',
+          buttonText: 'Try Again'
+        });
+      }
+
+      if (ph && !/^\d{10}$/.test(ph.replace(/\D/g, ''))) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Invalid Mobile Number',
+          message: 'Please enter a valid 10-digit mobile number (e.g., 9876543210).',
+          buttonText: 'Try Again'
+        });
+      }
+
+      // 🎬 Show professional loading overlay
+      showRegistrationOverlay();
+
+      apiFetch({
+        action: 'registerUser',
+        u: u, p: p, ph: ph
       })
       .then(res => res.json())
       .then(res => {
-        hideLoader();
-        alert(res.message);
-        if (res.success) toggleAuthView('login');
+        if (res && res.success) {
+          // ✅ Success
+          showRegistrationSuccess();
+          
+          setTimeout(function() {
+            hideRegistrationOverlay();
+            toggleAuthView('login');
+            
+            setTimeout(function() {
+              var lu = document.getElementById('loginUsername');
+              if (lu) {
+                lu.value = u;
+                var lp = document.getElementById('loginPassword');
+                if (lp) lp.focus();
+              }
+            }, 400);
+          }, 1400);
+          
+        } else {
+          // ❌ Server Error (जैसे: Username already registered)
+          hideRegistrationOverlay();
+          
+          setTimeout(function() {
+            var errorMsg = (res && res.message) ? res.message : 'Registration failed. Please try again.';
+            
+            // "Yeh Username pehle se registered hai!" → friendly
+            var isDuplicate = errorMsg.toLowerCase().indexOf('username') !== -1 || 
+                              errorMsg.toLowerCase().indexOf('pehle se') !== -1;
+            
+            if (isDuplicate) {
+              showCustomAlert({
+                type: 'error',
+                title: 'Username Already Taken',
+                message: 'This username is already registered. Please choose a different one or sign in with your existing account.',
+                buttonText: 'Try Different Username',
+                onClose: function() {
+                  // Username field को focus करें
+                  var ru = document.getElementById('regUsername');
+                  if (ru) {
+                    ru.focus();
+                    ru.select();
+                  }
+                }
+              });
+            } else {
+              showCustomAlert({
+                type: 'error',
+                title: 'Registration Failed',
+                message: errorMsg,
+                buttonText: 'OK'
+              });
+            }
+          }, 350);
+        }
       })
-      .catch(err => { hideLoader(); alert('Error: ' + err); });
+      .catch(err => {
+        // ❌ Network Error
+        hideRegistrationOverlay();
+        console.error('Register error:', err);
+        
+        setTimeout(function() {
+          showCustomAlert({
+            type: 'error',
+            title: 'Connection Problem',
+            message: 'Unable to reach the server. Please check your internet connection and try again.',
+            buttonText: 'Retry'
+          });
+        }, 350);
+      });
     }
 
     function handleUserLogin() {
       var u = document.getElementById('loginUsername').value;
       var p = document.getElementById('loginPassword').value;
 
-      if (!u || !p) return alert("Username aur Password darj karein!");
+      if (!u || !p) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Missing Credentials',
+          message: 'Please enter your username and password to sign in.',
+          buttonText: 'Got it'
+        });
+      }
 
       showLoader();
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'loginUser',
-          u: u, p: p
-        })
+      apiFetch({
+        action: 'loginUser',
+        u: u, p: p
       })
       .then(res => res.json())
       .then(res => {
         hideLoader();
         if (res.success) {
+          // 🛡️ CRITICAL: Login पर पहले पुराना cache clear करें
+          var keysToRemove = [];
+          for (var i = 0; i < localStorage.length; i++) {
+            var k = localStorage.key(i);
+            if (k && (k.startsWith('cashbook_user_accs_') || 
+                      k.startsWith('cashbook_user_master_txns_') ||
+                      k.startsWith('cashbook_hidden_accs_') ||
+                      k.startsWith('cashbook_old_books_') ||
+                      k.startsWith('cashbook_trash_') ||
+                      k.startsWith('cashbook_custom_categories_') ||
+                      k.startsWith('keep_notes_'))) {
+              keysToRemove.push(k);
+            }
+          }
+          keysToRemove.forEach(function(k) { localStorage.removeItem(k); });
+
           globalAccounts = [];
           allAccountsDataCache = {};
           currentAccountTxns = [];
 
+                    // 🛡️ SAFETY: userId को string में convert करके साफ़ करें
+          if (!res.user.userId) {
+            hideLoader();
+            showCustomAlert({
+              type: 'error',
+              title: 'Server Error',
+              message: 'Your account information is incomplete. Please contact support for assistance.',
+              buttonText: 'OK'
+            });
+            return;
+          }
+
+          res.user.userId = String(res.user.userId).trim();
           loggedInUser = res.user;
+          
+          // 🧹 पिछले user का cache साफ करें
+          var cacheOwner = localStorage.getItem('cashbook_active_user_id');
+          if (cacheOwner && cacheOwner !== loggedInUser.userId) {
+            console.warn('⚠️ Different user! Clearing old cache...');
+            var keysToRemove = [];
+            for (var i = 0; i < localStorage.length; i++) {
+              var k = localStorage.key(i);
+              if (k && (k.indexOf('cashbook_user_accs_') === 0 || 
+                        k.indexOf('cashbook_user_master_txns_') === 0 ||
+                        k.indexOf('cashbook_hidden_accs_') === 0 ||
+                        k.indexOf('cashbook_old_books_') === 0 ||
+                        k.indexOf('cashbook_trash_') === 0 ||
+                        k.indexOf('cashbook_custom_categories_') === 0 ||
+                        k.indexOf('keep_notes_') === 0)) {
+                keysToRemove.push(k);
+              }
+            }
+            keysToRemove.forEach(function(k) { localStorage.removeItem(k); });
+          }
+          localStorage.setItem('cashbook_active_user_id', loggedInUser.userId);
+          
           sessionStorage.setItem('cashbook_logged_user', JSON.stringify(res.user));
           localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(res.user));
 
@@ -5257,10 +7385,70 @@ var days = [];
             promptAndSetFirstTimePin();
           }
         } else {
-          alert("❌ " + res.message);
+          hideLoader();
+          
+          // 🌐 Server ke Hindi message ko English mein translate karo
+          var errorMsg = res.message || '';
+          var lowerMsg = errorMsg.toString().toLowerCase().trim();
+          var friendlyMsg = '';
+
+          // Login errors
+          if (lowerMsg.indexOf('galat username') !== -1 || 
+              lowerMsg.indexOf('galat password') !== -1 ||
+              (lowerMsg.indexOf('galat') !== -1 && lowerMsg.indexOf('password') !== -1)) {
+            friendlyMsg = 'Invalid username or password. Please check your credentials and try again.';
+          }
+          // User ID issues
+          else if (lowerMsg.indexOf('user id galat') !== -1) {
+            friendlyMsg = 'Your account ID is invalid. Please contact support for assistance.';
+          }
+          // Sheet not found
+          else if (lowerMsg.indexOf('sheet nahi mili') !== -1) {
+            friendlyMsg = 'Server configuration error. Please try again later.';
+          }
+          // User not found
+          else if (lowerMsg.indexOf('user nahi mila') !== -1) {
+            friendlyMsg = 'User account not found. Please verify your details.';
+          }
+          // Unauthorized
+          else if (lowerMsg.indexOf('unauthorized') !== -1) {
+            friendlyMsg = 'Authentication failed. Please sign in again.';
+          }
+          // Agar Hindi characters detect hue to generic English message
+          else if (/[\u0900-\u097F]/.test(errorMsg)) {
+            friendlyMsg = 'Something went wrong. Please try again.';
+          }
+          // Default — English message hai to waisa hi rakh lo
+          else {
+            friendlyMsg = errorMsg || 'Invalid username or password. Please try again.';
+          }
+          
+          showCustomAlert({
+            type: 'error',
+            title: 'Sign In Failed',
+            message: friendlyMsg,
+            buttonText: 'Try Again',
+            onClose: function() {
+              // Password field clear + focus karo
+              var lp = document.getElementById('loginPassword');
+              if (lp) {
+                lp.value = '';
+                lp.focus();
+              }
+            }
+          });
         }
       })
-      .catch(err => { hideLoader(); alert('Error: ' + err); });
+      .catch(err => { 
+        hideLoader(); 
+        console.error('Login error:', err);
+        showCustomAlert({
+          type: 'error',
+          title: 'Connection Problem',
+          message: 'Unable to reach the server. Please check your internet connection and try again.',
+          buttonText: 'Retry'
+        });
+      });
     }
 
     // 🔒 1. Check Lock Status Corrected
@@ -5407,7 +7595,7 @@ var days = [];
       fetchUserPrivateData();
     }
 
-        function updateSyncBadge(status) {
+    function updateSyncBadge(status) {
       var badge = document.getElementById('syncStatusBadge');
       var dot = document.getElementById('redownloadDot');
       
@@ -5422,8 +7610,8 @@ var days = [];
           badge.style.animation = 'none';
           
           setTimeout(function() {
-            if (badge.innerHTML.includes('Live Synced')) {
-              badge.innerHTML = '<i class="fas fa-circle me-1" style="font-size:6px;"></i> Live';
+            if (badge.innerHTML.includes('Synced')) {
+              badge.innerHTML = '<i class="fas fa-circle me-1" style="font-size:6px;"></i> Online';
             }
           }, 2000);
         } else if (status === 'offline') {
@@ -5463,162 +7651,194 @@ var days = [];
       }
     }
 
-          // 🔥 ULTIMATE FIX: Silent background sync with better timeout handling
+    // 🔥 ULTIMATE FIX: Silent background sync with better timeout handling
     function fetchUserPrivateData() {
       if (!loggedInUser || !loggedInUser.userId) {
         hideLoader();
         return;
       }
 
+      // 🛡️ CRITICAL: हर बार fresh data के लिए cache clear करें अगर mismatch हो
+      var cacheOwnerKey = 'cashbook_active_user_id';
+      var lastActiveUserId = localStorage.getItem(cacheOwnerKey);
+
+      if (lastActiveUserId && lastActiveUserId !== String(loggedInUser.userId)) {
+        console.warn('⚠️ Different user detected! Clearing old cache...');
+        // पिछले यूज़र का सारा cache हटाएँ
+        var keysToRemove = [];
+        for (var i = 0; i < localStorage.length; i++) {
+          var k = localStorage.key(i);
+          if (k && (k.startsWith('cashbook_user_accs_') || 
+                    k.startsWith('cashbook_user_master_txns_') ||
+                    k.startsWith('cashbook_hidden_accs_') ||
+                    k.startsWith('cashbook_old_books_') ||
+                    k.startsWith('cashbook_trash_') ||
+                    k.startsWith('cashbook_custom_categories_') ||
+                    k.startsWith('keep_notes_'))) {
+            keysToRemove.push(k);
+          }
+        }
+        keysToRemove.forEach(function(k) { localStorage.removeItem(k); });
+      }
+
+      // Mark current user as active
+      localStorage.setItem(cacheOwnerKey, String(loggedInUser.userId));
+
       var cachedAccounts = localStorage.getItem('cashbook_user_accs_' + loggedInUser.userId);
       var cachedTxnsData = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
       var hasCachedData = false;
 
-            // ✅ STEP 1: INSTANTLY load cached data
-      if (cachedAccounts && cachedTxnsData) {
-        try {
-          globalAccounts = JSON.parse(cachedAccounts) || [];
-          allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
-          
-          if (globalAccounts.length > 0 || Object.keys(allAccountsDataCache).length > 0) {
-            hasCachedData = true;
-            
-            Object.keys(allAccountsDataCache).forEach(function(accName) {
-              recalculateAccountBalances(accName);
-            });
-            
-            populateAccountsDropdown();
-            
-            var accDropdown = document.getElementById('accountDropdown');
-            if (accDropdown && accDropdown.value && accDropdown.value !== "" && !accDropdown.value.includes("Choose Account")) {
-              loadAccountDataFast();
-            } else {
-              // 🏠 Cached data से Dashboard तुरंत render करें
-              updateDashboardOverviewStats();
-              renderDashboard();
-            }
-            
-            console.log("✅ Cached data loaded + recalculated + Dashboard rendered");
-          }
-        } catch(e) {
-          console.error("Cache Read Error:", e);
-        }
-      }
-
-      if (!hasCachedData) {
-        showLoader();
-      }
-
-      updateSyncBadge('syncing');
-
-      // ✅ Better timeout helper (60 seconds default)
-      var fetchWithTimeout = function(url, timeout) {
-        timeout = timeout || 60000; // Default 60 seconds
-        return new Promise(function(resolve, reject) {
-          var timer = setTimeout(function() {
-            reject(new Error('Request timeout after ' + (timeout/1000) + 's. Server slow hai, thodi der baad try karein.'));
-          }, timeout);
-          
-          fetch(url)
-            .then(function(res) {
-              clearTimeout(timer);
-              resolve(res);
-            })
-            .catch(function(err) {
-              clearTimeout(timer);
-              reject(err);
-            });
+  // ✅ STEP 1: INSTANTLY load cached data
+  if (cachedAccounts && cachedTxnsData) {
+    try {
+      globalAccounts = JSON.parse(cachedAccounts) || [];
+      allAccountsDataCache = JSON.parse(cachedTxnsData) || {};
+      
+      if (globalAccounts.length > 0 || Object.keys(allAccountsDataCache).length > 0) {
+        hasCachedData = true;
+        
+        Object.keys(allAccountsDataCache).forEach(function(accName) {
+          recalculateAccountBalances(accName);
         });
-      };
+        
+        populateAccountsDropdown();
+        
+        var accDropdown = document.getElementById('accountDropdown');
+        if (accDropdown && accDropdown.value && accDropdown.value !== "" && !accDropdown.value.includes("Choose Account")) {
+          loadAccountDataFast();
+        } else {
+          updateDashboardOverviewStats();
+          renderDashboard();
+        }
+        
+        console.log("✅ Cached data loaded + recalculated + Dashboard rendered");
+      }
+    } catch(e) {
+      console.error("Cache Read Error:", e);
+    }
+  }
 
-      fetchWithTimeout(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId), 60000)
-        .then(function(res) { return res.json(); })
-        .then(function(accountsResponse) {
-          if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
-            globalAccounts = accountsResponse;
-          } else if (accountsResponse && accountsResponse.accounts) {
-            globalAccounts = accountsResponse.accounts;
-          }
+  if (!hasCachedData) {
+    showLoader();
+  }
 
-          localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+  updateSyncBadge('syncing');
 
-          return fetchWithTimeout(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId), 90000);
-        })
-        .then(function(res) { return res.json(); })
-        .then(function(master) {
-          hideLoader();
-
-          if (master && typeof master === 'object') {
-            var freshData = master.accountsMap || master.data || master || {};
-
-            // 🔒 CRITICAL FIX: Purane closedInfo को नए server data में merge करें
-            // (अगर server पर save नहीं हुआ है, तो भी local वाला बच जाए)
-            try {
-              var localCacheRaw = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
-              if (localCacheRaw) {
-                var localCache = JSON.parse(localCacheRaw) || {};
-                Object.keys(localCache).forEach(function(accName) {
-                  if (localCache[accName] && localCache[accName].closedInfo) {
-                    if (!freshData[accName]) {
-                      freshData[accName] = localCache[accName];
-                    } else {
-                      // Server data में closedInfo नहीं है, पर local में है → merge
-                      if (!freshData[accName].closedInfo) {
-                        freshData[accName].closedInfo = localCache[accName].closedInfo;
-                      }
-                    }
-                  }
-                });
-              }
-            } catch(e) {
-              console.warn('Merge closedInfo fail:', e);
-            }
-
-            allAccountsDataCache = freshData;
-            
-            Object.keys(allAccountsDataCache).forEach(function(accName) {
-              var accData = allAccountsDataCache[accName];
-              if (accData && accData.transactions && accData.transactions.length > 0) {
-                recalculateAccountBalances(accName);
-              }
-            });
-            
-            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
-            
-            if (!globalAccounts || globalAccounts.length === 0) {
-              globalAccounts = Object.keys(allAccountsDataCache).map(function(name) { return { name: name, phone: '' }; });
-            }
-            
-            populateAccountsDropdown();
-
-            var dropdown = document.getElementById('accountDropdown');
-            var wasSelected = dropdown ? dropdown.value : '';
-            
-            if (wasSelected && wasSelected !== "" && !wasSelected.includes("Choose Account")) {
-              dropdown.value = wasSelected;
-              loadAccountDataFast();
-            } else {
-              // 🏠 Fresh data आने पर भी Dashboard refresh करें
-              updateDashboardOverviewStats();
-              renderDashboard();
-            }
-            
-            console.log("✅ Fresh data synced + recalculated + Dashboard refreshed");
-          }
-          
-          updateSyncBadge('synced');
+  var fetchWithTimeout = function(url, timeout) {
+    timeout = timeout || 60000;
+    return new Promise(function(resolve, reject) {
+      var timer = setTimeout(function() {
+        reject(new Error('Request timeout after ' + (timeout/1000) + 's. Server slow hai, thodi der baad try karein.'));
+      }, timeout);
+      
+      fetch(url)
+        .then(function(res) {
+          clearTimeout(timer);
+          resolve(res);
         })
         .catch(function(err) {
-          hideLoader();
-          console.warn("⚠️ Background Sync Error (using cache):", err.message);
-          updateSyncBadge('offline');
-          
-          // Silent fail - user ko disturb nahi karein
-          if (!hasCachedData) {
-            renderWelcomeDashboardBanner();
+          clearTimeout(timer);
+          reject(err);
+        });
+    });
+  };
+
+  fetchWithTimeout(buildApiUrl('getAccountsForUser', { userId: loggedInUser.userId }), 60000)
+    .then(function(res) { return res.json(); })
+    .then(function(accountsResponse) {
+      if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
+        globalAccounts = accountsResponse;
+      } else if (accountsResponse && accountsResponse.accounts) {
+        globalAccounts = accountsResponse.accounts;
+      }
+
+      localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+
+      // 🔥 FIX: Hidden accounts server se fetch karo (Status column se)
+      return fetchWithTimeout(buildApiUrl('getHiddenAccounts', { userId: loggedInUser.userId }), 30000);
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(hiddenResponse) {
+      // 🔥 FIX: Server se aayi hidden accounts list ko localStorage me save karo
+      if (hiddenResponse && hiddenResponse.success && Array.isArray(hiddenResponse.hidden)) {
+        localStorage.setItem('cashbook_hidden_accs_' + loggedInUser.userId, JSON.stringify(hiddenResponse.hidden));
+        updateHiddenCountBadge();
+        console.log("✅ Hidden accounts synced from server:", hiddenResponse.hidden);
+      }
+      
+      var currentUid = String(loggedInUser.userId).trim();
+      return fetchWithTimeout(buildApiUrl('getAllAccountsDataMaster', { userId: currentUid }), 90000);
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(master) {
+      hideLoader();
+
+      if (master && typeof master === 'object') {
+        var freshData = master.accountsMap || master.data || master || {};
+
+        try {
+          var localCacheRaw = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
+          if (localCacheRaw) {
+            var localCache = JSON.parse(localCacheRaw) || {};
+            Object.keys(localCache).forEach(function(accName) {
+              if (localCache[accName] && localCache[accName].closedInfo) {
+                if (!freshData[accName]) {
+                  freshData[accName] = localCache[accName];
+                } else {
+                  if (!freshData[accName].closedInfo) {
+                    freshData[accName].closedInfo = localCache[accName].closedInfo;
+                  }
+                }
+              }
+            });
+          }
+        } catch(e) {
+          console.warn('Merge closedInfo fail:', e);
+        }
+
+        allAccountsDataCache = freshData;
+        
+        Object.keys(allAccountsDataCache).forEach(function(accName) {
+          var accData = allAccountsDataCache[accName];
+          if (accData && accData.transactions && accData.transactions.length > 0) {
+            recalculateAccountBalances(accName);
           }
         });
-    }
+        
+        localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+        
+        if (!globalAccounts || globalAccounts.length === 0) {
+          globalAccounts = Object.keys(allAccountsDataCache).map(function(name) { return { name: name, phone: '' }; });
+        }
+        
+        populateAccountsDropdown();
+
+        var dropdown = document.getElementById('accountDropdown');
+        var wasSelected = dropdown ? dropdown.value : '';
+        
+        if (wasSelected && wasSelected !== "" && !wasSelected.includes("Choose Account")) {
+          dropdown.value = wasSelected;
+          loadAccountDataFast();
+        } else {
+          updateDashboardOverviewStats();
+          renderDashboard();
+        }
+        
+        console.log("✅ Fresh data synced + recalculated + Dashboard refreshed");
+      }
+      
+      updateSyncBadge('synced');
+    })
+    .catch(function(err) {
+      hideLoader();
+      console.warn("⚠️ Background Sync Error (using cache):", err.message);
+      updateSyncBadge('offline');
+      
+      if (!hasCachedData) {
+        renderWelcomeDashboardBanner();
+      }
+    });
+}
 
     function renderWelcomeDashboardBanner() {
       var hour = new Date().getHours();
@@ -5657,24 +7877,202 @@ var days = [];
       if (dropdown) dropdown.selectedIndex = 0;
     }
 
-    var enteredPinBuffer = "";
+        var enteredPinBuffer = "";
+    var pinModalBuffer = "";
+    var pinModalCallback = null;  // Function jo call karni hai jab PIN confirm ho
 
-    function setupNewAppPin() {
-      var currentPin = localStorage.getItem('cashbook_app_pin');
-      var promptMsg = currentPin ? "Enter New 4-Digit Passcode:" : "Set 4-Digit Security Passcode for App:";
-      var newPin = prompt(promptMsg);
+    // ═══════════════════════════════════════════════════════════
+    // 🔐 CUSTOM PIN MODAL SYSTEM (prompt() ki jagah)
+    // ═══════════════════════════════════════════════════════════
 
-      if (newPin !== null) {
-        newPin = newPin.trim();
-        if (/^\d{4}$/.test(newPin)) {
-          localStorage.setItem('cashbook_app_pin', newPin);
-          alert("🎉 4-Digit Passcode set successfully!");
-        } else {
-          alert("❌ Invalid Input! Please enter a 4-digit numeric PIN (e.g. 1234).");
-        }
+    function openCustomPinModal(options) {
+      // options = { title, subtitle, onConfirm(pin), onCancel() }
+      pinModalBuffer = "";
+      pinModalCallback = options.onConfirm || null;
+      window.__pinModalOnCancel = options.onCancel || null;
+
+      // Set title/subtitle
+      var titleEl = document.getElementById('pinModalTitle');
+      var subEl = document.getElementById('pinModalSubtitle');
+      if (titleEl) titleEl.innerText = options.title || "Enter PIN";
+      if (subEl) subEl.innerText = options.subtitle || "";
+
+      // Clear error
+      var errEl = document.getElementById('pinModalError');
+      if (errEl) { errEl.classList.add('d-none'); errEl.innerText = ''; }
+
+      // Update dots
+      updatePinModalDots();
+
+      // Show modal
+      var modal = document.getElementById('customPinModal');
+      if (modal) modal.classList.remove('d-none');
+    }
+
+    function pinModalPress(num) {
+      if (pinModalBuffer.length < 4) {
+        pinModalBuffer += num.toString();
+        updatePinModalDots();
       }
     }
 
+    function pinModalDelete() {
+      if (pinModalBuffer.length > 0) {
+        pinModalBuffer = pinModalBuffer.slice(0, -1);
+        updatePinModalDots();
+      }
+    }
+
+    function pinModalClear() {
+      pinModalBuffer = "";
+      updatePinModalDots();
+      var errEl = document.getElementById('pinModalError');
+      if (errEl) { errEl.classList.add('d-none'); errEl.innerText = ''; }
+    }
+
+    function updatePinModalDots() {
+      var dots = document.querySelectorAll('#pinModalDots .pin-dot');
+      dots.forEach(function(dot, idx) {
+        if (idx < pinModalBuffer.length) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      });
+    }
+
+    function pinModalShowError(msg) {
+      var errEl = document.getElementById('pinModalError');
+      if (errEl) {
+        errEl.innerText = msg;
+        errEl.classList.remove('d-none');
+      }
+    }
+
+    function pinModalSubmit() {
+      if (pinModalBuffer.length !== 4) {
+        pinModalShowError('4-digit PIN darj karein!');
+        return;
+      }
+
+      var pin = pinModalBuffer;
+
+      // Callback call karo
+      if (typeof pinModalCallback === 'function') {
+        var shouldClose = pinModalCallback(pin);
+        // Agar callback ne false return kiya to modal band nahi hoga
+        if (shouldClose === false) {
+          pinModalBuffer = "";
+          updatePinModalDots();
+          return;
+        }
+      }
+
+      closeCustomPinModal();
+    }
+
+    function pinModalCancel() {
+      var shouldClose = true;
+
+      // Agar cancel callback hai to call karo
+      if (window.__pinModalOnCancel && typeof window.__pinModalOnCancel === 'function') {
+        var result = window.__pinModalOnCancel();
+        if (result === false) shouldClose = false;
+      }
+
+      if (shouldClose) {
+        closeCustomPinModal();
+      }
+    }
+
+    function closeCustomPinModal() {
+      var modal = document.getElementById('customPinModal');
+      if (modal) modal.classList.add('d-none');
+      pinModalBuffer = "";
+      pinModalCallback = null;
+      window.__pinModalOnCancel = null;
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // 🎯 setupNewAppPin() — Ab custom modal use karta hai
+    // ═══════════════════════════════════════════════════════════
+    function setupNewAppPin() {
+      var currentPin = localStorage.getItem('cashbook_app_pin');
+      var isChange = !!currentPin;
+
+      openCustomPinModal({
+        title: isChange ? "Change Security PIN" : "Set Security PIN",
+        subtitle: isChange ? "Enter a new 4-digit PIN" : "Protect your account with a 4-digit PIN",
+        onConfirm: function(newPin) {
+          // PIN format check
+                    if (!/^\d{4}$/.test(newPin)) {
+            pinModalShowError('PIN must be exactly 4 digits (e.g. 1234)');
+            return false;
+          }
+
+          // Local save karo
+          localStorage.setItem('cashbook_app_pin', newPin);
+
+          // Server (Sheet) me bhi save karo
+          if (loggedInUser && loggedInUser.userId) {
+            showLoader();
+
+            apiFetch({
+              action: 'updateUserPin',
+              userId: loggedInUser.userId,
+              username: loggedInUser.username || '',
+              pin: newPin
+            })
+            .then(function(res) { return res.json(); })
+            .then(function(res) {
+              hideLoader();
+
+              if (res && res.success) {
+                // Local session bhi update
+                loggedInUser.pin = newPin;
+                localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(loggedInUser));
+
+                // Success alert (chhota)
+                showToastMessage('✅ PIN saved successfully', 'success');
+              } else {
+                showToastMessage('⚠️ PIN saved locally. Cloud sync failed.', 'warning');
+              }
+            })
+            .catch(function(err) {
+              hideLoader();
+              console.warn('PIN sync error:', err);
+              showToastMessage('⚠️ PIN saved locally. Check your connection.', 'warning');
+            });
+          } else {
+            showToastMessage('✅ Security PIN set successfully', 'success');
+          }
+
+          return true; // Modal band karo
+        }
+      });
+    }
+
+    // 🍞 Simple Toast message helper
+    function showToastMessage(msg, type) {
+      var bg = type === 'success' ? '#10b981' : (type === 'warning' ? '#f59e0b' : '#0f172a');
+      var toast = document.createElement('div');
+      toast.style.cssText = 
+        'position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); ' +
+        'background: ' + bg + '; color: #ffffff; padding: 12px 20px; border-radius: 12px; ' +
+        'box-shadow: 0 10px 30px rgba(0,0,0,0.3); z-index: 9999999; ' +
+        'font-size: 12px; font-weight: 600; max-width: 90%; text-align: center; ' +
+        'animation: pinModalSlide 0.3s ease;';
+      toast.innerText = msg;
+      document.body.appendChild(toast);
+
+      setTimeout(function() {
+        toast.style.opacity = '0';
+        toast.style.transition = 'opacity 0.3s ease';
+        setTimeout(function() {
+          if (toast.parentNode) toast.parentNode.removeChild(toast);
+        }, 300);
+      }, 3000);
+    }
     function lockAppScreenOnly() {
       localStorage.setItem('cashbook_is_app_locked', 'true');
       appBackgroundTimestamp = null; // Timestamp reset karein
@@ -5758,44 +8156,110 @@ var days = [];
       document.getElementById('authSubTitle').innerText = "Encrypted Personal Finance Ledger";
     }
 
-    function logoutUserFully() {
-      if (confirm("Kya aap account logout karna chahte hain?")) {
-        if (loggedInUser && loggedInUser.userId) {
-          localStorage.removeItem('cashbook_user_accs_' + loggedInUser.userId);
-          localStorage.removeItem('cashbook_user_master_txns_' + loggedInUser.userId);
-        }
-        sessionStorage.clear();
-        localStorage.removeItem('cashbook_saved_biometric_user');
-        
-        loggedInUser = null;
-        globalAccounts = [];
-        allAccountsDataCache = {};
-        currentAccountTxns = [];
-
-        populateAccountsDropdown();
-        document.getElementById('totalIn').innerText = formatINR(0);
-        document.getElementById('totalOut').innerText = formatINR(0);
-        document.getElementById('netBalance').innerText = formatINR(0);
-        document.getElementById('transactionList').innerHTML = '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
-
-        // 🚫 Bottom bar छुपाएँ
-        var bottomBar = document.getElementById('bottomActionBar');
-        if (bottomBar) bottomBar.classList.add('d-none');
-
-        var lockScreen = document.getElementById('lockScreen');
-        if (lockScreen) {
-          lockScreen.classList.remove('d-none');
-          switchToPasswordView();
-        }
-        document.getElementById('loginUsername').value = '';
-        document.getElementById('loginPassword').value = '';
-
-        var drawer = document.getElementById('sidebarDrawer');
-        if (drawer) {
-          var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
-          if (bsDrawer) bsDrawer.hide();
-        }
+    // 🆕 Lock Screen se signup pe jaao (logout karke)
+    function goToSignupFromLockScreen() {
+      if (!confirm("Naya account banane ke liye purana session logout hoga. Continue karein?")) {
+        return;
       }
+
+      // Logout karo (safe — data delete nahi hoga)
+      if (loggedInUser && loggedInUser.userId) {
+        localStorage.removeItem('cashbook_saved_biometric_user');
+      }
+      sessionStorage.clear();
+
+      loggedInUser = null;
+      globalAccounts = [];
+      allAccountsDataCache = {};
+      currentAccountTxns = [];
+
+      // Lock screen show rakho, signup view dikhao
+      var lockScreen = document.getElementById('lockScreen');
+      if (lockScreen) lockScreen.classList.remove('d-none');
+
+      document.getElementById('pinLockView').classList.add('d-none');
+      document.getElementById('loginFormView').classList.add('d-none');
+      document.getElementById('signupFormView').classList.remove('d-none');
+      document.getElementById('authTitle').innerText = "Create New Account";
+      document.getElementById('authSubTitle').innerText = "Free registration — 30 second me ready";
+
+      // Fields clear
+      var ru = document.getElementById('regUsername');
+      var rp = document.getElementById('regPassword');
+      var rph = document.getElementById('regPhone');
+      if (ru) ru.value = '';
+      if (rp) rp.value = '';
+      if (rph) rph.value = '';
+      setTimeout(function() {
+        if (ru) ru.focus();
+      }, 300);
+    }
+
+    function logoutUserFully() {
+      // ❓ Professional confirm dialog dikhao
+      showCustomConfirm({
+        type: 'warning',
+        title: 'Sign Out?',
+        message: 'Are you sure you want to sign out of your account? You will need to enter your credentials again to sign back in.',
+        okText: 'Yes, Sign Out',
+        cancelText: 'Cancel',
+        onConfirm: function() {
+          // ✅ User ne confirm kiya — ab logout karo
+
+          // 🧹 पूरा cache clear करें
+          var keysToRemove = [];
+          for (var i = 0; i < localStorage.length; i++) {
+            var k = localStorage.key(i);
+            if (k && (k.startsWith('cashbook_user_accs_') || 
+                      k.startsWith('cashbook_user_master_txns_') ||
+                      k.startsWith('cashbook_hidden_accs_') ||
+                      k.startsWith('cashbook_old_books_') ||
+                      k.startsWith('cashbook_trash_') ||
+                      k.startsWith('cashbook_custom_categories_') ||
+                      k.startsWith('cashbook_saved_biometric_user') ||
+                      k.startsWith('cashbook_active_user_id') ||
+                      k.startsWith('cashbook_app_pin') ||
+                      k.startsWith('keep_notes_'))) {
+              keysToRemove.push(k);
+            }
+          }
+          keysToRemove.forEach(function(k) { localStorage.removeItem(k); });
+
+          sessionStorage.clear();
+          
+          loggedInUser = null;
+          globalAccounts = [];
+          allAccountsDataCache = {};
+          currentAccountTxns = [];
+
+          populateAccountsDropdown();
+          document.getElementById('totalIn').innerText = formatINR(0);
+          document.getElementById('totalOut').innerText = formatINR(0);
+          document.getElementById('netBalance').innerText = formatINR(0);
+          document.getElementById('transactionList').innerHTML = '<p class="text-center text-muted my-5">Please select an account to view transactions.</p>';
+
+          // 🚫 Bottom bar छुपाएँ
+          var bottomBar = document.getElementById('bottomActionBar');
+          if (bottomBar) bottomBar.classList.add('d-none');
+
+          var lockScreen = document.getElementById('lockScreen');
+          if (lockScreen) {
+            lockScreen.classList.remove('d-none');
+            switchToPasswordView();
+          }
+          document.getElementById('loginUsername').value = '';
+          document.getElementById('loginPassword').value = '';
+
+          var drawer = document.getElementById('sidebarDrawer');
+          if (drawer) {
+            var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+            if (bsDrawer) bsDrawer.hide();
+          }
+        },
+        onCancel: function() {
+          // User ne cancel kiya — kuch mat karo
+        }
+      });
     }
 
     window.handleAndroidBackButton = function() {
@@ -5846,14 +8310,15 @@ var days = [];
         });
       };
 
-      fetchWithTimeout(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId), 60000)
+      var currentUid = String(loggedInUser.userId).trim();
+    fetchWithTimeout(buildApiUrl('getAccountsForUser', { userId: currentUid }), 60000)
         .then(function(res) { return res.json(); })
         .then(function(accounts) {
           globalAccounts = (Array.isArray(accounts) ? accounts : []);
           localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
           populateAccountsDropdown();
 
-          return fetchWithTimeout(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId), 90000);
+          return fetchWithTimeout(buildApiUrl('getAllAccountsDataMaster', { userId: loggedInUser.userId }), 90000);
         })
         .then(function(res) { return res.json(); })
         .then(function(master) {
@@ -6042,14 +8507,11 @@ var days = [];
       }
 
       // Server पर sync करें
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'closeAccountEntry',
-          userId: loggedInUser ? loggedInUser.userId : '',
-          accountName: accName,
-          closedInfo: accData.closedInfo
-        })
+      apiFetch({
+        action: 'closeAccountEntry',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        accountName: accName,
+        closedInfo: accData.closedInfo
       })
       .then(function(res) { return res.json(); })
       .then(function(res) {
@@ -6124,13 +8586,10 @@ var days = [];
       }
 
       // Server sync
-      fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({
-          action: 'reopenAccountEntry',
-          userId: loggedInUser ? loggedInUser.userId : '',
-          accountName: accName
-        })
+      apiFetch({
+        action: 'reopenAccountEntry',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        accountName: accName
       })
       .then(function(res) { return res.json(); })
       .then(function(res) {
@@ -6798,10 +9257,7 @@ var days = [];
       updateSyncBadge('syncing');
       var item = queue.shift();
 
-      fetch(SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify(item)
-      })
+      apiFetch(item)
       .then(res => res.json())
       .then(() => {
         localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
@@ -6829,13 +9285,10 @@ var days = [];
       
       if (enterPassword) {
         showLoader();
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          body: JSON.stringify({
-            action: 'loginUser',
-            u: userObj.username,
-            p: enterPassword
-          })
+        apiFetch({
+          action: 'loginUser',
+          u: userObj.username,
+          p: enterPassword
         })
         .then(res => res.json())
         .then(res => {
@@ -6851,52 +9304,100 @@ var days = [];
     }
 
     function promptAndSetFirstTimePin() {
-      var newPin = prompt("🔐 Suraksha ke liye apna naya 4-Digit Passcode/PIN banayein:");
-      if (newPin !== null) {
-        newPin = newPin.trim();
-        if (/^\d{4}$/.test(newPin)) {
-          var confirmPin = prompt("🔐 Confirm karne ke liye dubara 4-Digit PIN darj karein:");
-          if (confirmPin === newPin) {
-            
-            showLoader();
-            fetch(SCRIPT_URL, {
-              method: 'POST',
-              body: JSON.stringify({
-                action: 'updateUserPin',
-                userId: loggedInUser ? loggedInUser.userId : "",
-                username: loggedInUser ? loggedInUser.username : "",
-                pin: newPin
-              })
-            })
-            .then(res => res.json())
-            .then(res => {
-              hideLoader();
-              localStorage.setItem('cashbook_app_pin', newPin);
-              alert("🎉 PIN aapke Users Sheet par update ho gaya hai!");
-              document.getElementById('lockScreen').classList.add('d-none');
-              updateWelcomeHeader();
-              fetchUserPrivateData();
-            })
-            .catch(err => {
-              hideLoader();
-              alert("Sheet Sync Fail! Local storage me PIN set kar diya gaya hai.");
-              localStorage.setItem('cashbook_app_pin', newPin);
-              document.getElementById('lockScreen').classList.add('d-none');
-              updateWelcomeHeader();
-              fetchUserPrivateData();
-            });
+      var firstPin = null;
 
-          } else {
-            alert("❌ PIN Match nahi hua! Kripya dobara Login karein.");
-            logoutUserFully();
+      // Step 1: Pehla PIN maango
+      openCustomPinModal({
+        title: "Set Security PIN",
+        subtitle: "Protect your account with a 4-digit PIN",
+        onConfirm: function(pin) {
+          if (!/^\d{4}$/.test(pin)) {
+            pinModalShowError('PIN must be exactly 4 digits (e.g. 1234)');
+            return false;
           }
-        } else {
-          alert("❌ Galat Format! Kripya 4-digit numeric PIN dalein (e.g. 1234).");
+
+          firstPin = pin;
+
+          // Thodi der baad dusra step
+          setTimeout(function() {
+            openCustomPinModal({
+              title: "Confirm Your PIN",
+              subtitle: "Re-enter the same PIN to confirm",
+              onConfirm: function(pin2) {
+                if (pin2 !== firstPin) {
+                  pinModalShowError('PINs do not match. Please try again.');
+                  firstPin = null;
+                  // 1.5 sec baad reset
+                  setTimeout(function() {
+                    openCustomPinModal({
+                      title: "Set Your 4-Digit PIN",
+                      subtitle: "Apni suraksha ke liye PIN banayein",
+                      onConfirm: arguments.callee  // Recursion thoda tricky, better manual
+                    });
+                  }, 1500);
+                  return false;
+                }
+
+                // ✅ Dono PIN match — ab save karo
+                saveFirstTimePin(pin2);
+                return true;
+              },
+              onCancel: function() {
+                // User ne cancel kiya — logout
+                logoutUserFully();
+              }
+            });
+          }, 400);
+
+          return true; // Pehla modal band karo
+        },
+        onCancel: function() {
+          // User ne cancel kiya — logout
           logoutUserFully();
         }
-      } else {
-        logoutUserFully();
-      }
+      });
+    }
+
+    // 🎯 First-time PIN save karo (Sheet me bhi)
+    function saveFirstTimePin(newPin) {
+      showLoader();
+
+      apiFetch({
+        action: 'updateUserPin',
+        userId: loggedInUser ? loggedInUser.userId : "",
+        username: loggedInUser ? loggedInUser.username : "",
+        pin: newPin
+      })
+      .then(res => res.json())
+      .then(res => {
+        hideLoader();
+        localStorage.setItem('cashbook_app_pin', newPin);
+
+        if (loggedInUser) {
+          loggedInUser.pin = newPin;
+          localStorage.setItem('cashbook_saved_biometric_user', JSON.stringify(loggedInUser));
+        }
+
+        showToastMessage('✅ Security PIN set successfully', 'success');
+
+        setTimeout(function() {
+          document.getElementById('lockScreen').classList.add('d-none');
+          updateWelcomeHeader();
+          fetchUserPrivateData();
+        }, 800);
+      })
+      .catch(err => {
+        hideLoader();
+        console.warn('Sheet sync fail:', err);
+        localStorage.setItem('cashbook_app_pin', newPin);
+        showToastMessage('⚠️ PIN saved locally. Cloud sync failed.', 'warning');
+
+        setTimeout(function() {
+          document.getElementById('lockScreen').classList.add('d-none');
+          updateWelcomeHeader();
+          fetchUserPrivateData();
+        }, 800);
+      });
     }
             // 🔥🔥🔥 100% FIXED RECALCULATE - Purani date ho ya nayi, har entry ka us samay ka exact running balance banega
     function recalculateAccountBalances(accName) {
@@ -6988,13 +9489,13 @@ var days = [];
         // 🔄 Sync Splash Overlay Helper Functions
     var syncTipInterval = null;
     var syncTips = [
-      "💡 Tip: Apna 4-digit PIN bhool jayein to 'Forgot PIN' use karein.",
-      "💡 Tip: Transfer Funds se account ke beech paisa bhej sakte hain.",
-      "💡 Tip: Custom date filter se purani entries dekh sakte hain.",
-      "💡 Tip: Bill photo attach karke transaction save kar sakte hain.",
-      "💡 Tip: WhatsApp par statement share kar sakte hain.",
-      "💡 Tip: Cash Calculator se notes count kar sakte hain.",
-      "💡 Tip: Notebook me important notes save kar sakte hain."
+      "💡 Tip: Forgot your PIN? Use the 'Forgot PIN' option to reset it.",
+      "💡 Tip: Transfer funds between accounts instantly.",
+      "💡 Tip: Use custom date filters to review old transactions.",
+      "💡 Tip: Attach bill photos to transactions for reference.",
+      "💡 Tip: Share your statement directly on WhatsApp.",
+      "💡 Tip: Count your cash quickly with Cash Calculator.",
+      "💡 Tip: Save important notes in the Notebook section."
     ];
 
     function showSyncSplash() {
@@ -7086,7 +9587,7 @@ var days = [];
         });
       };
 
-      fetchWithTimeout(SCRIPT_URL + "?action=getAccountsForUser&userId=" + encodeURIComponent(loggedInUser.userId), 60000)
+      fetchWithTimeout(buildApiUrl('getAccountsForUser', { userId: loggedInUser.userId }), 60000)
         .then(function(res) { return res.json(); })
         .then(function(accountsResponse) {
           if (Array.isArray(accountsResponse) && accountsResponse.length > 0) {
@@ -7097,7 +9598,7 @@ var days = [];
 
           localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
 
-          return fetchWithTimeout(SCRIPT_URL + "?action=getAllAccountsDataMaster&userId=" + encodeURIComponent(loggedInUser.userId), 90000);
+          return fetchWithTimeout(buildApiUrl('getAllAccountsDataMaster', { userId: loggedInUser.userId }), 90000);
         })
         .then(function(res) { return res.json(); })
         .then(function(master) {
@@ -7157,6 +9658,387 @@ var days = [];
         });
     }
         // ═══════════════════════════════════════════════════════════
+    // 🏷️ CUSTOM CATEGORIES SYSTEM
+    // ═══════════════════════════════════════════════════════════
+function getCustomCategoriesKey() {
+      var uid = loggedInUser ? loggedInUser.userId : 'guest';
+      return 'cashbook_custom_categories_' + uid;
+    }
+
+    function getCustomCategories() {
+      try {
+        var raw = localStorage.getItem(getCustomCategoriesKey());
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) { return []; }
+    }
+
+    function saveCustomCategories(arr) {
+      localStorage.setItem(getCustomCategoriesKey(), JSON.stringify(arr));
+    }
+
+    function getAllCategories() {
+      var custom = getCustomCategories();
+      var all = DEFAULT_CATEGORIES.slice();
+      custom.forEach(function(cat) {
+        if (all.indexOf(cat) === -1) all.push(cat);
+      });
+      return all;
+    }
+
+    // 🏷️ Manage Categories Modal खोलें
+    function openManageCategories() {
+      var drawer = document.getElementById('sidebarDrawer');
+      if (drawer) {
+        var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+        if (bsDrawer) bsDrawer.hide();
+      }
+
+      setTimeout(function() {
+        document.getElementById('newCategoryInput').value = '';
+        renderCategoriesList();
+        var el = document.getElementById('manageCategoriesModal');
+        var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        m.show();
+      }, 250);
+    }
+
+    // Categories list render करें
+    function renderCategoriesList() {
+      var container = document.getElementById('categoriesList');
+      if (!container) return;
+
+      var custom = getCustomCategories();
+      var all = getAllCategories();
+
+      var html = '';
+      all.forEach(function(cat, idx) {
+        var isCustom = custom.indexOf(cat) !== -1;
+        var isDefault = DEFAULT_CATEGORIES.indexOf(cat) !== -1;
+        
+        // कितनी entries हैं इस category की
+        var count = 0;
+        if (globalAccounts && Array.isArray(globalAccounts)) {
+          globalAccounts.forEach(function(acc) {
+            var accName = typeof acc === 'string' ? acc : (acc ? acc.name : '');
+            var accData = allAccountsDataCache[accName];
+            if (accData && accData.transactions) {
+              accData.transactions.forEach(function(t) {
+                if ((t.category || 'General') === cat) count++;
+              });
+            }
+          });
+        }
+
+        html += 
+          '<div class="d-flex justify-content-between align-items-center p-2 mb-2 rounded-3 border" style="background:#ffffff;">' +
+            '<div style="min-width:0; flex-grow:1;">' +
+              '<div class="fw-semibold text-dark" style="font-size:12px;">' +
+                cat + 
+                (isDefault ? ' <span class="badge ms-1" style="font-size:8px; background:#e0f2fe; color:#0369a1;">Default</span>' : '') +
+              '</div>' +
+              '<div class="text-muted" style="font-size:9.5px;">' + count + ' entries</div>' +
+            '</div>' +
+            (isCustom ? 
+              '<button class="btn btn-sm btn-outline-danger rounded-2" style="font-size:10px; padding:4px 8px;" onclick="deleteCustomCategory(\'' + cat.replace(/'/g, "\\'") + '\')">' +
+                '<i class="fas fa-trash"></i>' +
+              '</button>'
+            : '') +
+          '</div>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    // Add custom category
+    function addCustomCategory() {
+      var input = document.getElementById('newCategoryInput');
+      var newCat = input ? input.value.trim() : '';
+
+      if (!newCat) return alert('Category ka naam likhein!');
+      if (newCat.length > 30) return alert('Category ka naam bahut lamba hai!');
+
+      var custom = getCustomCategories();
+      var all = getAllCategories();
+
+      // अगर पहले से मौजूद है
+      if (all.indexOf(newCat) !== -1) {
+        return alert('Yeh category pehle se hai!');
+      }
+
+      custom.push(newCat);
+      saveCustomCategories(custom);
+
+      input.value = '';
+      renderCategoriesList();
+      populateCategoryDropdowns();
+
+      // Server sync
+      apiFetch({
+        action: 'saveCustomCategories',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        categories: custom
+      }).catch(function(e) { console.warn('Category sync fail:', e); });
+
+      // Toast
+      alert('✅ Category "' + newCat + '" add ho gayi!');
+    }
+
+    // Delete custom category
+    function deleteCustomCategory(catName) {
+      if (!confirm('⚠️ Kya aap category "' + catName + '" delete karna chahte hain?\n\nPurani entries me yeh category safe rahegi.')) {
+        return;
+      }
+
+      var custom = getCustomCategories();
+      var idx = custom.indexOf(catName);
+      if (idx !== -1) {
+        custom.splice(idx, 1);
+        saveCustomCategories(custom);
+      }
+
+      renderCategoriesList();
+      populateCategoryDropdowns();
+
+      apiFetch({
+        action: 'saveCustomCategories',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        categories: custom
+      }).catch(function(e) { console.warn('Category sync fail:', e); });
+    }
+
+    // Category dropdowns को populate करें
+    function populateCategoryDropdowns() {
+      var all = getAllCategories();
+      
+      // txnCategory dropdown
+      var catInput = document.getElementById('txnCategory');
+      if (catInput) {
+        var currentVal = catInput.value;
+        var html = '';
+        all.forEach(function(cat) {
+          html += '<option value="' + cat + '">' + cat + '</option>';
+        });
+        catInput.innerHTML = html;
+        if (currentVal && all.indexOf(currentVal) !== -1) catInput.value = currentVal;
+      }
+
+      // categoryFilter dropdown
+      var filterInput = document.getElementById('categoryFilter');
+      if (filterInput) {
+        var currentFilter = filterInput.value;
+        var filterHtml = '<option value="">All Categories</option>';
+        all.forEach(function(cat) {
+          filterHtml += '<option value="' + cat + '">' + cat + '</option>';
+        });
+        filterInput.innerHTML = filterHtml;
+        if (currentFilter && all.indexOf(currentFilter) !== -1) filterInput.value = currentFilter;
+      }
+
+      // editTxnCategory dropdown (अगर है तो)
+      var editCatInput = document.getElementById('editTxnCategory');
+      if (editCatInput) {
+        var currentEdit = editCatInput.value;
+        var editHtml = '';
+        all.forEach(function(cat) {
+          editHtml += '<option value="' + cat + '">' + cat + '</option>';
+        });
+        editCatInput.innerHTML = editHtml;
+        if (currentEdit && all.indexOf(currentEdit) !== -1) editCatInput.value = currentEdit;
+      }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // 👁️ HIDE / UNHIDE ACCOUNTS FEATURE
+    // ═══════════════════════════════════════════════════════════
+
+    // Helper: Hidden accounts की key
+    function getHiddenAccountsKey() {
+      var uid = loggedInUser ? loggedInUser.userId : 'guest';
+      return 'cashbook_hidden_accs_' + uid;
+    }
+
+    // Get hidden accounts list
+    function getHiddenAccounts() {
+      try {
+        var raw = localStorage.getItem(getHiddenAccountsKey());
+        return raw ? JSON.parse(raw) : [];
+      } catch(e) { return []; }
+    }
+
+    // Save hidden accounts list
+    function saveHiddenAccounts(arr) {
+      localStorage.setItem(getHiddenAccountsKey(), JSON.stringify(arr));
+      updateHiddenCountBadge();
+    }
+
+    // Update hidden count badge in sidebar
+    function updateHiddenCountBadge() {
+      var badge = document.getElementById('hiddenCountBadge');
+      if (!badge) return;
+      var hidden = getHiddenAccounts();
+      if (hidden.length > 0) {
+        badge.innerText = hidden.length;
+        badge.style.display = 'inline-block';
+      } else {
+        badge.style.display = 'none';
+      }
+    }
+
+    // Hide an account
+    function hideAccount(accName) {
+      if (!accName) return;
+
+      var hidden = getHiddenAccounts();
+      if (hidden.indexOf(accName) === -1) {
+        hidden.push(accName);
+        saveHiddenAccounts(hidden);
+      }
+
+      // Server पर background sync
+      apiFetch({
+        action: 'hideAccount',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        accountName: accName
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(res) {
+        if (res && res.success) {
+          console.log('✅ Account hidden on server');
+        } else {
+          console.warn('⚠️ Server hide failed:', res && res.message);
+        }
+      })
+      .catch(function(e) { console.warn('Hide sync fail (local safe):', e); });
+
+      // UI refresh
+      populateAccountsDropdown();
+      showDashboard();
+      updateHiddenCountBadge();
+    }
+
+    // Unhide an account
+    function unhideAccount(accName) {
+      if (!accName) return;
+
+      var hidden = getHiddenAccounts();
+      var idx = hidden.indexOf(accName);
+      if (idx !== -1) {
+        hidden.splice(idx, 1);
+        saveHiddenAccounts(hidden);
+      }
+
+      // Server sync
+      apiFetch({
+        action: 'unhideAccount',
+        userId: loggedInUser ? loggedInUser.userId : '',
+        accountName: accName
+      })
+      .then(function(res) { return res.json(); })
+      .then(function(res) {
+        if (res && res.success) {
+          console.log('✅ Account unhidden on server');
+        } else {
+          console.warn('⚠️ Server unhide failed:', res && res.message);
+        }
+      })
+      .catch(function(e) { console.warn('Unhide sync fail (local safe):', e); });
+
+      populateAccountsDropdown();
+      openHiddenAccountsModal(); // List refresh करें
+      updateHiddenCountBadge();
+    }
+
+    // Open Hidden Accounts Modal
+    function openHiddenAccountsModal() {
+      // Drawer बंद करें
+      var drawer = document.getElementById('sidebarDrawer');
+      if (drawer) {
+        var bsDrawer = bootstrap.Offcanvas.getInstance(drawer);
+        if (bsDrawer) bsDrawer.hide();
+      }
+
+      setTimeout(function() {
+        renderHiddenAccountsList();
+        var el = document.getElementById('hiddenAccountsModal');
+        var m = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+        m.show();
+      }, 250);
+    }
+
+    // Render hidden accounts list in modal
+    function renderHiddenAccountsList() {
+      var container = document.getElementById('hiddenAccountsList');
+      if (!container) return;
+
+      var hidden = getHiddenAccounts();
+
+      // अगर visible accounts हैं और hide करने लायक हैं
+      var allAccounts = globalAccounts.map(function(a) {
+        return typeof a === 'string' ? a : (a ? a.name : '');
+      }).filter(function(n) { return n && n !== "Account Name"; });
+
+      var visibleAccounts = allAccounts.filter(function(n) {
+        return hidden.indexOf(n) === -1;
+      });
+
+      var html = '';
+
+      // 📕 Section 1: Hidden Accounts (Unhide करने के लिए)
+      if (hidden.length > 0) {
+        html += 
+          '<div class="text-uppercase text-muted fw-semibold mb-2" style="font-size:9px; letter-spacing:0.4px;">' +
+            '<i class="fas fa-eye-slash me-1"></i> Hidden Accounts (' + hidden.length + ')' +
+          '</div>';
+
+        hidden.forEach(function(accName) {
+          html += 
+            '<div class="d-flex justify-content-between align-items-center p-2 mb-2 rounded-3 border" style="background:#f8fafc;">' +
+              '<div style="min-width:0; flex-grow:1;">' +
+                '<div class="fw-semibold text-dark text-truncate" style="font-size:12px;">' + accName + '</div>' +
+                '<div class="text-muted" style="font-size:9.5px;">Dropdown me nahi dikhega</div>' +
+              '</div>' +
+              '<button class="btn btn-sm btn-outline-success rounded-2 fw-semibold flex-shrink-0" style="font-size:10.5px; padding:4px 10px;" onclick="unhideAccount(\'' + accName.replace(/'/g, "\\'") + '\')">' +
+                '<i class="fas fa-eye me-1"></i> Unhide' +
+              '</button>' +
+            '</div>';
+        });
+
+        html += '<div style="height:14px;"></div>';
+      } else {
+        html += 
+          '<div class="text-center text-muted py-4">' +
+            '<i class="fas fa-eye fa-2x mb-2 opacity-25"></i>' +
+            '<p class="mb-1 fw-semibold" style="font-size:12px;">Koi account hidden nahi hai</p>' +
+            '<p class="mb-0" style="font-size:10.5px;">Neeche se kisi account ko hide kar sakte hain</p>' +
+          '</div>' +
+          '<div style="height:14px;"></div>';
+      }
+
+      // 📗 Section 2: Visible Accounts (Hide करने के लिए)
+      if (visibleAccounts.length > 0) {
+        html += 
+          '<div class="text-uppercase text-muted fw-semibold mb-2" style="font-size:9px; letter-spacing:0.4px;">' +
+            '<i class="fas fa-eye me-1"></i> Visible Accounts (' + visibleAccounts.length + ')' +
+          '</div>';
+
+        visibleAccounts.forEach(function(accName) {
+          html += 
+            '<div class="d-flex justify-content-between align-items-center p-2 mb-2 rounded-3 border" style="background:#ffffff;">' +
+              '<div style="min-width:0; flex-grow:1;">' +
+                '<div class="fw-semibold text-dark text-truncate" style="font-size:12px;">' + accName + '</div>' +
+                '<div class="text-muted" style="font-size:9.5px;">Dropdown me dikh raha hai</div>' +
+              '</div>' +
+              '<button class="btn btn-sm btn-outline-secondary rounded-2 fw-semibold flex-shrink-0" style="font-size:10.5px; padding:4px 10px;" onclick="hideAccount(\'' + accName.replace(/'/g, "\\'") + '\')">' +
+                '<i class="fas fa-eye-slash me-1"></i> Hide' +
+              '</button>' +
+            '</div>';
+        });
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ═══════════════════════════════════════════════════════════
     // 💰 INTEREST CALCULATOR (Simple + Compound)
     // ═══════════════════════════════════════════════════════════
 
@@ -7721,29 +10603,114 @@ var days = [];
 
       container.innerHTML = html;
     }
+        // ═══════════════════════════════════════════
+    // 👆 SWIPE GESTURE SUPPORT (Mobile)
+    // ═══════════════════════════════════════════
+    (function initTxnDetailSwipe() {
+      var touchStartX = 0;
+      var touchStartY = 0;
+      var touchEndX = 0;
+      var touchEndY = 0;
+      var MIN_SWIPE_DISTANCE = 70;
+
+      document.addEventListener('touchstart', function(e) {
+        var modal = document.getElementById('txnDetailModal');
+        if (!modal || !modal.classList.contains('show')) return;
+
+        var body = document.getElementById('txnDetailBody');
+        if (!body || !body.contains(e.target)) return;
+
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+      }, { passive: true });
+
+      document.addEventListener('touchend', function(e) {
+        var modal = document.getElementById('txnDetailModal');
+        if (!modal || !modal.classList.contains('show')) return;
+
+        var body = document.getElementById('txnDetailBody');
+        if (!body || !body.contains(e.target)) return;
+
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+
+        var deltaX = touchEndX - touchStartX;
+        var deltaY = touchEndY - touchStartY;
+
+        // अगर horizontal swipe है और vertical से ज़्यादा है
+        if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > MIN_SWIPE_DISTANCE) {
+          if (deltaX > 0) {
+            // Right swipe → Previous
+            navigateTxnDetail(-1);
+          } else {
+            // Left swipe → Next
+            navigateTxnDetail(1);
+          }
+        }
+      }, { passive: true });
+    })();
+
+    // ═══════════════════════════════════════════
+    // ⌨️ KEYBOARD SUPPORT (PC — ← → arrow keys)
+    // ═══════════════════════════════════════════
+    document.addEventListener('keydown', function(e) {
+      var modal = document.getElementById('txnDetailModal');
+      if (!modal || !modal.classList.contains('show')) return;
+
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        navigateTxnDetail(-1);
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        navigateTxnDetail(1);
+      } else if (e.key === 'Escape') {
+        // Escape से modal बंद हो (Bootstrap default)
+        var modalInst = bootstrap.Modal.getInstance(modal);
+        if (modalInst) modalInst.hide();
+      }
+    });
   </script>
 
   <!-- 🔍 Modal: Transaction Detail Popup (entry पर click करने से खुलेगा) -->
   <div class="modal fade" id="txnDetailModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 90vh;">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 92vh;">
       <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
 
         <!-- Header colored by type -->
         <div class="modal-header border-0 pb-3" id="txnDetailHeader" style="background: #f8fafc;">
           <div class="d-flex align-items-center gap-2 w-100">
-            <div id="txnDetailIconBox" style="width: 40px; height: 40px; border-radius: 11px; display:flex; align-items:center; justify-content:center; background:#ecfdf5; color:#059669;">
+            <!-- ◀ Prev Button -->
+            <button type="button" class="btn btn-sm rounded-circle" onclick="navigateTxnDetail(-1)" 
+                    style="width:32px; height:32px; background:rgba(15,23,42,0.06); border:none; display:flex; align-items:center; justify-content:center; flex-shrink:0;"
+                    id="txnDetailPrevBtn" title="Previous Entry">
+              <i class="fas fa-chevron-left" style="font-size:12px; color:#475569;"></i>
+            </button>
+
+            <div id="txnDetailIconBox" style="width: 40px; height: 40px; border-radius: 11px; display:flex; align-items:center; justify-content:center; background:#ecfdf5; color:#059669; flex-shrink:0;">
               <i class="fas fa-arrow-down" style="font-size: 15px;"></i>
             </div>
-            <div class="flex-grow-1">
+            <div class="flex-grow-1" style="min-width:0;">
               <div id="txnDetailType" class="fw-bold text-dark" style="font-size:13px;">Cash In</div>
               <div class="text-muted" style="font-size:10px;" id="txnDetailAccountName">—</div>
+              <div class="text-muted" style="font-size:9px; margin-top:2px;" id="txnDetailCounter">1 of 10</div>
             </div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+            <!-- ▶ Next Button -->
+            <button type="button" class="btn btn-sm rounded-circle" onclick="navigateTxnDetail(1)" 
+                    style="width:32px; height:32px; background:rgba(15,23,42,0.06); border:none; display:flex; align-items:center; justify-content:center; flex-shrink:0;"
+                    id="txnDetailNextBtn" title="Next Entry">
+              <i class="fas fa-chevron-right" style="font-size:12px; color:#475569;"></i>
+            </button>
+
+            <button type="button" class="btn-close ms-1" data-bs-dismiss="modal"></button>
           </div>
         </div>
 
+        <!-- Swipe Indicator Bar -->
+        <div style="height:3px; background:linear-gradient(90deg, #10b981 0%, #f59e0b 50%, #be123c 100%); opacity:0.5;"></div>
+
         <!-- Body -->
-        <div class="modal-body p-3" style="max-height: 65vh; overflow-y: auto;">
+        <div class="modal-body p-3" style="max-height: 65vh; overflow-y: auto;" id="txnDetailBody">
 
           <!-- Amount Big -->
           <div class="text-center mb-3 pb-3" style="border-bottom: 1px dashed #e2e8f0;">
@@ -7804,16 +10771,24 @@ var days = [];
         </div>
 
         <!-- Footer Actions -->
-        <div class="modal-footer border-0 pt-0 d-flex gap-2">
-          <button class="btn btn-light flex-grow-1 rounded-3 fw-semibold" style="font-size:12px;" data-bs-dismiss="modal">
-            Close
-          </button>
-          <button class="btn btn-outline-primary rounded-3 fw-semibold" style="font-size:12px;" id="txnDetailEditBtn">
-            <i class="fas fa-pen-to-square me-1"></i> Edit
-          </button>
-          <button class="btn btn-outline-danger rounded-3 fw-semibold" style="font-size:12px;" id="txnDetailDeleteBtn">
-            <i class="fas fa-trash-can me-1"></i> Delete
-          </button>
+        <div class="modal-footer border-0 pt-0 d-flex flex-column gap-2">
+          <!-- Swipe Hint -->
+          <div class="text-center w-100" style="font-size:9.5px; color:#94a3b8; padding:2px 0 6px;">
+            <i class="fas fa-arrows-left-right me-1"></i>
+            Swipe left/right OR use ← → arrow keys to browse entries
+          </div>
+          
+          <div class="d-flex gap-2 w-100">
+            <button class="btn btn-light flex-grow-1 rounded-3 fw-semibold" style="font-size:12px;" data-bs-dismiss="modal">
+              Close
+            </button>
+            <button class="btn btn-outline-primary rounded-3 fw-semibold" style="font-size:12px;" id="txnDetailEditBtn">
+              <i class="fas fa-pen-to-square me-1"></i> Edit
+            </button>
+            <button class="btn btn-outline-danger rounded-3 fw-semibold" style="font-size:12px;" id="txnDetailDeleteBtn">
+              <i class="fas fa-trash-can me-1"></i> Delete
+            </button>
+          </div>
         </div>
 
       </div>
@@ -7830,8 +10805,8 @@ var days = [];
               <i class="fas fa-lock" style="font-size:15px;"></i>
             </div>
             <div>
-              <div class="fw-bold text-dark" style="font-size:14px;">Account Close Karo</div>
-              <div class="text-muted" style="font-size:10px;">Purani entries save hongi + Closing Balance line aayegi</div>
+              <div class="fw-bold text-dark" style="font-size:14px;">Close Account</div>
+              <div class="text-muted" style="font-size:10px;">Old entries will be archived with a closing balance</div>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -7841,12 +10816,12 @@ var days = [];
             <div class="d-flex gap-2">
               <i class="fas fa-info-circle text-warning mt-1" style="font-size:14px;"></i>
               <div style="font-size:11px; line-height:1.6; color:#78350f;">
-                <b>Kya hoga close karne par?</b>
+                <b>What happens when you close?</b>
                 <ul class="mb-0 ps-3 mt-1">
-                  <li>Aaj tak ki <b>saari entries</b> ek Old Book me safe ho jayengi</li>
-                  <li>List ke top par ek <b>CLOSING BALANCE</b> line aayegi</li>
-                  <li>Uske niche <b>nayi entries</b> normal chalti rahengi</li>
-                  <li>Old Book ko <b>📚 icon</b> se dekh sakte hain (PDF/Excel download ke saath)</li>
+                  <li>All existing entries will be <b>archived into an Old Book</b></li>
+                  <li>A <b>CLOSING BALANCE</b> line will appear at the top</li>
+                  <li>New entries will continue <b>as normal</b> below it</li>
+                  <li>Access archived history via the <b>📚 icon</b> (with PDF/Excel export)</li>
                 </ul>
               </div>
             </div>
@@ -7891,8 +10866,8 @@ var days = [];
               <i class="fas fa-unlock" style="font-size:15px;"></i>
             </div>
             <div>
-              <div class="fw-bold text-dark" style="font-size:14px;">Account Reopen Karo</div>
-              <div class="text-muted" style="font-size:10px;">Purani kitab wapas current hisab me judegi</div>
+              <div class="fw-bold text-dark" style="font-size:14px;">Reopen Account</div>
+              <div class="text-muted" style="font-size:10px;">Archived entries will merge back into the current book</div>
             </div>
           </div>
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -7902,13 +10877,13 @@ var days = [];
             <div class="d-flex gap-2">
               <i class="fas fa-info-circle text-success mt-1" style="font-size:14px;"></i>
               <div style="font-size:11px; line-height:1.6; color:#064e3b;">
-                <b>Kya hoga reopen karne par?</b>
+                <b>What happens when you reopen?</b>
                 <ul class="mb-0 ps-3 mt-1">
-                  <li>Purani saari entries <b>wapas current hisab me jud jayengi</b></li>
-                  <li>Purani entries <b>locked rahengi</b> (sirf dekh sakte hain)</li>
-                  <li>Nayi entries normal chalti rahengi</li>
-                  <li>Balance sab milakar chalega</li>
-                  <li>Purani kitab <b>Old Books me bhi saved rahegi</b> (reference ke liye)</li>
+                  <li>All archived entries will be <b>merged back</b> into the current book</li>
+                  <li>Old entries will remain <b>locked</b> (view-only)</li>
+                  <li>New entries will continue normally</li>
+                  <li>Balance will include all entries</li>
+                  <li>Archived copy will still be <b>available in Old Books</b> for reference</li>
                 </ul>
               </div>
             </div>
@@ -8077,6 +11052,66 @@ var days = [];
       </div>
     </div>
   </div>
+    <!-- 🏷️ Modal: Manage Categories -->
+  <div class="modal fade" id="manageCategoriesModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 88vh;">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-2" style="background:#f8fafc;">
+          <div class="d-flex align-items-center gap-2 w-100">
+            <div style="width:38px; height:38px; background:#ecfdf5; color:#059669; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+              <i class="fas fa-tags" style="font-size:15px;"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-bold text-dark" style="font-size:14px;">Manage Categories</div>
+              <div class="text-muted" style="font-size:10px;">Apni categories banao ya delete karo</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+        <div class="modal-body p-3">
+          <!-- Add New Category -->
+          <div class="p-2 mb-3 rounded-3 border" style="background:#f8fafc;">
+            <div class="text-uppercase text-muted fw-semibold mb-1" style="font-size:9px; letter-spacing:0.4px;">Add New Category</div>
+            <div class="d-flex gap-1">
+              <input type="text" id="newCategoryInput" class="form-control rounded-3" placeholder="e.g. Chai Pani" style="font-size:12px;">
+              <button class="btn btn-success rounded-3 fw-semibold px-3" style="font-size:11px;" onclick="addCustomCategory()">
+                <i class="fas fa-plus"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Categories List -->
+          <div class="text-uppercase text-muted fw-semibold mb-2" style="font-size:9px; letter-spacing:0.4px;">All Categories</div>
+          <div id="categoriesList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 👁️ Modal: Hidden Accounts -->
+  <div class="modal fade" id="hiddenAccountsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 85vh;">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-2" style="background:#f8fafc;">
+          <div class="d-flex align-items-center gap-2 w-100">
+            <div style="width:38px; height:38px; background:#f1f5f9; color:#475569; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+              <i class="fas fa-eye-slash" style="font-size:15px;"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-bold text-dark" style="font-size:14px;">Hidden Accounts</div>
+              <div class="text-muted" style="font-size:10px;">Data safe hai — कभी भी unhide कर सकते हैं</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+        <div class="modal-body p-3" style="max-height: 70vh; overflow-y:auto;">
+          <div id="hiddenAccountsList"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 
   <!-- 📷 Modal: Attachment Center -->
   <div class="modal fade" id="attachmentModal" tabindex="-1">
