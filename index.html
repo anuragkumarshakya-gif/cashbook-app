@@ -50,37 +50,52 @@
   </script>
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap');
 
     :root {
-      --primary: #1e293b;          
-      --primary-hover: #0f172a;    
-      --primary-accent: #334155;   
-      --bg-main: #f4f5f7;          
+      /* 🌟 Exact App Soft Pastel Theme */
+      --primary: #1d4ed8;          
+      --primary-hover: #1e40af;    
+      --primary-accent: #3b82f6;   
+      --bg-main: #f0f4f9;          /* इमेज जैसा हल्का आइस-ग्रे/सॉफ्ट ब्लू */
       
-      --cash-in: #059669;          
-      --cash-in-bg: #ecfdf5;       
+      /* Soft Emerald Green (Cash In / आज की बिक्री) */
+      --cash-in: #16a34a;          
+      --cash-in-bg: #f0fdf4;       
+      --cash-in-border: #dcfce7;
       
-      --cash-out: #dc2626;         
-      --cash-out-bg: #fef2f2;      
+      /* Soft Crimson/Rose (Cash Out / बाकी उधार) */
+      --cash-out: #e11d48;         
+      --cash-out-bg: #fff1f2;      
+      --cash-out-border: #ffe4e6;
       
-      --card-bg: #ffffff;
-      --radius-lg: 16px;
-      
-      --shadow-sm: 0 1px 2px rgba(15,23,42,0.04);
-      --shadow-md: 0 4px 14px rgba(15,23,42,0.05);
-      --shadow-lg: 0 8px 24px rgba(15,23,42,0.07);
+      /* Soft Blue & Amber Highlights */
+      --soft-blue-bg: #e0f2fe;
+      --soft-blue-border: #bae6fd;
+      --soft-blue-text: #0284c7;
+      --soft-amber-bg: #fffbeb;
+      --soft-amber-border: #fde68a;
+      --soft-amber-text: #d97706;
 
-      --text-primary: #0f172a;
+      --card-bg: #ffffff;
+      --radius-sm: 10px;
+      --radius-md: 16px;
+      --radius-lg: 20px;
+      
+      --shadow-sm: 0 1px 4px rgba(148, 163, 184, 0.08);
+      --shadow-md: 0 4px 16px rgba(148, 163, 184, 0.12);
+
+      --text-primary: #1e293b;
       --text-secondary: #64748b;
-      --border-subtle: #e8eaef;
+      --text-muted: #94a3b8;
+      --border-subtle: #e2e8f0;
     }
 
     body { 
       background-color: var(--bg-main); 
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; 
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Devanagari', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
       font-size: 12px;
-      padding-bottom: 90px;
+      padding-bottom: 95px;
       color: var(--text-primary);
       letter-spacing: -0.15px;
       -webkit-font-smoothing: antialiased;
@@ -88,36 +103,32 @@
       text-rendering: optimizeLegibility;
     }
 
-    /* Clean minimal card */
+    /* 💎 Clean App Card with Soft Border */
     .card-custom { 
-      border-radius: 14px !important; 
-      border: 1px solid var(--border-subtle) !important; 
+      border-radius: var(--radius-md) !important; 
+      border: 1px solid #e5eaf2 !important; 
       box-shadow: var(--shadow-sm) !important; 
       background-color: var(--card-bg);
-      transition: box-shadow 0.2s ease;
+      transition: all 0.2s ease;
     }
-    .card-custom:hover {
-      box-shadow: var(--shadow-md) !important;
-    }
-
-    .card-custom, .bottom-action-bar, .top-bar {
-      will-change: transform;
-      transform: translateZ(0);
+    .card-custom:hover { 
+      box-shadow: var(--shadow-md) !important; 
+      border-color: #cbd5e1 !important; 
     }
 
-    /* Clean Top App Bar */
+    /* ✨ Clean Crisp White Top Bar (इमेज जैसा) */
     .top-bar { 
-      background: #0f172a; 
-      color: #ffffff !important; 
-      padding: 16px 20px; 
-      box-shadow: 0 2px 12px rgba(15, 23, 42, 0.12);
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
+      background: #ffffff !important;
+      color: #1e293b !important; 
+      padding: 10px 16px !important; 
+      box-shadow: 0 2px 10px rgba(148, 163, 184, 0.08) !important;
+      border-bottom: 1px solid #e2e8f0 !important;
+      border-radius: 0 !important;
     }
 
     .top-bar h6, .top-bar small, .top-bar span, .top-bar i, .top-bar button {
-      color: #ffffff !important;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      color: #1e293b !important; 
+      text-shadow: none !important;
     }
 
     /* 🔄 Redownload Icon Styling */
@@ -192,23 +203,25 @@
 
     /* 🏷️ Mini Badges */
     .badge-in-pill {
-      background: #ecfdf5;
-      color: #059669;
-      font-size: 9px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #d1fae5;
+      background: #f0fdf4 !important;
+      color: #15803d !important;
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid #bbf7d0;
+      letter-spacing: 0.3px;
     }
 
     .badge-out-pill {
-      background: #fef2f2;
-      color: #dc2626;
-      font-size: 9px;
-      font-weight: 600;
-      padding: 2px 6px;
-      border-radius: 4px;
-      border: 1px solid #fecaca;
+      background: #fff1f2 !important;
+      color: #be123c !important;
+      font-size: 8.5px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 6px;
+      border: 1px solid #fecdd3;
+      letter-spacing: 0.3px;
     }
 
     /* 🔍 Glassmorphism Input Control */
@@ -229,50 +242,50 @@
       transform: translateX(-50%);
       width: 92%;
       max-width: 600px;
-      background: rgba(255, 255, 255, 0.96) !important;
+      background: rgba(255, 255, 255, 0.98) !important;
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
-      padding: 8px 10px !important;
-      box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1) !important;
-      border-radius: 16px !important;
-      border: 1px solid var(--border-subtle) !important;
+      padding: 8px 12px !important;
+      box-shadow: 0 8px 24px rgba(148, 163, 184, 0.25) !important;
+      border-radius: 18px !important;
+      border: 1px solid #e2e8f0 !important;
       z-index: 1000;
     }
 
     .btn-cash-in {
-      background: #059669 !important;
-      color: #ffffff;
-      font-weight: 600;
+      background: #16a34a !important;
+      color: #ffffff !important;
+      font-weight: 700;
       font-size: 13px;
       border-radius: 12px !important;
-      padding: 12px 20px;
+      padding: 11px 18px;
       border: none;
-      width: 48%;
-      box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25) !important;
-      transition: transform 0.12s ease, background 0.15s ease;
+      width: 48.5%;
+      box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25) !important;
+      transition: all 0.15s ease;
     }
     .btn-cash-in:hover {
-      background: #047857 !important;
+      background: #15803d !important;
     }
 
     .btn-cash-out {
-      background: #dc2626 !important;
-      color: #ffffff;
-      font-weight: 600;
+      background: #e11d48 !important;
+      color: #ffffff !important;
+      font-weight: 700;
       font-size: 13px;
       border-radius: 12px !important;
-      padding: 12px 20px;
+      padding: 11px 18px;
       border: none;
-      width: 48%;
-      box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25) !important;
-      transition: transform 0.12s ease, background 0.15s ease;
+      width: 48.5%;
+      box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25) !important;
+      transition: all 0.15s ease;
     }
     .btn-cash-out:hover {
-      background: #b91c1c !important;
+      background: #be123c !important;
     }
 
     .btn-cash-in:active, .btn-cash-out:active {
-      transform: scale(0.95) !important;
+      transform: scale(0.96) !important;
     }
 
     /* 📱 Horizontal Filter Scroll Bar */
@@ -303,36 +316,174 @@
       box-shadow: 0 2px 8px rgba(15, 23, 42, 0.15) !important;
     }
 
-    /* 🌙 Pure OLED Dark Theme Engine */
+    /* 🌙 Pure Universal OLED Dark Theme Engine */
     body.dark-theme {
       --bg-main: #09090b !important;
       --card-bg: #18181b !important;
+      --text-primary: #f4f4f5 !important;
+      --text-secondary: #a1a1aa !important;
+      --border-subtle: #27272a !important;
+      background-color: #09090b !important;
       color: #f4f4f5 !important;
     }
-    body.dark-theme .card-custom {
+
+    /* Universal Cards, Modals & Containers */
+    body.dark-theme .card-custom,
+    body.dark-theme .modal-content,
+    body.dark-theme .offcanvas {
       border-color: #27272a !important;
       background-color: #18181b !important;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.5) !important;
+      color: #f4f4f5 !important;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6) !important;
     }
-    body.dark-theme .bottom-action-bar {
-      background: rgba(24, 24, 27, 0.92) !important;
-      border-color: #27272a !important;
-    }
-    body.dark-theme .text-dark, 
-    body.dark-theme .modal-title, 
-    body.dark-theme h6 {
+
+    /* Universal Text Adjustments */
+    body.dark-theme .text-dark,
+    body.dark-theme .modal-title,
+    body.dark-theme h1, body.dark-theme h2, body.dark-theme h3,
+    body.dark-theme h4, body.dark-theme h5, body.dark-theme h6,
+    body.dark-theme .txn-remark {
       color: #f4f4f5 !important;
     }
-    body.dark-theme .bg-light, 
-    body.dark-theme .table-light {
-      background-color: #27272a !important;
-      color: #f4f4f5 !important;
+
+    body.dark-theme .text-muted,
+    body.dark-theme .text-secondary {
+      color: #a1a1aa !important;
     }
-    body.dark-theme .form-control, 
-    body.dark-theme .form-select {
+
+    /* Universal Inputs, Selects & Input Groups */
+    body.dark-theme .form-control,
+    body.dark-theme .form-select,
+    body.dark-theme .input-group-text {
       background-color: #27272a !important;
       color: #ffffff !important;
       border-color: #3f3f46 !important;
+    }
+
+    body.dark-theme .form-control::placeholder {
+      color: #71717a !important;
+    }
+
+    /* Universal Tables & Light Backgrounds */
+    body.dark-theme .bg-light,
+    body.dark-theme .table-light,
+    body.dark-theme .table-responsive,
+    body.dark-theme table {
+      background-color: #18181b !important;
+      color: #f4f4f5 !important;
+      border-color: #27272a !important;
+    }
+
+    body.dark-theme table td,
+    body.dark-theme table th {
+      border-color: #27272a !important;
+    }
+
+    /* Top & Bottom Navigation Bars */
+    body.dark-theme .top-bar {
+      background: #18181b !important;
+      border-bottom-color: #27272a !important;
+    }
+    body.dark-theme .top-bar h6,
+    body.dark-theme .top-bar small,
+    body.dark-theme .top-bar span,
+    body.dark-theme .top-bar i,
+    body.dark-theme .top-bar button {
+      color: #f4f4f5 !important;
+    }
+
+    body.dark-theme .bottom-action-bar {
+      background: rgba(24, 24, 27, 0.94) !important;
+      border-color: #27272a !important;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    /* Filter Buttons */
+    body.dark-theme .btn-filter {
+      background-color: #27272a !important;
+      color: #d4d4d8 !important;
+      border-color: #3f3f46 !important;
+    }
+    body.dark-theme .btn-filter.btn-primary {
+      background: #3b82f6 !important;
+      color: #ffffff !important;
+      border-color: #3b82f6 !important;
+    }
+
+    /* Transaction Cards in Dark Mode */
+    body.dark-theme .txn-card-compact {
+      background: #18181b !important;
+      border-color: #27272a !important;
+    }
+    body.dark-theme .txn-card-compact:hover {
+      background: #27272a !important;
+    }
+
+    /* 🛡️ Login & PIN Screen in Dark Mode */
+    body.dark-theme #lockScreen {
+      background: radial-gradient(circle at center, #18181b 0%, #09090b 100%) !important;
+      color: #f4f4f5 !important;
+    }
+    body.dark-theme .login-card {
+      background: rgba(24, 24, 27, 0.85) !important;
+      border: 1px solid rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7) !important;
+    }
+    body.dark-theme .brand-text h4 {
+      color: #f4f4f5 !important;
+    }
+    body.dark-theme .brand-text p {
+      color: #a1a1aa !important;
+    }
+    body.dark-theme .key-btn {
+      background: rgba(39, 39, 42, 0.85) !important;
+      border-color: #3f3f46 !important;
+      color: #f4f4f5 !important;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3) !important;
+    }
+    body.dark-theme .key-btn:hover {
+      background: #3f3f46 !important;
+      color: #ffffff !important;
+    }
+    body.dark-theme .pin-dot {
+      background: #27272a !important;
+      border-color: #52525b !important;
+    }
+    body.dark-theme .pin-dot.filled {
+      background: #3b82f6 !important;
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.7) !important;
+    }
+    body.dark-theme .btn-bio-circle,
+    body.dark-theme .btn-new-user-pill {
+      background: #27272a !important;
+      border-color: #3f3f46 !important;
+      color: #f4f4f5 !important;
+    }
+    body.dark-theme .btn-bio-circle:hover,
+    body.dark-theme .btn-new-user-pill:hover {
+      background: #3f3f46 !important;
+    }
+    body.dark-theme .link-forgot-pin {
+      color: #a1a1aa !important;
+    }
+    body.dark-theme .link-forgot-pin:hover {
+      color: #fbbf24 !important;
+    }
+
+    /* 🔑 Custom Password Prompt Modal in Dark Mode */
+    body.dark-theme #customPromptPasswordModal > div {
+      background: rgba(24, 24, 27, 0.96) !important;
+      border-color: rgba(255, 255, 255, 0.1) !important;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8) !important;
+    }
+    body.dark-theme #customPromptPasswordModal div[style*="color: #0f172a"] {
+      color: #f4f4f5 !important;
+    }
+    body.dark-theme #customPromptPasswordInput {
+      background: #27272a !important;
+      border-color: #3f3f46 !important;
+      color: #ffffff !important;
     }
 
     /* ═══════════════════════════════════════════ */
@@ -763,7 +914,7 @@
       transform: scale(0.98);
     }
 
-    /* ✨ NEW Premium Split Login Screen */
+    /* ✨ Light Glassmorphism Premium Login & Lock Screen */
     #lockScreen { 
       position: fixed; 
       top: 0; 
@@ -773,28 +924,28 @@
       width: 100%;
       height: 100%;
       min-height: 100vh;
-      background: #0f0f12;
+      background: linear-gradient(135deg, #eef2f6 0%, #e0e7ff 50%, #f1f5f9 100%);
       z-index: 999999; 
       display: flex; 
       flex-direction: column; 
       align-items: center; 
       justify-content: center; 
-      color: white;
+      color: #1e293b;
       overflow-y: auto;
       padding: 20px 16px;
       box-sizing: border-box;
       margin: 0;
     }
 
-    /* Soft background glow orbs */
+    /* Soft ambient background glow orbs */
     #lockScreen::before {
       content: '';
       position: absolute;
-      top: -120px;
-      left: -120px;
-      width: 320px;
-      height: 320px;
-      background: radial-gradient(circle, rgba(190, 18, 60, 0.45), transparent 70%);
+      top: -80px;
+      left: -80px;
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent 70%);
       border-radius: 50%;
       filter: blur(40px);
       pointer-events: none;
@@ -802,11 +953,11 @@
     #lockScreen::after {
       content: '';
       position: absolute;
-      bottom: -120px;
-      right: -120px;
-      width: 340px;
-      height: 340px;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.28), transparent 70%);
+      bottom: -80px;
+      right: -80px;
+      width: 320px;
+      height: 320px;
+      background: radial-gradient(circle, rgba(225, 29, 72, 0.18), transparent 70%);
       border-radius: 50%;
       filter: blur(50px);
       pointer-events: none;
@@ -825,17 +976,18 @@
     .login-card {
       position: relative;
       z-index: 2;
-      background: rgba(24, 24, 27, 0.75);
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 24px;
-      padding: 26px 22px 22px;
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 255, 255, 0.85);
+      border-radius: 28px;
+      padding: 26px 22px 20px;
       width: 100%;
-      max-width: 380px;
+      max-width: 360px;
       box-shadow: 
-        0 30px 60px rgba(0, 0, 0, 0.55),
-        inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        0 20px 50px rgba(15, 23, 42, 0.08),
+        0 4px 12px rgba(15, 23, 42, 0.04),
+        inset 0 1px 1px rgba(255, 255, 255, 0.9);
       animation: loginCardEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -849,135 +1001,179 @@
       display: flex;
       align-items: center;
       gap: 12px;
-      margin-bottom: 22px;
-      padding-bottom: 18px;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid rgba(226, 232, 240, 0.8);
     }
 
     .brand-logo {
-      width: 46px;
-      height: 46px;
+      width: 44px;
+      height: 44px;
       border-radius: 14px;
-      background: linear-gradient(135deg, #be123c 0%, #6d0f2b 100%);
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      box-shadow: 0 8px 20px rgba(190, 18, 60, 0.4);
+      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.3);
       flex-shrink: 0;
     }
 
     .brand-logo i {
-      font-size: 20px;
+      font-size: 19px;
       color: #ffffff;
     }
 
     .brand-text h4 {
       font-size: 17px;
-      font-weight: 700;
+      font-weight: 800;
       margin: 0;
       letter-spacing: -0.3px;
-      color: #ffffff;
+      color: #0f172a;
     }
 
     .brand-text p {
       font-size: 11px;
-      color: rgba(255, 255, 255, 0.5);
+      color: #64748b;
       margin: 2px 0 0 0;
       font-weight: 500;
     }
 
-    /* Form inputs - slim & modern */
+    /* Form inputs - Clean Glass */
     .bg-white-10 {
-      background-color: rgba(255, 255, 255, 0.06) !important;
-      border: 1px solid rgba(255, 255, 255, 0.08) !important;
-      color: #ffffff !important;
+      background-color: rgba(255, 255, 255, 0.85) !important;
+      border: 1px solid #cbd5e1 !important;
+      color: #0f172a !important;
       font-size: 13px !important;
       padding: 10px 14px !important;
       transition: all 0.2s ease;
     }
     .bg-white-10:focus {
-      background-color: rgba(255, 255, 255, 0.1) !important;
-      border-color: #be123c !important;
-      box-shadow: 0 0 0 3px rgba(190, 18, 60, 0.15) !important;
-      color: #ffffff !important;
+      background-color: #ffffff !important;
+      border-color: #2563eb !important;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15) !important;
+      color: #0f172a !important;
     }
     .bg-white-10::placeholder {
-      color: rgba(255, 255, 255, 0.35) !important;
+      color: #94a3b8 !important;
       font-size: 12px;
     }
 
-    /* PIN Dots - Smaller & Sleeker */
+    /* PIN Dots - Sleek Dark Dots */
     .pin-dot {
-      width: 13px;
-      height: 13px;
+      width: 14px;
+      height: 14px;
       border-radius: 50%;
-      border: 1.5px solid rgba(255, 255, 255, 0.35);
-      background: transparent;
+      border: 1.5px solid #cbd5e1;
+      background: #f1f5f9;
       transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
     .pin-dot.filled {
-      background: #f59e0b;
-      border-color: #f59e0b;
-      box-shadow: 0 0 10px rgba(245, 158, 11, 0.7);
-      transform: scale(1.1);
+      background: #2563eb;
+      border-color: #2563eb;
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+      transform: scale(1.15);
     }
 
-    /* Keypad - Compact grid */
+    /* Keypad - Light Glass Neumorphic Buttons */
     .key-btn {
       width: 100%;
-      height: 46px;
+      height: 48px;
       border-radius: 14px;
-      font-size: 17px;
-      font-weight: 600;
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.07);
-      border: 1px solid rgba(255, 255, 255, 0.06);
+      font-size: 18px;
+      font-weight: 700;
+      color: #0f172a;
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      box-shadow: 0 2px 6px rgba(148, 163, 184, 0.12);
       transition: all 0.12s ease;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
     }
     .key-btn:hover {
-      background: rgba(255, 255, 255, 0.11);
+      background: #ffffff;
+      border-color: #cbd5e1;
+      transform: translateY(-1px);
     }
     .key-btn:active {
-      background: rgba(190, 18, 60, 0.85) !important;
-      border-color: rgba(190, 18, 60, 1) !important;
+      background: #2563eb !important;
+      border-color: #1d4ed8 !important;
       color: #ffffff !important;
       transform: scale(0.94);
+      box-shadow: none;
     }
     .btn-light-transparent {
       background: transparent !important;
       border: none !important;
+      box-shadow: none !important;
     }
 
-    /* Small action buttons below keypad */
-    .auth-action-btn {
-      font-size: 11px;
-      font-weight: 600;
-      padding: 7px 14px;
-      border-radius: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.15);
-      background: rgba(255, 255, 255, 0.05);
-      color: #ffffff;
+    /* Fingerprint & New User Buttons in Single Row */
+    .btn-bio-circle {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      color: #2563eb;
+      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 8px rgba(37, 99, 235, 0.15);
       transition: all 0.2s ease;
-      font-family: 'Inter', sans-serif;
+      cursor: pointer;
     }
-    .auth-action-btn:hover {
-      background: rgba(255, 255, 255, 0.12);
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #ffffff;
+    .btn-bio-circle:hover {
+      background: #eff6ff;
+      border-color: #2563eb;
+      transform: translateY(-1px);
+    }
+    .btn-bio-circle:active {
+      transform: scale(0.92);
     }
 
-    .auth-action-btn.warning-btn {
-      border-color: rgba(245, 158, 11, 0.4);
-      background: rgba(245, 158, 11, 0.1);
-      color: #fbbf24;
+    .btn-new-user-pill {
+      font-size: 12px;
+      font-weight: 700;
+      padding: 0 16px;
+      height: 42px;
+      border-radius: 24px;
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #0f172a;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 2px 8px rgba(148, 163, 184, 0.12);
+      transition: all 0.2s ease;
+      cursor: pointer;
     }
-    .auth-action-btn.warning-btn:hover {
-      background: rgba(245, 158, 11, 0.2);
-      color: #fcd34d;
+    .btn-new-user-pill:hover {
+      background: #f8fafc;
+      border-color: #94a3b8;
+      color: #0f172a;
+      transform: translateY(-1px);
+    }
+    .btn-new-user-pill:active {
+      transform: scale(0.95);
+    }
+
+    .link-forgot-pin {
+      display: inline-block;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: #64748b;
+      text-decoration: none;
+      transition: all 0.15s ease;
+      padding: 4px 8px;
+      border-radius: 6px;
+    }
+    .link-forgot-pin:hover {
+      color: #d97706;
+      background: rgba(245, 158, 11, 0.08);
     }
 
     /* Login / Signup button */
@@ -1091,7 +1287,7 @@
       left: 0;
     }
 
-    .sync-ring-2 {
+        .sync-ring-2 {
       width: 100px;
       height: 100px;
       border-top-color: #10b981;
@@ -1099,93 +1295,6 @@
       border-bottom-color: #10b981;
       animation: syncSpin 1.5s linear infinite reverse;
     }
-      <!-- 💾 MODAL: Backup & Restore -->
-  <div class="modal fade" id="backupModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 90vh;">
-      <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-2" style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
-          <div class="d-flex align-items-center gap-2 w-100">
-            <div style="width:40px; height:40px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; border-radius:11px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(59,130,246,0.3);">
-              <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
-            </div>
-            <div class="flex-grow-1">
-              <div class="fw-bold text-dark" style="font-size:14px;">Backup & Restore</div>
-              <div class="text-muted" style="font-size:10px;">Safeguard your financial data</div>
-            </div>
-            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-          </div>
-        </div>
-
-        <div class="modal-body p-3">
-
-          <!-- Info Box -->
-          <div class="p-3 mb-3 rounded-3" style="background:#f0f9ff; border:1px solid #bae6fd;">
-            <div class="d-flex gap-2">
-              <i class="fas fa-shield-halved text-primary mt-1" style="font-size:14px;"></i>
-              <div style="font-size:11px; line-height:1.6; color:#075985;">
-                <b>Why backup?</b> Your data stays on Google Sheets, but a local JSON backup ensures you can restore everything even if something goes wrong.
-              </div>
-            </div>
-          </div>
-
-          <!-- Last Backup Info -->
-          <div class="p-3 mb-3 rounded-3" style="background:#f8fafc; border:1px solid #e2e8f0;">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Manual Backup</span>
-              <span class="fw-bold text-dark" style="font-size:11px;" id="lastManualBackupText">Never</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Auto Backup</span>
-              <span class="fw-bold text-success" style="font-size:11px;" id="lastAutoBackupText">Not yet</span>
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Next Auto Backup</span>
-              <span class="fw-bold text-primary" style="font-size:11px;" id="nextAutoBackupText">Within 24 hours</span>
-            </div>
-          </div>
-
-          <!-- Auto Backup Toggle -->
-          <div class="p-3 mb-3 rounded-3" style="background:#fefce8; border:1px solid #fde68a;">
-            <div class="form-check form-switch d-flex align-items-center" style="padding-left:0;">
-              <input class="form-check-input me-2" type="checkbox" id="autoBackupToggle" 
-                     onchange="toggleAutoBackup(this.checked)" 
-                     style="width:38px; height:20px; margin-top:0; cursor:pointer;">
-              <label class="form-check-label flex-grow-1" for="autoBackupToggle" style="cursor:pointer;">
-                <div class="fw-bold text-dark" style="font-size:12px;">Auto Backup</div>
-                <div class="text-muted" style="font-size:10px;">Download backup file every 24 hours</div>
-              </label>
-            </div>
-          </div>
-
-          <!-- Manual Download Button -->
-          <button class="btn w-100 mb-2 rounded-3 fw-bold" 
-                  onclick="downloadBackupJSON()"
-                  style="background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; padding:12px; font-size:13px; box-shadow:0 8px 20px rgba(59,130,246,0.35);">
-            <i class="fas fa-download me-2"></i> Download Backup (JSON)
-          </button>
-
-          <!-- Restore Button -->
-          <label for="restoreBackupInput" 
-                 class="btn w-100 rounded-3 fw-bold mb-0" 
-                 style="background:rgba(15,23,42,0.06); color:#0f172a; padding:12px; font-size:13px; border:1.5px dashed #cbd5e1; cursor:pointer;">
-            <i class="fas fa-upload me-2"></i> Restore from Backup
-          </label>
-          <input type="file" id="restoreBackupInput" accept=".json,application/json" class="d-none" onchange="restoreFromBackupFile(this)">
-
-          <!-- Warning Note -->
-          <div class="mt-3 p-2 rounded-2" style="background:#fef2f2; border:1px solid #fecaca;">
-            <div class="d-flex gap-2">
-              <i class="fas fa-exclamation-triangle text-danger" style="font-size:12px; margin-top:1px;"></i>
-              <div style="font-size:10px; color:#991b1b; line-height:1.5;">
-                <b>Important:</b> Restore will <b>replace</b> all current data with the backup file. Always keep backups in a safe place.
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
 
     @keyframes syncSpin {
       0% { transform: rotate(0deg); }
@@ -1446,28 +1555,32 @@
     }
 
     .txn-card-in {
-      background: #fafffb !important;
-      border-left: 3px solid #059669 !important;
-      border-radius: 10px !important;
+      background: #ffffff !important;
+      border-left: 4px solid #16a34a !important;
     }
 
     .txn-card-out {
       background: #ffffff !important;
-      border-left: 3px solid #dc2626 !important;
-      border-radius: 10px !important;
+      border-left: 4px solid #e11d48 !important;
     }
 
-    /* 📱 Ultra Compact Top Layout Styles */
-    .top-bar {
-      padding: 8px 14px !important;
-      border-bottom-left-radius: 16px !important;
-      border-bottom-right-radius: 16px !important;
-    }
-
-    .card-compact-box {
-      padding: 8px 10px !important;
+    .txn-card-compact {
+      padding: 9px 12px !important;
       margin-bottom: 6px !important;
       border-radius: 12px !important;
+      border: 1px solid #e8eef5 !important;
+      box-shadow: 0 1px 3px rgba(148, 163, 184, 0.05) !important;
+      transition: all 0.15s ease;
+      cursor: pointer;
+      user-select: none;
+    }
+    .txn-card-compact:hover {
+      background: #f8fafc !important;
+      border-color: #cbd5e1 !important;
+    }
+    .txn-card-compact:active {
+      transform: scale(0.985);
+      background: #f1f5f9 !important;
     }
 
     /* Compact all inputs inside cards */
@@ -1824,6 +1937,24 @@
   <!-- 🔥 Slim Background Sync Progress Bar -->
   <div id="backgroundSyncBar"></div>
 
+  <!-- 🔥 FIX: Professional Loader Overlay (was missing — showLoader() was broken) -->
+  <div id="loaderOverlay" class="d-none" style="
+    position: fixed; top:0; left:0; width:100vw; height:100vh;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    z-index: 99999;
+    display: flex; align-items: center; justify-content: center;
+  ">
+    <div class="loader-card-pro">
+      <div class="spinner-ring-pro"></div>
+      <div class="mt-3 text-center">
+        <div class="fw-bold" style="font-size:12px; color:#0f172a;">Please wait...</div>
+        <div class="text-muted" style="font-size:10px;">Processing your request</div>
+      </div>
+    </div>
+  </div>
+
   <!-- Professional FinTech App Loader Overlay -->
 
   <!-- 🔄 Premium Full-Screen Sync Overlay -->
@@ -1880,11 +2011,11 @@
       <div id="pinLockView" class="d-none">
 
         <div class="text-center mb-3">
-          <small class="text-white-50 fw-semibold" style="font-size: 11px;">Enter your 4-digit passcode</small>
+          <small class="text-muted fw-semibold" style="font-size: 11.5px;">Enter your 4-digit passcode</small>
         </div>
 
         <!-- PIN Dots -->
-        <div class="d-flex justify-content-center gap-3 mb-4" id="pinDotsContainer">
+        <div class="d-flex justify-content-center gap-3 mb-3" id="pinDotsContainer">
           <div class="pin-dot"></div>
           <div class="pin-dot"></div>
           <div class="pin-dot"></div>
@@ -1903,37 +2034,29 @@
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(7)">7</button></div>
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(8)">8</button></div>
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(9)">9</button></div>
-            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="clearAllPinDigits()"><i class="fas fa-times text-white-50" style="font-size:13px;"></i></button></div>
+            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="clearAllPinDigits()"><i class="fas fa-times text-muted" style="font-size:14px;"></i></button></div>
             <div class="col-4"><button class="btn key-btn" onclick="pressKeypadNum(0)">0</button></div>
-            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="pressKeypadDelete()"><i class="fas fa-backspace text-white" style="font-size:13px;"></i></button></div>
+            <div class="col-4"><button class="btn key-btn btn-light-transparent" onclick="pressKeypadDelete()"><i class="fas fa-backspace text-secondary" style="font-size:14px;"></i></button></div>
           </div>
         </div>
 
-        <!-- Fingerprint & Forgot PIN -->
-        <div class="text-center mt-3 d-flex justify-content-center gap-2">
-          <button class="btn auth-action-btn" onclick="autoLoginWithBiometric()">
-            <i class="fas fa-fingerprint me-1 text-warning"></i> Fingerprint
+        <!-- 🖐️ Fingerprint Logo Icon & New User Button Side-by-Side -->
+        <div class="d-flex justify-content-center align-items-center gap-2 mb-3">
+          <button type="button" class="btn btn-bio-circle" onclick="autoLoginWithBiometric()" title="Fingerprint Login">
+            <i class="fas fa-fingerprint"></i>
           </button>
-          <button class="btn auth-action-btn warning-btn" onclick="handleForgotPin()">
+          <button type="button" class="btn btn-new-user-pill" onclick="goToSignupFromLockScreen()" title="New User Register">
+            <i class="fas fa-user-plus text-primary"></i> New User
+          </button>
+        </div>
+
+        <!-- 🔑 Forgot PIN Link Centered Below -->
+        <div class="text-center">
+          <a href="javascript:void(0);" class="link-forgot-pin" onclick="handleForgotPin()">
             <i class="fas fa-key me-1"></i> Forgot PIN?
-          </button>
+          </a>
         </div>
 
-        <!-- 🆕 New User Divider -->
-        <div class="d-flex align-items-center gap-2 my-3">
-          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
-          <small class="text-white-50 fw-semibold" style="font-size:10px; letter-spacing:1px;">OR</small>
-          <div style="flex:1; height:1px; background: rgba(255,255,255,0.12);"></div>
-        </div>
-
-        <!-- 🆕 New User Register Button -->
-        <button class="btn w-100 mb-2" 
-                onclick="goToSignupFromLockScreen()" 
-                style="background: rgba(255, 255, 255, 0.08); border: 1.5px dashed rgba(245, 158, 11, 0.5); color: #fbbf24; font-weight: 700; font-size: 12.5px; padding: 11px; border-radius: 12px; letter-spacing: 0.3px; transition: all 0.2s ease;"
-                onmouseover="this.style.background='rgba(245, 158, 11, 0.15)'; this.style.borderColor='#f59e0b';"
-                onmouseout="this.style.background='rgba(255, 255, 255, 0.08)'; this.style.borderColor='rgba(245, 158, 11, 0.5)';">
-          <i class="fas fa-user-plus me-2"></i> New User? Create Account
-        </button>
       </div>
 
       <!-- 🔑 Standard Password Login View -->
@@ -2116,13 +2239,13 @@
       </div>
 
       <!-- 👨‍💻 DEVELOPER CREDIT — Har view pe dikhega -->
-      <div class="text-center mt-4 pt-3" style="border-top: 1px solid rgba(255,255,255,0.08);">
-        <div style="display:inline-flex; align-items:center; gap:6px; padding:6px 14px; background:rgba(255,255,255,0.04); border-radius:20px; border:1px solid rgba(255,255,255,0.08);">
-          <i class="fas fa-code" style="font-size:10px; color:#f59e0b;"></i>
-          <span style="font-size:10px; font-weight:600; color:rgba(255,255,255,0.6);">Developed by</span>
-          <span style="font-size:10.5px; font-weight:700; color:#ffffff;">Anurag Shakya</span>
-          <span style="font-size:10px; color:rgba(255,255,255,0.3);">|</span>
-          <a href="tel:9761414105" style="font-size:10.5px; font-weight:700; color:#10b981; text-decoration:none;">
+      <div class="text-center mt-3 pt-2" style="border-top: 1px solid rgba(226, 232, 240, 0.8);">
+        <div style="display:inline-flex; align-items:center; gap:6px; padding:5px 12px; background:rgba(241, 245, 249, 0.7); border-radius:20px; border:1px solid #cbd5e1;">
+          <i class="fas fa-code" style="font-size:10px; color:#2563eb;"></i>
+          <span style="font-size:10px; font-weight:600; color:#64748b;">Developed by</span>
+          <span style="font-size:10.5px; font-weight:700; color:#0f172a;">Anurag Shakya</span>
+          <span style="font-size:10px; color:#cbd5e1;">|</span>
+          <a href="tel:9761414105" style="font-size:10.5px; font-weight:700; color:#059669; text-decoration:none;">
             <i class="fas fa-phone-alt" style="font-size:9px;"></i> 9761414105
           </a>
         </div>
@@ -2196,6 +2319,77 @@
     </div>
   </div>
 
+  <!-- 🔑 CUSTOM FORGOT PIN / PASSWORD PROMPT MODAL -->
+  <div id="customPromptPasswordModal" class="d-none" style="
+    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.45);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 1000004;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px; box-sizing: border-box;
+    animation: alertFadeIn 0.25s ease;
+  ">
+    <div style="
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.9);
+      border-radius: 24px;
+      padding: 24px 22px 20px;
+      width: 100%; max-width: 350px;
+      box-shadow: 0 25px 50px rgba(15, 23, 42, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.9);
+      text-align: center;
+      animation: alertSlide 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    ">
+      <div style="
+        width: 50px; height: 50px; border-radius: 16px;
+        background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+        color: #ffffff; display: flex; align-items: center; justify-content: center;
+        margin: 0 auto 14px; box-shadow: 0 6px 16px rgba(217, 119, 6, 0.3);
+      ">
+        <i class="fas fa-key" style="font-size: 20px;"></i>
+      </div>
+
+      <div style="font-size: 16px; font-weight: 800; color: #0f172a; margin-bottom: 4px;">
+        Reset Security PIN
+      </div>
+      <div style="font-size: 11.5px; color: #64748b; font-weight: 500; margin-bottom: 18px; line-height: 1.4;">
+        PIN Reset karne ke liye apna Login Password darj karein
+      </div>
+
+      <div style="margin-bottom: 18px; position: relative;">
+        <input type="password" id="customPromptPasswordInput" class="form-control" placeholder="Enter Login Password" style="
+          background: #f8fafc !important;
+          border: 1.5px solid #cbd5e1 !important;
+          border-radius: 14px !important;
+          padding: 11px 14px !important;
+          font-size: 13px !important;
+          font-weight: 600 !important;
+          color: #0f172a !important;
+          text-align: center;
+        ">
+        <div id="customPromptPasswordError" class="text-danger mt-1 d-none" style="font-size: 10.5px; font-weight: 600;"></div>
+      </div>
+
+      <div style="display: flex; gap: 10px;">
+        <button type="button" class="btn" onclick="closeCustomPromptPassword(null)" style="
+          flex: 1; padding: 10px; border-radius: 12px;
+          background: #f1f5f9; border: 1px solid #cbd5e1;
+          color: #475569; font-size: 12.5px; font-weight: 700;
+        ">Cancel</button>
+
+        <button type="button" class="btn" onclick="submitCustomPromptPassword()" style="
+          flex: 1; padding: 10px; border-radius: 12px;
+          background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+          border: none; color: #ffffff; font-size: 12.5px; font-weight: 700;
+          box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        ">Verify</button>
+      </div>
+    </div>
+  </div>
+
 
   <!-- Ultra Compact Top App Bar Navigation -->
   <div class="top-bar d-flex justify-content-between align-items-center sticky-top">
@@ -2241,28 +2435,30 @@
         <!-- 🏠 DASHBOARD OVERVIEW (App खुलते ही दिखेगा) -->
     <div id="dashboardOverview">
 
-            <!-- 🎨 Premium Compact Greeting + Account Dropdown (Single Row) -->
-      <div class="card card-custom mb-2" style="background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); color:#ffffff; border:none !important; padding: 10px 12px;">
+            <!-- 🎨 Soft Sky-Blue Profile Card (इमेज जैसा) -->
+      <div class="card card-custom mb-2" style="background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%); color:#0f172a; border: 1.5px solid #bae6fd !important; padding: 12px 14px;">
 
         <!-- Single Row: Avatar | Greeting | Dropdown | Add -->
         <div class="d-flex align-items-center" style="gap:10px;">
 
-          <!-- 👤 Avatar Circle with Emoji Badge -->
+          <!-- 👤 Avatar Circle -->
           <div style="position:relative; flex-shrink:0;">
-            <div id="dashAvatarCircle" style="width:38px; height:38px; background:linear-gradient(135deg, #be123c 0%, #6d0f2b 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:16px; font-weight:700; letter-spacing:-0.5px; box-shadow: 0 4px 12px rgba(190, 18, 60, 0.4);">
+            <div id="dashAvatarCircle" style="width:40px; height:40px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:16px; font-weight:700; border: 2px solid #ffffff; box-shadow: 0 2px 8px rgba(37,99,235,0.2);">
               U
             </div>
-            <div id="dashTimeBadge" style="position:absolute; bottom:-2px; right:-2px; width:16px; height:16px; background:#ffffff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; box-shadow:0 2px 6px rgba(0,0,0,0.25);">
+            <div id="dashTimeBadge" style="position:absolute; bottom:-2px; right:-2px; width:16px; height:16px; background:#ffffff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; box-shadow:0 1px 4px rgba(0,0,0,0.15);">
               ☀️
             </div>
           </div>
 
-          <!-- Greeting + Username + Date/Time (compact) -->
-          <div style="min-width:0; flex-shrink:1; overflow:hidden;">
-            <div style="font-size:13px; font-weight:700; letter-spacing:-0.3px; line-height:1.15; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; color:#ffffff;" id="dashGreeting">Good Morning</div>
-            <div style="font-size:10px; font-weight:500; color:rgba(255,255,255,0.75); letter-spacing:0.3px; margin-top:1px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" id="dashUserName">User</div>
-            <div id="dashDateTime" style="font-size:8.5px; font-weight:500; color:rgba(255,255,255,0.5); letter-spacing:0.2px; margin-top:2px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
-              <i class="far fa-calendar" style="font-size:8px;"></i>
+          <!-- Greeting + Username + Date/Time -->
+          <div style="min-width:0; flex-grow:1; overflow:hidden;">
+            <div class="d-flex align-items-center gap-1">
+              <span style="font-size:13.5px; font-weight:800; color:#0f172a;" id="dashUserName">User Ji</span>
+              <span id="dashGreeting" class="badge rounded-pill" style="font-size:9px; background:#bae6fd; color:#0369a1; padding:2px 7px; font-weight:700;">Good Afternoon</span>
+            </div>
+            <div id="dashDateTime" style="font-size:9px; font-weight:500; color:#64748b; margin-top:2px;">
+              <i class="far fa-calendar text-primary" style="font-size:8.5px;"></i>
               <span>-- --- ---- · --:--</span>
             </div>
           </div>
@@ -2270,17 +2466,17 @@
           <!-- Account Dropdown (Compact) -->
           <div style="position:relative; flex-shrink:0; min-width:110px; max-width:130px;">
             <select id="dashboardAccountDropdown" 
-                    class="form-select" 
+                    class="form-select shadow-sm" 
                     onchange="onDashboardAccountSelect()"
-                    style="height:32px !important; padding:4px 26px 4px 26px !important; font-size:10.5px !important; font-weight:600 !important; color:#0f172a !important; background:#ffffff !important; border:1px solid rgba(255,255,255,0.2) !important; border-radius:8px !important; appearance:none; -webkit-appearance:none; -moz-appearance:none; cursor:pointer; text-overflow:ellipsis;">
+                    style="height:32px !important; padding:4px 24px 4px 24px !important; font-size:11px !important; font-weight:700 !important; color:#0f172a !important; background:#ffffff !important; border:1px solid #bae6fd !important; border-radius:10px !important; appearance:none; -webkit-appearance:none; cursor:pointer;">
               <option value="">🏠 Home</option>
             </select>
-            <i class="fas fa-home" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); color:#be123c; font-size:10px; pointer-events:none; z-index:3;"></i>
+            <i class="fas fa-home" style="position:absolute; left:8px; top:50%; transform:translateY(-50%); color:#2563eb; font-size:10px; pointer-events:none; z-index:3;"></i>
             <i class="fas fa-chevron-down" style="position:absolute; right:8px; top:50%; transform:translateY(-50%); color:#64748b; font-size:9px; pointer-events:none; z-index:3;"></i>
           </div>
 
           <!-- Add Button -->
-          <button class="btn p-0 flex-shrink-0" onclick="showAddAccountModal()" title="Add Account" style="background:rgba(255,255,255,0.15); width:32px; height:32px; border-radius:8px; color:#ffffff;">
+          <button class="btn p-0 flex-shrink-0 shadow-sm" onclick="showAddAccountModal()" title="Add Account" style="background:#2563eb; width:32px; height:32px; border-radius:10px; color:#ffffff; border:none;">
             <i class="fas fa-plus" style="font-size:12px;"></i>
           </button>
 
@@ -2288,41 +2484,61 @@
 
       </div>
 
-      <!-- Total Balance Card -->
-      <div class="card card-custom p-3 mb-2">
-        <div class="text-uppercase text-muted fw-semibold mb-1" style="font-size:9px; letter-spacing:0.5px;">Total Net Balance (All Accounts)</div>
-        <div id="dashTotalBalance" class="fw-bold" style="font-size:26px; letter-spacing:-0.8px; color:#059669;">₹0</div>
-        <div class="d-flex gap-3 mt-2 pt-2" style="border-top: 1px solid var(--border-subtle); font-size:11px;">
-          <div><span class="text-muted">In:</span> <span id="dashGrandIn" class="text-success fw-bold">₹0</span></div>
-          <div><span class="text-muted">Out:</span> <span id="dashGrandOut" class="text-danger fw-bold">₹0</span></div>
-        </div>
-      </div>
-
-      <!-- Today + This Month -->
+      <!-- 💳 Today's In & Out Cards (आज की बिक्री & बाकी उधार जैसा 2-Column लुक) -->
       <div class="row g-2 mb-2">
         <div class="col-6">
-          <div class="card card-custom p-2 h-100">
-            <div class="text-uppercase text-muted fw-semibold mb-1" style="font-size:9px; letter-spacing:0.3px;">Today</div>
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <i class="fas fa-arrow-down text-success" style="font-size:10px;"></i>
-              <span id="dashTodayIn" class="text-success fw-bold" style="font-size:12px;">₹0</span>
+          <div class="card card-custom p-3 h-100" style="background:#ffffff; border:1px solid #e2e8f0 !important;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-muted fw-semibold" style="font-size:11px;">आज का Cash In</span>
+              <span style="font-size:14px;">💵</span>
             </div>
-            <div class="d-flex align-items-center gap-1">
-              <i class="fas fa-arrow-up text-danger" style="font-size:10px;"></i>
-              <span id="dashTodayOut" class="text-danger fw-bold" style="font-size:12px;">₹0</span>
+            <div id="dashTodayIn" class="fw-bold" style="font-size:20px; color:#16a34a; letter-spacing:-0.5px;">₹0</div>
+            <div class="mt-1">
+              <span class="badge" style="background:#f0fdf4; color:#16a34a; border:1px solid #bbf7d0; font-size:9px; padding:2px 6px;">Month: <span id="dashMonthIn">₹0</span></span>
             </div>
           </div>
         </div>
         <div class="col-6">
-          <div class="card card-custom p-2 h-100">
-            <div class="text-uppercase text-muted fw-semibold mb-1" style="font-size:9px; letter-spacing:0.3px;">This Month</div>
-            <div class="d-flex align-items-center gap-1 mb-1">
-              <i class="fas fa-arrow-down text-success" style="font-size:10px;"></i>
-              <span id="dashMonthIn" class="text-success fw-bold" style="font-size:12px;">₹0</span>
+          <div class="card card-custom p-3 h-100" style="background:#ffffff; border:1px solid #e2e8f0 !important;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <span class="text-muted fw-semibold" style="font-size:11px;">आज का Cash Out</span>
+              <span style="font-size:14px;">📖</span>
             </div>
-            <div class="d-flex align-items-center gap-1">
-              <i class="fas fa-arrow-up text-danger" style="font-size:10px;"></i>
-              <span id="dashMonthOut" class="text-danger fw-bold" style="font-size:12px;">₹0</span>
+            <div id="dashTodayOut" class="fw-bold" style="font-size:20px; color:#e11d48; letter-spacing:-0.5px;">₹0</div>
+            <div class="mt-1">
+              <span class="badge" style="background:#fff1f2; color:#e11d48; border:1px solid #fecdd3; font-size:9px; padding:2px 6px;">Month: <span id="dashMonthOut">₹0</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 💼 गल्ले की नकद स्थिति जैसा Soft 3-Box Overview -->
+      <div class="card card-custom p-3 mb-2" style="background:#ffffff; border:1px solid #e2e8f0 !important;">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="fw-bold text-dark d-flex align-items-center gap-1" style="font-size:12px;">
+            <span>💼</span> कुल बैलेंस स्थिति (All Accounts)
+          </div>
+          <button class="btn p-0 text-primary fw-semibold" onclick="manualRedownloadData()" style="font-size:11px; text-decoration:none;">
+            <i class="fas fa-rotate me-1"></i>रिफ्रेश
+          </button>
+        </div>
+        <div class="row g-2 text-center">
+          <div class="col-4">
+            <div class="p-2 rounded-3 h-100" style="background:#f8fafc; border:1px solid #e2e8f0;">
+              <small class="text-muted d-block" style="font-size:9.5px; font-weight:600;">नकद आया</small>
+              <div id="dashGrandIn" class="fw-bold mt-1" style="font-size:13px; color:#16a34a;">₹0</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded-3 h-100" style="background:#f8fafc; border:1px solid #e2e8f0;">
+              <small class="text-muted d-block" style="font-size:9.5px; font-weight:600;">नकद दिया</small>
+              <div id="dashGrandOut" class="fw-bold mt-1" style="font-size:13px; color:#e11d48;">₹0</div>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="p-2 rounded-3 h-100" style="background:#f0f9ff; border:1.5px solid #bae6fd;">
+              <small class="d-block fw-bold" style="font-size:9.5px; color:#0284c7;">नेट बैलेंस</small>
+              <div id="dashTotalBalance" class="fw-bold mt-1" style="font-size:13.5px; color:#0284c7;">₹0</div>
             </div>
           </div>
         </div>
@@ -2370,6 +2586,19 @@
     <!-- 📝 Account Detail View (जब account चुनेंगे तो दिखेगा) -->
     <div id="accountDetailView" class="d-none">
 
+      <!-- 🔔 Overdue Payment Alert Banner -->
+      <div id="accountDueAlertBanner" class="alert d-none mb-2 py-2 px-3 rounded-3 shadow-sm d-flex justify-content-between align-items-center" style="background:#fff1f2; border:1.5px solid #fecdd3;">
+        <div style="min-width:0; flex-grow:1;">
+          <div class="fw-bold text-danger d-flex align-items-center gap-1" style="font-size:12px;">
+            <i class="fas fa-bell fa-shake"></i> Payment Due Alert!
+          </div>
+          <div id="accountDueAlertText" class="text-secondary" style="font-size:10.5px;">Tarikh: --</div>
+        </div>
+        <button type="button" class="btn btn-sm btn-success rounded-pill fw-bold px-3 shadow-sm flex-shrink-0" onclick="sendWhatsAppDueReminder()" style="font-size:11px;">
+          <i class="fab fa-whatsapp me-1"></i> Send Reminder
+        </button>
+      </div>
+
       <!-- Compact Account Selector Card -->
       <div class="card card-custom card-compact-box">
         <div class="d-flex justify-content-between align-items-center mb-1">
@@ -2397,6 +2626,9 @@
           </button>
           <button class="btn btn-edit-account" onclick="showEditAccountModal()" title="Edit Account">
             <i class="fas fa-edit"></i>
+          </button>
+          <button class="btn btn-edit-account text-danger" onclick="deleteCurrentConsumerAccount()" title="Delete This Account" style="border-color:#fecdd3; background:#fff1f2;">
+            <i class="fas fa-trash-alt"></i>
           </button>
           <button class="btn btn-add-account" onclick="showAddAccountModal()">
             <i class="fas fa-user-plus me-1"></i> + Account
@@ -2563,6 +2795,9 @@
         <a href="javascript:void(0);" class="drawer-item" onclick="openInterestCalculator()">
           <i class="fas fa-percent text-success"></i> Interest Calculator
         </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openCashCalculator()">
+          <i class="fas fa-calculator text-info"></i> Cash Calculator
+        </a>
         
         <div class="dropdown-divider my-2"></div>
         
@@ -2593,6 +2828,9 @@
         <a href="javascript:void(0);" class="drawer-item" onclick="openManageCategories()">
           <i class="fas fa-tags text-success"></i> Manage Categories
         </a>
+        <a href="javascript:void(0);" class="drawer-item" onclick="openNotebookModal()">
+          <i class="fas fa-sticky-note text-warning"></i> Cash Keep Notes
+        </a>
         
         <div class="dropdown-divider my-2"></div>
         
@@ -2615,6 +2853,11 @@
         
         <div class="dropdown-divider my-2"></div>
         
+        <!-- 🗑️ Permanent Delete Account -->
+        <a href="javascript:void(0);" class="drawer-item text-danger fw-semibold" onclick="deleteUserAccountPermanently()">
+          <i class="fas fa-user-slash text-danger"></i> Delete Account
+        </a>
+
         <!-- 🚪 Logout -->
         <a href="javascript:void(0);" class="drawer-item text-danger fw-bold" onclick="logoutUserFully()">
           <i class="fas fa-sign-out-alt text-danger"></i> Logout Account
@@ -2665,6 +2908,20 @@
           <div class="mb-3">
             <label class="form-label fw-semibold">Amount (₹):</label>
             <input type="number" id="editTxnAmount" class="form-control form-control-lg fw-bold text-success rounded-3" placeholder="0.00">
+          </div>
+
+          <!-- 🔥 FIX: Category field for edit modal -->
+          <div class="mb-3">
+            <label class="form-label fw-semibold">Category:</label>
+            <select id="editTxnCategory" class="form-select rounded-3 fw-semibold">
+              <option value="General">General</option>
+              <option value="Salary">Salary / Income</option>
+              <option value="Rent">Rent</option>
+              <option value="Bills">Bills & Utilities</option>
+              <option value="Groceries">Groceries</option>
+              <option value="Business">Business Sale</option>
+              <option value="Fuel">Fuel / Transport</option>
+            </select>
           </div>
           
           <div class="mb-3">
@@ -2838,17 +3095,39 @@
             <input type="number" id="txnAmount" class="form-control form-control-lg fw-bold text-success rounded-3" placeholder="0.00">
           </div>
 
-          <div class="mb-3">
-            <label class="form-label fw-semibold">Category:</label>
-            <select id="txnCategory" class="form-select rounded-3 fw-semibold">
-              <option value="General">General</option>
-              <option value="Salary">Salary / Income</option>
-              <option value="Rent">Rent</option>
-              <option value="Bills">Bills & Utilities</option>
-              <option value="Groceries">Groceries</option>
-              <option value="Business">Business Sale</option>
-              <option value="Fuel">Fuel / Transport</option>
-            </select>
+          <div class="row g-2 mb-3">
+            <div class="col-6">
+              <label class="form-label fw-semibold">Category:</label>
+              <select id="txnCategory" class="form-select rounded-3 fw-semibold">
+                <option value="General">General</option>
+                <option value="Salary">Salary / Income</option>
+                <option value="Rent">Rent</option>
+                <option value="Bills">Bills & Utilities</option>
+                <option value="Groceries">Groceries</option>
+                <option value="Business">Business Sale</option>
+                <option value="Fuel">Fuel / Transport</option>
+              </select>
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold">Payment Mode:</label>
+              <select id="txnPaymentMode" class="form-select rounded-3 fw-semibold">
+                <option value="Cash">💵 Cash</option>
+                <option value="UPI">📱 UPI / QR</option>
+                <option value="Bank">🏦 Bank Transfer</option>
+                <option value="Cheque">📜 Cheque</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- ⏰ Payment Due Date (Udhar / Khata Reminder) -->
+          <div class="mb-3 p-2 rounded-3" style="background:#fffbeb; border:1px dashed #f59e0b;">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <label class="form-label fw-bold text-warning mb-0" style="font-size:11px; color:#92400e !important;">
+                <i class="far fa-calendar-check me-1"></i> Payment Due Date (उधार वापसी की तारीख - Optional):
+              </label>
+              <small class="text-muted" style="font-size:9.5px;">Reminder ke liye</small>
+            </div>
+            <input type="date" id="txnDueDate" class="form-control rounded-2 py-1" style="font-size:12px;">
           </div>
           
           <div class="mb-3">
@@ -2991,6 +3270,21 @@
                 <td><input type="number" class="form-control calc-count rounded-3" min="0" placeholder="0" oninput="calculateNotes()"></td>
                 <td class="text-end fw-bold note-total">₹0</td>
               </tr>
+              <tr>
+                <th>₹ 50</th>
+                <td><input type="number" class="form-control calc-count rounded-3" min="0" placeholder="0" oninput="calculateNotes()"></td>
+                <td class="text-end fw-bold note-total">₹0</td>
+              </tr>
+              <tr>
+                <th>₹ 20</th>
+                <td><input type="number" class="form-control calc-count rounded-3" min="0" placeholder="0" oninput="calculateNotes()"></td>
+                <td class="text-end fw-bold note-total">₹0</td>
+              </tr>
+              <tr>
+                <th>₹ 10</th>
+                <td><input type="number" class="form-control calc-count rounded-3" min="0" placeholder="0" oninput="calculateNotes()"></td>
+                <td class="text-end fw-bold note-total">₹0</td>
+              </tr>
             </tbody>
           </table>
           <div class="d-flex justify-content-between align-items-center bg-light p-3 rounded-3 mt-2 border">
@@ -3036,7 +3330,7 @@
 
   <!-- SINGLE SCRIPT TAG FOR ALL JAVASCRIPT LOGIC -->
   <script>
-    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyd9qe8CQhbadjLtEjLCIdkvAvyPSI0ftKn7mq4LpI4j_Y_cS_QaLiYQUWXgq2Cq5Uk7g/exec";
+    var SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzBINemcfg4tek1Emq5Prri-RBdcg410KcqKeza2FpIdrLkoYHonvBmWx3KKc4BIDSEWg/exec";
 var API_SECRET = "CashBook_2026_SuperSecret_Anurag_9761414105_XYZ";
 
 var accModal, calcModal, txnModal, transferModal, notebookModal, summaryModal, themeModal, editTxnModal, editAccModal, allTxnsModal, customDateModal, txnDetailModal, closeAccountModal, reopenAccountModal, oldBookDetailModal, trashModal, interestModal, attachmentModal, hiddenAccountsModal, manageCategoriesModal;
@@ -3164,7 +3458,30 @@ function apiFetch(payload) {
       if (catMgrEl) manageCategoriesModal = new bootstrap.Modal(catMgrEl);
 
       loadSavedTheme();
+      applySavedDarkMode();      // 🔥 FIX: restore dark mode icon
       checkLoginStatus();
+
+      // 🔥 NEW: Auto-Sync System (har 2 minute me background sync)
+      setInterval(function() {
+        // Sirf tab sync karein jab user logged-in ho aur internet ho
+        if (loggedInUser && loggedInUser.userId && navigator.onLine) {
+          
+          // Agar app background me nahi hai (matlab user dekh raha hai)
+          if (!document.hidden) {
+            
+            var currentAcc = document.getElementById('accountDropdown') ? document.getElementById('accountDropdown').value : '';
+            
+            if (currentAcc && currentAcc !== "" && !currentAcc.includes("Choose Account") && !currentAcc.includes("Home")) {
+              // Agar koi account selected hai, toh sirf us account ko sync karein (fast & light)
+              syncSingleAccountData(currentAcc);
+            } else {
+              // Agar dashboard par hain, toh master data sync karein
+              console.log("🔄 Auto-sync: Master data refresh...");
+              forceDownloadFromSheetSilent(); 
+            }
+          }
+        }
+      }, 120000); // 2 minutes (120,000 ms)
 
       // 🏠 Dashboard तुरंत दिखाएँ — बिना wait किए
       updateTrashBadge();
@@ -3289,24 +3606,24 @@ function apiFetch(payload) {
       var hour = now.getHours();
       var greeting = "Good Morning";
       var emoji = "☀️";
-      var gradColor = "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)";
+      var gradColor = "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)";
 
       if (hour >= 5 && hour < 12) {
         greeting = "Good Morning";
         emoji = "☀️";
-        gradColor = "linear-gradient(135deg, #f59e0b 0%, #d97706 100%)";
+        gradColor = "linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)";
       } else if (hour >= 12 && hour < 17) {
         greeting = "Good Afternoon";
         emoji = "🌤️";
-        gradColor = "linear-gradient(135deg, #0891b2 0%, #0369a1 100%)";
+        gradColor = "linear-gradient(135deg, #0284c7 0%, #0369a1 100%)";
       } else if (hour >= 17 && hour < 21) {
         greeting = "Good Evening";
         emoji = "🌙";
-        gradColor = "linear-gradient(135deg, #7c3aed 0%, #5b21b6 100%)";
+        gradColor = "linear-gradient(135deg, #4f46e5 0%, #3730a3 100%)";
       } else {
         greeting = "Good Night";
         emoji = "🌜";
-        gradColor = "linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%)";
+        gradColor = "linear-gradient(135deg, #1e293b 0%, #0f172a 100%)";
       }
 
       var greetEl = document.getElementById('dashGreeting');
@@ -3639,7 +3956,7 @@ function renderDashboardMiniChart() {
       if (!ctx) return;
 
       // Last 7 days का data निकालें
-var days = [];
+      var days = [];
       var inData = [];
       var outData = [];
       var today = new Date();
@@ -4009,12 +4326,17 @@ var days = [];
         return hiddenAccs.indexOf(acc.name) === -1;
       });
 
-      // ✅ STEP 3: Build options WITHOUT avatar, with clean names
+      // ✅ STEP 3: Build options with unique colors for each account
       var options = '<option value="">🏠 -- Home --</option>';
 
       validAccounts.forEach(function(acc) {
-        // ❌ Phone number hata diya - sirf naam dikhega
-        options += '<option value="' + acc.name + '">' + acc.name + '</option>';
+        // Generate a unique color based on the account name
+        var accountColor = getAccountColor(acc.name);
+        // Use a colored circle emoji (🔴, 🟢, 🔵, etc.) or just a hex dot
+        // Using standard Unicode colored circles for better compatibility across devices
+        var colorEmojis = ['🟢', '🔴', '🔵', '🟡', '🟣', '🟤', '🟠', '🟢', '🔵', '🔴'];
+var emojiIndex = Math.abs(acc.name.length + acc.name.charCodeAt(0)) % colorEmojis.length;
+options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' + acc.name + '</option>';
       });
 
       if (validAccounts.length === 0) {
@@ -4058,9 +4380,9 @@ var days = [];
 
     function loadAccountDataFast() {
       var accDropdown = document.getElementById('accountDropdown');
-      var acc = accDropdown ? accDropdown.value : '';
+      var acc = accDropdown ? (accDropdown.value || '') : '';
 
-      if (!acc || acc === "" || acc.includes("Choose Account") || acc.includes("Home") || acc.includes("Loading")) {
+      if (!acc || acc === "" || acc.indexOf("Choose Account") !== -1 || acc.indexOf("Home") !== -1 || acc.indexOf("Loading") !== -1) {
         currentAccountTxns = [];
         
         // अगर कोई account select नहीं, तो Dashboard दिखाएँ
@@ -4100,6 +4422,7 @@ var days = [];
       renderTransactions(currentAccountTxns);
       updatePuranaHisabButton(acc);
       updateDrawerCloseReopenButton(acc);
+      checkAccountDueStatus(acc); // ⏰ Check for payment reminders
     }
 
     // 📚 Purana Hisab button दिखाएँ/छुपाएँ
@@ -4513,6 +4836,23 @@ var days = [];
         var badgeHTML = isIn ? '<span class="badge-in-pill">IN</span>' : '<span class="badge-out-pill">OUT</span>';
         var categoryTag = t.category && t.category !== 'General' ? '<span class="badge bg-light text-secondary border" style="font-size:7.5px; padding:1px 4px;">' + t.category + '</span>' : '';
 
+        // ⏰ Payment Due Date Badge Logic
+        var dueBadgeHTML = '';
+        if (t.dueDate) {
+          var dueD = new Date(t.dueDate);
+          dueD.setHours(0,0,0,0);
+          var todayD = new Date();
+          todayD.setHours(0,0,0,0);
+          
+          if (todayD > dueD) {
+            dueBadgeHTML = '<span class="badge" style="background:#fee2e2; color:#b91c1c; border:1px solid #fca5a5; font-size:7.5px; padding:1px 5px;"><i class="fas fa-exclamation-circle me-1"></i>Overdue: ' + t.dueDate + '</span>';
+          } else {
+            dueBadgeHTML = '<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a; font-size:7.5px; padding:1px 5px;"><i class="far fa-clock me-1"></i>Due: ' + t.dueDate + '</span>';
+          }
+        }
+
+        var payModeTag = (t.paymentMode && t.paymentMode !== 'Cash') ? '<span class="badge bg-light text-primary border" style="font-size:7.5px; padding:1px 4px;">' + t.paymentMode + '</span>' : '';
+
         // 🔒 Old Book से आई entry है? (locked — कोई edit/delete नहीं)
         var isLockedEntry = t.isFromOldBook === true;
         var lockedBadge = isLockedEntry ? '<span class="badge" style="background:#fef3c7; color:#92400e; border:1px solid #fde68a; font-size:7px; padding:1px 4px;"><i class="fas fa-lock" style="font-size:6px;"></i> LOCKED</span>' : '';
@@ -4543,7 +4883,7 @@ var days = [];
 
                       '<div class="flex-grow-1" style="min-width:0;">' +
                         '<div class="d-flex align-items-center gap-1 mb-1 flex-wrap">' +
-                          badgeHTML + categoryTag + imgLinkHTML +
+                          badgeHTML + payModeTag + categoryTag + dueBadgeHTML + imgLinkHTML +
                         '</div>' +
                         '<div class="txn-remark text-dark text-truncate">' + (t.remark || t.type) + '</div>' +
                         '<div class="txn-date text-muted d-flex align-items-center gap-1">' +
@@ -4592,6 +4932,10 @@ var days = [];
       document.getElementById('editTxnType').value = item.type;
       document.getElementById('editTxnAmount').value = item.amount;
       document.getElementById('editTxnRemark').value = item.remark || '';
+      
+      // 🔥 FIX: Also populate category if it exists in the HTML
+      var editCat = document.getElementById('editTxnCategory');
+      if (editCat) editCat.value = item.category || 'General';
 
       var parsedDate = new Date(item.date);
       if (!isNaN(parsedDate.getTime())) {
@@ -4673,6 +5017,7 @@ var days = [];
       var newAmount = Number(document.getElementById('editTxnAmount').value);
       var newRemark = document.getElementById('editTxnRemark').value;
       var newDateTime = document.getElementById('editTxnDateTime').value;
+      var newCategory = document.getElementById('editTxnCategory') ? document.getElementById('editTxnCategory').value : 'General';
 
       if (!acc) return alert('Account select karein!');
       if (isNaN(newAmount) || newAmount <= 0) return alert('Sahi amount darj karein!');
@@ -4692,6 +5037,7 @@ var days = [];
       targetTxn.amount = newAmount;
       targetTxn.remark = newRemark;
       targetTxn.date = updatedDateStr;
+      targetTxn.category = newCategory;   // 🔥 FIX: save category
 
       // 🔥 FIX: Sync the same transaction back to allAccountsDataCache
       // (Because currentAccountTxns is a sorted COPY, not the original array)
@@ -4707,6 +5053,7 @@ var days = [];
           masterTxn.amount = newAmount;
           masterTxn.remark = newRemark;
           masterTxn.date = updatedDateStr;
+          masterTxn.category = newCategory;   // 🔥 FIX
         }
       }
 
@@ -4739,7 +5086,8 @@ var days = [];
         newType: newType,
         newAmount: newAmount,
         newRemark: newRemark,
-        newDate: updatedDateStr
+        newDate: updatedDateStr,
+        newCategory: newCategory   // 🔥 FIX: send to server
       })
       .then(res => res.json())
       .then(res => {
@@ -4763,6 +5111,74 @@ var days = [];
       hideAccount(accName);
       showDashboard();
       alert('✅ Account hide ho gaya! Sidebar → "Hide / Unhide Accounts" me milega.');
+    }
+
+    // 🗑️ Khatadhark (Consumer Account) Permanently Delete Karein
+    function deleteCurrentConsumerAccount() {
+      var accName = document.getElementById('accountDropdown').value;
+      if (!accName || accName === "" || accName.includes("Choose") || accName.includes("Home")) {
+        return alert('Pehle delete karne ke liye account select karein!');
+      }
+
+      var savedPin = localStorage.getItem('cashbook_app_pin');
+
+      showCustomConfirm({
+        type: 'error',
+        title: 'Delete Khatadhark Account?',
+        message: 'Kya aap "' + accName + '" ka pura khata aur iske sabhi transactions permanently delete karna chahte hain?',
+        okText: 'Yes, Delete',
+        cancelText: 'Cancel',
+        onConfirm: function() {
+          openCustomPinModal({
+            title: 'Verify Security PIN',
+            subtitle: accName + ' ka khata delete karne ke liye PIN darj karein',
+            onConfirm: function(enteredPin) {
+              if (savedPin && enteredPin.trim() !== savedPin.trim()) {
+                pinModalShowError('Galat PIN! Khata delete nahi hua.');
+                return false;
+              }
+
+              showLoader();
+
+              // 1. Local Cache se remove karein
+              globalAccounts = globalAccounts.filter(function(a) {
+                var name = typeof a === 'string' ? a : (a ? a.name : '');
+                return name !== accName;
+              });
+
+              delete allAccountsDataCache[accName];
+
+              var uid = (loggedInUser && loggedInUser.userId) ? loggedInUser.userId : '';
+              if (uid) {
+                localStorage.setItem('cashbook_user_accs_' + uid, JSON.stringify(globalAccounts));
+                localStorage.setItem('cashbook_user_master_txns_' + uid, JSON.stringify(allAccountsDataCache));
+              }
+
+              // 2. Server (Google Sheet) se delete call karein
+              apiFetch({
+                action: 'deleteAccount',
+                userId: uid,
+                accountName: accName
+              })
+              .then(function(res) { return res.json(); })
+              .then(function(res) {
+                hideLoader();
+                populateAccountsDropdown();
+                showDashboard();
+                showToastMessage('✅ Khata "' + accName + '" delete ho gaya!', 'success');
+              })
+              .catch(function(err) {
+                hideLoader();
+                populateAccountsDropdown();
+                showDashboard();
+                showToastMessage('⚠️ Locally delete ho gaya, background sync retry hoga.', 'warning');
+              });
+
+              return true;
+            }
+          });
+        }
+      });
     }
 
     function showEditAccountModal() {
@@ -4895,6 +5311,16 @@ var days = [];
       if (camIn) camIn.value = '';
       if (galIn) galIn.value = '';
 
+      // 🔥 FIX: Reset category dropdown to General
+      var catInput = document.getElementById('txnCategory');
+      if (catInput) catInput.value = 'General';
+
+      // 🔥 FIX: Clear amount + remark fields
+      var amtIn = document.getElementById('txnAmount');
+      var remIn = document.getElementById('txnRemark');
+      if (amtIn) amtIn.value = '';
+      if (remIn) remIn.value = '';
+
       txnModal.show();
     }
 
@@ -4967,12 +5393,14 @@ var days = [];
       var type = document.getElementById('txnType').value;
       var remark = document.getElementById('txnRemark').value || '-';
       var customDateTimeVal = document.getElementById('txnCustomDateTime').value;
+      var dueDateVal = document.getElementById('txnDueDate') ? document.getElementById('txnDueDate').value : '';
+      var payModeVal = document.getElementById('txnPaymentMode') ? document.getElementById('txnPaymentMode').value : 'Cash';
+      var categoryVal = document.getElementById('txnCategory') ? document.getElementById('txnCategory').value : 'General';
 
       if (!acc || acc === "" || acc.includes("Choose Account")) {
         return alert('Kripya pehle sahi account select karein!');
       }
 
-      // Dropdown ko sync me rakhein taaki UI background update ho sake
       if (dropdown && dropdown.value !== acc) {
         dropdown.value = acc;
       }
@@ -4990,61 +5418,81 @@ var days = [];
       var currAccData = allAccountsDataCache[acc];
       if (!currAccData.transactions) currAccData.transactions = [];
 
+      // 🛡️ Multi-Device Conflict Prevention: Universal Unique Transaction ID
+      var uidSuffix = (loggedInUser && loggedInUser.userId) ? String(loggedInUser.userId).slice(-4) : 'usr';
+      var uniqueTxnId = 'TXN_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6) + '_' + uidSuffix;
+
       var newTxn = {
+        txnId: uniqueTxnId,
         date: dateStr,
         type: type,
         amount: amt,
         remark: remark,
-        runningBalance: 0 // Will be recalculated below
+        category: categoryVal,
+        paymentMode: payModeVal,
+        dueDate: dueDateVal || '',
+        runningBalance: 0
       };
 
-      // ✅ Add new transaction to account
       currAccData.transactions.push(newTxn);
 
-      // 🔥 STEP 1: Recalculate ALL running balances for this account
+      // Recalculate
       recalculateAccountBalances(acc);
 
-      // 🔥 STEP 2: Re-sort currentAccountTxns (newest first for display)
       var updatedData = allAccountsDataCache[acc];
       currentAccountTxns = (updatedData.transactions || []).slice().sort(function(a, b) {
         return parseCustomDate(b.date).getTime() - parseCustomDate(a.date).getTime();
       });
 
-      // 🔥 STEP 3: Update UI immediately
       document.getElementById('totalIn').innerText = formatINR(updatedData.totalIn || 0);
       document.getElementById('totalOut').innerText = formatINR(updatedData.totalOut || 0);
       document.getElementById('netBalance').innerText = formatINR(updatedData.balance || 0);
       
       renderTransactions(currentAccountTxns);
+      checkAccountDueStatus(acc);
 
       if (loggedInUser) {
         localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
       }
 
-      // Selected account ko drop-down par lock rakhein aur turant reload karein
       if (dropdown) dropdown.value = acc;
       loadAccountDataFast();
       updateDashboardOverviewStats();
 
+      // Reset Modal Form
       document.getElementById('txnAmount').value = '';
       document.getElementById('txnRemark').value = '';
+      if (document.getElementById('txnDueDate')) document.getElementById('txnDueDate').value = '';
       var catInput = document.getElementById('txnCategory');
       if (catInput) catInput.selectedIndex = 0;
       if (txnModal) txnModal.hide();
 
       var payload = {
         action: "addTransaction",
+        txnId: uniqueTxnId, // 🛡️ Conflict protection key
         userId: loggedInUser ? loggedInUser.userId : "",
         accountName: acc,
         type: type,
         amount: amt,
         remark: remark,
         customDate: dateStr,
+        dueDate: dueDateVal || '',
+        paymentMode: payModeVal,
+        category: categoryVal,
         imageFile: selectedImageData,
         latitude: window.currentLatitude || '',
         longitude: window.currentLongitude || '',
         locationText: window.currentLocationText || ''
       };
+
+      updateSyncBadge('syncing');
+
+      // True Offline Queue Check
+      if (!navigator.onLine) {
+        console.warn("Device offline! Adding to IndexedDB true offline queue.");
+        saveTxnOfflineQueue(payload);
+        return;
+      }
 
       apiFetch(payload)
       .then(res => res.json())
@@ -5055,9 +5503,170 @@ var days = [];
         updateSyncBadge('synced');
       })
       .catch(function(err) {
-        console.error("Background Sync Error, saving to offline queue:", err);
+        console.error("Network failed during sync, pushing to offline queue:", err);
         saveTxnOfflineQueue(payload);
       });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // 🌐 TRUE OFFLINE QUEUE (INDEXEDDB ENGINE)
+    // ═══════════════════════════════════════════════════════════
+    var idbDatabase = null;
+    function getIDBInstance() {
+      return new Promise(function(resolve, reject) {
+        if (idbDatabase) return resolve(idbDatabase);
+        var request = indexedDB.open("CashBookOfflineDB", 1);
+        request.onupgradeneeded = function(e) {
+          var db = e.target.result;
+          if (!db.objectStoreNames.contains("sync_queue")) {
+            db.createObjectStore("sync_queue", { keyPath: "txnId" });
+          }
+        };
+        request.onsuccess = function(e) {
+          idbDatabase = e.target.result;
+          resolve(idbDatabase);
+        };
+        request.onerror = function(e) {
+          reject(e);
+        };
+      });
+    }
+
+    function saveTxnOfflineQueue(payload) {
+      if (!payload.txnId) {
+        payload.txnId = 'TXN_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+      }
+
+      // 1. IndexedDB me save karein
+      getIDBInstance().then(function(db) {
+        var tx = db.transaction("sync_queue", "readwrite");
+        var store = tx.objectStore("sync_queue");
+        store.put(payload);
+      }).catch(function(e) {
+        // Fallback localStorage
+        var queue = JSON.parse(localStorage.getItem('cashbook_offline_sync_queue') || '[]');
+        queue.push(payload);
+        localStorage.setItem('cashbook_offline_sync_queue', JSON.stringify(queue));
+      });
+
+      updateSyncBadge('offline');
+    }
+
+    function processOfflineSyncQueue() {
+      if (!navigator.onLine) return;
+
+      getIDBInstance().then(function(db) {
+        var tx = db.transaction("sync_queue", "readonly");
+        var store = tx.objectStore("sync_queue");
+        var getAllReq = store.getAll();
+
+        getAllReq.onsuccess = function() {
+          var items = getAllReq.result || [];
+          if (items.length === 0) {
+            // Also check legacy localStorage queue
+            var legacy = JSON.parse(localStorage.getItem('cashbook_offline_sync_queue') || '[]');
+            if (legacy.length > 0) {
+              items = legacy;
+              localStorage.removeItem('cashbook_offline_sync_queue');
+            }
+          }
+
+          if (items.length === 0) return;
+
+          updateSyncBadge('syncing');
+          console.log("🔄 Syncing " + items.length + " offline items to server...");
+
+          var item = items[0];
+          apiFetch(item)
+          .then(res => res.json())
+          .then(() => {
+            // Success, remove from IndexedDB
+            getIDBInstance().then(function(db2) {
+              var delTx = db2.transaction("sync_queue", "readwrite");
+              delTx.objectStore("sync_queue").delete(item.txnId);
+              delTx.oncomplete = function() {
+                // Next item
+                processOfflineSyncQueue();
+              };
+            });
+          })
+          .catch(() => {
+            updateSyncBadge('offline');
+          });
+        };
+      });
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // ⏰ UDHAR / KHATA REMINDER LOGIC & WHATSAPP GENERATOR
+    // ═══════════════════════════════════════════════════════════
+    var currentAccountPendingDueDate = null;
+
+    function checkAccountDueStatus(accName) {
+      var banner = document.getElementById('accountDueAlertBanner');
+      var alertText = document.getElementById('accountDueAlertText');
+      if (!banner) return;
+
+      currentAccountPendingDueDate = null;
+      var accData = allAccountsDataCache[accName];
+      if (!accData || !accData.transactions || accData.transactions.length === 0) {
+        banner.classList.add('d-none');
+        return;
+      }
+
+      var netBal = (accData.totalIn || 0) - (accData.totalOut || 0);
+      // Agar balance minus ya udhar me hai (yani hamara rupaya unpar baki hai)
+      var hasOverdue = false;
+      var earliestDue = null;
+      var today = new Date();
+      today.setHours(0,0,0,0);
+
+      accData.transactions.forEach(function(t) {
+        if (t.dueDate) {
+          var d = new Date(t.dueDate);
+          d.setHours(0,0,0,0);
+          if (today > d) {
+            hasOverdue = true;
+            if (!earliestDue || d < earliestDue) earliestDue = d;
+          }
+        }
+      });
+
+      if (hasOverdue && earliestDue) {
+        currentAccountPendingDueDate = earliestDue.toISOString().slice(0,10);
+        banner.classList.remove('d-none');
+        if (alertText) {
+          alertText.innerHTML = 'Is khate ka bhugtan <b>' + currentAccountPendingDueDate + '</b> ko due ho chuka hai. Kripya reminder bhejein.';
+        }
+      } else {
+        banner.classList.add('d-none');
+      }
+    }
+
+    function sendWhatsAppDueReminder() {
+      var accName = document.getElementById('accountDropdown').value;
+      if (!accName) return;
+
+      var accObj = globalAccounts.find(function(a) { 
+        var name = typeof a === 'string' ? a : (a ? a.name : '');
+        return name === accName; 
+      });
+
+      var accData = allAccountsDataCache[accName] || { totalIn:0, totalOut:0, balance:0 };
+      var bal = Math.abs(accData.balance || 0);
+      var dueDateStr = currentAccountPendingDueDate || 'jaldi';
+
+      var rawPhone = (accObj && typeof accObj === 'object' && accObj.phone) ? accObj.phone.toString().replace(/\D/g, '') : '';
+      var formattedPhone = (rawPhone && rawPhone.length >= 10) ? (rawPhone.length === 10 ? "91" + rawPhone : rawPhone) : "";
+
+      var reminderMsg = 
+        "🙏 *NAMASTE " + accName.toUpperCase() + " JI*,\n\n" +
+        "Aapke Cash Book khate anusar kul *₹" + bal.toLocaleString('en-IN') + "* ka bhugtan baki hai.\n" +
+        "📅 *Nirdharit Tareekh (Due Date):* " + dueDateStr + "\n\n" +
+        "Kripya nirdharit samay par bhugtan karke sahyog karein. Dhanyawad!\n\n" +
+        "_— Generated via Cash Book Pro_";
+
+      openWhatsAppDirect(formattedPhone, reminderMsg);
     }
 
     function openTransferModal() { transferModal.show(); }
@@ -5095,26 +5704,54 @@ var days = [];
     function deleteTransaction(index) {
       var itemToDelete = activeFilteredTxns[index];
       if (itemToDelete && itemToDelete.isFromOldBook === true) {
-        return alert('🔒 Yeh entry purani kitab se hai. Delete nahi ho sakti.');
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Locked Entry',
+          message: 'Yeh entry purani kitab se hai. Delete nahi ho sakti.',
+          buttonText: 'OK'
+        });
       }
 
       var savedPin = localStorage.getItem('cashbook_app_pin');
 
       if (!savedPin) {
-        alert("🔒 Suraksha ke liye pehle Sidebar Drawer me jaakar 4-Digit PIN set karein!");
-        return;
+        return showCustomAlert({
+          type: 'warning',
+          title: 'PIN Required',
+          message: 'Suraksha ke liye pehle Sidebar Drawer me jaakar 4-Digit PIN set karein!',
+          buttonText: 'OK'
+        });
       }
 
-      var enteredPin = prompt("🔒 SECURITY CHECK: Entry delete karne ke liye apna 4-Digit Passcode/PIN darj karein:");
+      // 🔥 FIX: Use custom PIN modal instead of prompt()
+      openCustomPinModal({
+        title: 'Security Check',
+        subtitle: 'Entry delete karne ke liye apna 4-Digit PIN darj karein',
+        onConfirm: function(enteredPin) {
+          if (enteredPin.trim() !== savedPin) {
+            pinModalShowError('❌ Galat PIN! Entry delete nahi ki gayi.');
+            return false;
+          }
+          
+          // PIN sahi — ab confirm dialog
+          setTimeout(function() {
+            showCustomConfirm({
+              type: 'warning',
+              title: 'Delete Entry?',
+              message: 'Kya aap sach me is entry ko permanently delete karna chahte hain?',
+              okText: 'Yes, Delete',
+              cancelText: 'Cancel',
+              onConfirm: function() { doDeleteTransaction(index); }
+            });
+          }, 300);
+          return true;
+        }
+      });
+    }
 
-      if (enteredPin === null) return;
-
-      if (enteredPin.trim() !== savedPin) {
-        alert("❌ Galat PIN! Entry delete nahi ki gayi.");
-        return;
-      }
-
-      if (confirm("Kya aap sach me is entry ko permanently delete karna chahte hain?")) {
+    // 🔥 Helper: actual delete logic (separated for the custom confirm flow)
+    function doDeleteTransaction(index) {
+      {
         var acc = document.getElementById('accountDropdown').value;
         var deletedItem = activeFilteredTxns[index];
         var realIndex = currentAccountTxns.indexOf(deletedItem);
@@ -5169,7 +5806,7 @@ var days = [];
           alert('Error: ' + err); 
         });
       }
-    }
+    }  // end doDeleteTransaction
 
     var currentAccountNotes = [];
 
@@ -5374,10 +6011,20 @@ var days = [];
         allAccountsDataCache[d.acc].transactions.push(d.txn);
         recalculateAccountBalances(d.acc);
 
-        // Trash से निकालें (जो सबसे ऊपर है वो हटा दें)
+        // 🔥 FIX: Remove the exact matching trash entry (not just first)
         var trash = getTrash();
-        if (trash.length > 0) {
-          trash.shift();
+        var matchIdx = -1;
+        for (var ti = 0; ti < trash.length; ti++) {
+          if (trash[ti].accountName === d.acc &&
+              trash[ti].transaction &&
+              trash[ti].transaction.date === d.txn.date &&
+              Number(trash[ti].transaction.amount) === Number(d.txn.amount)) {
+            matchIdx = ti;
+            break;
+          }
+        }
+        if (matchIdx >= 0) {
+          trash.splice(matchIdx, 1);
           saveTrash(trash);
         }
 
@@ -6230,19 +6877,32 @@ var days = [];
       var icon = document.getElementById('darkModeIcon');
       
       if (icon) {
-        icon.className = isDark ? "fas fa-sun fs-6 text-warning" : "fas fa-moon fs-6";
+        icon.className = isDark ? "fas fa-sun fs-6 text-warning" : "fas fa-moon fs-6 text-white";
       }
       localStorage.setItem('cashbook_dark_mode', isDark ? 'enabled' : 'disabled');
+
+      // Charts ko dark theme ke according refresh karein
+      if (typeof renderDashboardMiniChart === 'function') renderDashboardMiniChart();
+      if (typeof renderDashboardSixMonthChart === 'function') renderDashboardSixMonthChart();
     }
 
-    (function checkSavedDarkMode() {
+    // 🔥 Universal Dark Mode Auto-restore & System Sync
+    function applySavedDarkMode() {
       var savedMode = localStorage.getItem('cashbook_dark_mode');
-      if (savedMode === 'enabled') {
+      var icon = document.getElementById('darkModeIcon');
+      
+      // Check user saved preference or OS preference
+      var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      var shouldEnableDark = (savedMode === 'enabled') || (!savedMode && prefersDark);
+
+      if (shouldEnableDark) {
         document.body.classList.add('dark-theme');
-        var icon = document.getElementById('darkModeIcon');
         if (icon) icon.className = "fas fa-sun fs-6 text-warning";
+      } else {
+        document.body.classList.remove('dark-theme');
+        if (icon) icon.className = "fas fa-moon fs-6 text-white";
       }
-    })();
+    }
 
     // 📊 100% Native Mobile & PC Compatible Excel (.xlsx) Exporter
     function exportAccountExcel() {
@@ -6267,7 +6927,7 @@ var days = [];
       wsData.push(["CASH BOOK STATEMENT"]);
       // ----- Row 2: Account -----
       wsData.push(["Account Name:", acc]);
-      // ----- Row 3: Summary -----
+      // ----- Row 3: Summary (FIX: Adjusted columns to prevent overflow) -----
       wsData.push(["Total Cash In:", exactTotalIn, "", "Total Cash Out:", exactTotalOut, "", "Net Balance:", exactNetBalance]);
       // ----- Row 4: Blank -----
       wsData.push([]);
@@ -6341,7 +7001,8 @@ var days = [];
       };
 
       // ----- Summary Row (Row 3) -----
-      ['A3', 'B3', 'D3', 'E3', 'G3', 'H3'].forEach(function(addr) {
+      // FIX: Changed G3/H3 to E3/F3 so Net Balance stays inside the table limits
+      ['A3', 'B3', 'D3', 'E3', 'F3'].forEach(function(addr) {
         if (ws[addr]) {
           ws[addr].s = {
             font: { name: 'Calibri', sz: 9, bold: true },
@@ -6353,8 +7014,12 @@ var days = [];
       if (ws['A3']) ws['A3'].s.font.color = { rgb: '059669' };
       if (ws['D3']) ws['D3'].s.fill = { fgColor: { rgb: 'FEF2F2' } };
       if (ws['D3']) ws['D3'].s.font.color = { rgb: 'DC2626' };
-      if (ws['G3']) ws['G3'].s.fill = { fgColor: { rgb: 'F1F5F9' } };
-      if (ws['G3']) ws['G3'].s.font.color = { rgb: '0F172A' };
+      // Net Balance styling shifted to E3 (Label) and F3 (Value)
+      if (ws['E3']) ws['E3'].s.fill = { fgColor: { rgb: 'F1F5F9' } };
+      if (ws['E3']) ws['E3'].s.font.color = { rgb: '0F172A' };
+      if (ws['F3']) ws['F3'].s.fill = { fgColor: { rgb: 'F1F5F9' } };
+      if (ws['F3']) ws['F3'].s.font.color = { rgb: '0F172A' };
+      if (ws['F3']) ws['F3'].s.alignment = { horizontal: 'right', vertical: 'center' };
 
       // ----- Header Row (Row 5) -----
       var headerRow = 4; // 0-based index
@@ -6925,16 +7590,23 @@ var days = [];
       }
     }
 
-    function openCashCalculator() { calcModal.show(); }
+    function openCashCalculator() {
+      var el = document.getElementById('calcModal');
+      if (!el) return;
+      calcModal = bootstrap.Modal.getInstance(el) || new bootstrap.Modal(el);
+      calcModal.show();
+    }
     function calculateNotes() {
       var inputs = document.querySelectorAll('.calc-count');
-      var multipliers = [2000, 500, 200, 100];
+      var multipliers = [2000, 500, 200, 100, 50, 20, 10];
       var grandTotal = 0;
       inputs.forEach(function(input, index) {
         var count = parseInt(input.value) || 0;
-        var total = count * multipliers[index];
+        var total = count * (multipliers[index] || 0);
         grandTotal += total;
-        document.querySelectorAll('.note-total')[index].innerText = '₹' + total;
+        if (document.querySelectorAll('.note-total')[index]) {
+          document.querySelectorAll('.note-total')[index].innerText = '₹' + total;
+        }
       });
       document.getElementById('grandCalcTotal').innerText = formatINR(grandTotal);
     }
@@ -7451,7 +8123,7 @@ var days = [];
       });
     }
 
-    // 🔒 1. Check Lock Status Corrected
+    // 🔒 1. Check Lock Status & Paytm Style Auto-Biometric Popup
     function checkLoginStatus() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
 
@@ -7465,15 +8137,89 @@ var days = [];
         document.getElementById('pinLockView').classList.remove('d-none');
         document.getElementById('authTitle').innerText = "Quick Unlock";
         document.getElementById('authSubTitle').innerText = "Enter PIN or use Fingerprint";
+
+        // ⚡ Paytm Style: App open hote hi automatic fingerprint sensor open karein
+        setTimeout(function() {
+          if (!document.getElementById('lockScreen').classList.contains('d-none')) {
+            autoLoginWithBiometric(true); // silent = true taaki unsupported hone par alert popup na aaye
+          }
+        }, 350);
       } else {
         document.getElementById('lockScreen').classList.remove('d-none');
         switchToPasswordView();
       }
     }
 
-    // 🔥 FIX: App sirf 30 second baad lock hoga (Premium Grace Period)
+    // 🗑️ Permanent User Account Delete Function
+    function deleteUserAccountPermanently() {
+      if (!loggedInUser || !loggedInUser.userId) {
+        return alert("Pehle login karein!");
+      }
+
+      var savedPin = localStorage.getItem('cashbook_app_pin');
+
+      showCustomConfirm({
+        type: 'error',
+        title: 'Delete Entire Account?',
+        message: 'Kya aap apna account aur saara data hamesha ke liye delete karna chahte hain? Yeh process wapas nahi ho sakta.',
+        okText: 'Proceed to Delete',
+        cancelText: 'Cancel',
+        onConfirm: function() {
+          // Verification ke liye 4-Digit PIN maangein
+          openCustomPinModal({
+            title: 'Verify PIN to Delete',
+            subtitle: 'Account delete karne ke liye apna 4-digit PIN darj karein',
+            onConfirm: function(enteredPin) {
+              if (savedPin && enteredPin.trim() !== savedPin.trim()) {
+                pinModalShowError('Galat PIN! Account delete nahi kiya gaya.');
+                return false;
+              }
+
+              showLoader();
+
+              apiFetch({
+                action: 'deleteUserAccount',
+                userId: loggedInUser.userId,
+                username: loggedInUser.username || ''
+              })
+              .then(function(res) { return res.json(); })
+              .then(function(res) {
+                hideLoader();
+                
+                // Saara local cache aur session data saaf karein
+                localStorage.clear();
+                sessionStorage.clear();
+                
+                loggedInUser = null;
+                globalAccounts = [];
+                allAccountsDataCache = {};
+                currentAccountTxns = [];
+
+                showCustomAlert({
+                  type: 'success',
+                  title: 'Account Deleted',
+                  message: 'Aapka account aur data poori tarah delete ho chuka hai.',
+                  buttonText: 'OK',
+                  onClose: function() {
+                    window.location.reload();
+                  }
+                });
+              })
+              .catch(function(err) {
+                hideLoader();
+                alert('Account delete karne me dikkat: ' + err);
+              });
+
+              return true;
+            }
+          });
+        }
+      });
+    }
+
+    // 🔥 FIX: App ab 10 minute baad lock hoga
     var appBackgroundTimestamp = null;
-    var AUTO_LOCK_DELAY_MS = 30000; // 30 seconds Grace Period
+    var AUTO_LOCK_DELAY_MS = 600000; // 10 minutes (60,000 * 10) Grace Period
 
     document.addEventListener('visibilitychange', function() {
       if (!loggedInUser) return;
@@ -7493,12 +8239,13 @@ var days = [];
       }
     });
 
-    // 🖐️ Smart Biometric Authentication — APK में सीधा system scanner खुलेगा
-    function autoLoginWithBiometric() {
+    // 🖐️ Smart Biometric Authentication — Paytm Style Auto Trigger Supported
+    function autoLoginWithBiometric(isSilentAutoTrigger) {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
       
       if (!savedUser) {
-        return alert("Pehle ek baar Username aur Password se Login karein!");
+        if (!isSilentAutoTrigger) alert("Pehle ek baar Username aur Password se Login karein!");
+        return;
       }
 
       // ✅ Priority 1: Android APK Native Biometric (Direct system fingerprint)
@@ -7591,8 +8338,14 @@ var days = [];
       var lockScreen = document.getElementById('lockScreen');
       if (lockScreen) lockScreen.classList.add('d-none');
       updateWelcomeHeader();
-      // 🔥 Instant cached data + silent background sync
-      fetchUserPrivateData();
+      
+      // 1. Turant cached data dikhao
+      fetchUserPrivateData(); 
+      
+      // 2. 2 second baad background me fresh data laao (silent)
+      setTimeout(function() {
+        forceDownloadFromSheetSilent();
+      }, 2000);
     }
 
     function updateSyncBadge(status) {
@@ -7724,6 +8477,12 @@ var days = [];
 
   updateSyncBadge('syncing');
 
+  // 🔥 FIX: Show sync splash only when there is NO cached data (first load)
+  if (!hasCachedData) {
+    showSyncSplash();
+    updateSyncProgress(15, "Connecting to server...");
+  }
+
   var fetchWithTimeout = function(url, timeout) {
     timeout = timeout || 60000;
     return new Promise(function(resolve, reject) {
@@ -7754,6 +8513,9 @@ var days = [];
 
       localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
 
+      // 🔥 FIX: Update progress before next stage
+      if (!hasCachedData) updateSyncProgress(45, "Loading accounts...");
+
       // 🔥 FIX: Hidden accounts server se fetch karo (Status column se)
       return fetchWithTimeout(buildApiUrl('getHiddenAccounts', { userId: loggedInUser.userId }), 30000);
     })
@@ -7766,12 +8528,15 @@ var days = [];
         console.log("✅ Hidden accounts synced from server:", hiddenResponse.hidden);
       }
       
+      if (!hasCachedData) updateSyncProgress(70, "Fetching transactions...");
+
       var currentUid = String(loggedInUser.userId).trim();
       return fetchWithTimeout(buildApiUrl('getAllAccountsDataMaster', { userId: currentUid }), 90000);
     })
     .then(function(res) { return res.json(); })
     .then(function(master) {
       hideLoader();
+      hideSyncSplash();   // 🔥 FIX: hide splash when sync completes
 
       if (master && typeof master === 'object') {
         var freshData = master.accountsMap || master.data || master || {};
@@ -7827,10 +8592,12 @@ var days = [];
         console.log("✅ Fresh data synced + recalculated + Dashboard refreshed");
       }
       
+            if (!hasCachedData) updateSyncProgress(100, "Complete!");
       updateSyncBadge('synced');
     })
     .catch(function(err) {
       hideLoader();
+      hideSyncSplash();   // 🔥 FIX: hide splash even on error
       console.warn("⚠️ Background Sync Error (using cache):", err.message);
       updateSyncBadge('offline');
       
@@ -7875,6 +8642,10 @@ var days = [];
 
       var dropdown = document.getElementById('accountDropdown');
       if (dropdown) dropdown.selectedIndex = 0;
+
+      // 🔥 FIX: Hide bottom action bar when no account is selected
+      var bottomBar = document.getElementById('bottomActionBar');
+      if (bottomBar) bottomBar.classList.add('d-none');
     }
 
         var enteredPinBuffer = "";
@@ -8140,8 +8911,14 @@ var days = [];
         document.getElementById('lockScreen').classList.add('d-none');
         clearAllPinDigits();
         updateWelcomeHeader();
-        // 🔥 Instant cached data + silent background sync
+        
+        // 1. Turant cached data dikhao
         fetchUserPrivateData();
+        
+        // 2. 2 second baad background me fresh data laao (silent)
+        setTimeout(function() {
+          forceDownloadFromSheetSilent();
+        }, 2000);
       } else {
         alert("❌ Galat PIN! Kripya sahi PIN darj karein.");
         clearAllPinDigits();
@@ -8366,6 +9143,96 @@ var days = [];
           alert("Data Download Fail: Kripya internet connection aur Google Script URL check karein.");
         });
     }
+        // ═══════════════════════════════════════════════════════════
+    // 🔥 NEW: SILENT BACKGROUND SYNC (Bina loader ke)
+    // ═══════════════════════════════════════════════════════════
+    function forceDownloadFromSheetSilent() {
+      if (!loggedInUser || !loggedInUser.userId) return;
+
+      var badge = document.getElementById('syncStatusBadge');
+      if (badge) {
+        badge.innerHTML = '<i class="fas fa-sync-alt fa-spin me-1"></i> Syncing...';
+        badge.className = 'badge rounded-pill bg-warning text-dark fw-bold';
+      }
+
+      var currentUid = String(loggedInUser.userId).trim();
+      
+      // 1. Accounts list fetch karein
+      fetch(buildApiUrl('getAccountsForUser', { userId: currentUid }))
+        .then(function(res) { return res.json(); })
+        .then(function(accounts) {
+          if (Array.isArray(accounts) && accounts.length > 0) {
+            globalAccounts = accounts;
+            localStorage.setItem('cashbook_user_accs_' + loggedInUser.userId, JSON.stringify(globalAccounts));
+            populateAccountsDropdown();
+          }
+
+          // 2. Master data fetch karein
+          return fetch(buildApiUrl('getAllAccountsDataMaster', { userId: currentUid }));
+        })
+        .then(function(res) { return res.json(); })
+        .then(function(master) {
+          if (master && typeof master === 'object') {
+            var freshData = master.accountsMap || master.data || master || {};
+            
+            // Local closedInfo merge karein
+            try {
+              var localRaw = localStorage.getItem('cashbook_user_master_txns_' + loggedInUser.userId);
+              if (localRaw) {
+                var localCache = JSON.parse(localRaw) || {};
+                Object.keys(localCache).forEach(function(accName) {
+                  if (localCache[accName] && localCache[accName].closedInfo) {
+                    if (!freshData[accName]) freshData[accName] = localCache[accName];
+                    else if (!freshData[accName].closedInfo) freshData[accName].closedInfo = localCache[accName].closedInfo;
+                  }
+                });
+              }
+            } catch(e) {}
+
+            allAccountsDataCache = freshData;
+            
+            // Recalculate balances
+            Object.keys(allAccountsDataCache).forEach(function(accName) {
+              recalculateAccountBalances(accName);
+            });
+            
+            localStorage.setItem('cashbook_user_master_txns_' + loggedInUser.userId, JSON.stringify(allAccountsDataCache));
+
+            // UI Refresh (bina jagah change kiye)
+            var dropdown = document.getElementById('accountDropdown');
+            var dashVisible = document.getElementById('dashboardOverview');
+            
+            if (dashVisible && !dashVisible.classList.contains('d-none')) {
+               // Agar Dashboard khula hai, toh stats update karein
+               updateDashboardOverviewStats();
+               renderDashboard();
+            } else if (dropdown && dropdown.value) {
+               // Agar account khula hai, toh usko update karein
+               loadAccountDataFast();
+            }
+          }
+        })
+        .then(function() {
+          // Success
+          if (badge) {
+            badge.innerHTML = '<i class="fas fa-check-circle me-1"></i> Live Synced';
+            badge.className = 'badge rounded-pill bg-success text-white fw-bold';
+            setTimeout(function() {
+              if (badge.innerHTML.includes('Synced')) {
+                badge.innerHTML = '<i class="fas fa-circle me-1" style="font-size:6px;"></i> Online';
+                badge.className = 'badge rounded-pill bg-secondary text-white fw-bold';
+              }
+            }, 2000);
+          }
+        })
+        .catch(function(err) {
+          console.warn("Silent sync error:", err);
+          if (badge) {
+            badge.innerHTML = '<i class="fas fa-database me-1"></i> Cached';
+            badge.className = 'badge rounded-pill bg-secondary text-white fw-bold';
+          }
+        });
+    }
 
     // ═══════════════════════════════════════════════════════════
     // 🔒 ACCOUNT CLOSE / REOPEN / PURANA HISAB FEATURE
@@ -8538,6 +9405,34 @@ var days = [];
         );
       }, 250);
     }
+        // 🔥 NEW: Function to generate a unique, consistent color for any account name
+    function getAccountColor(name) {
+      if (!name) return '#64748b'; // Default gray
+      
+      // Simple hash function to generate a number from the string
+      var hash = 0;
+      for (var i = 0; i < name.length; i++) {
+        hash = name.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      
+      // Pre-defined premium colors (to avoid ugly bright colors)
+      var colors = [
+        '#059669', // Emerald Green
+        '#dc2626', // Red
+        '#2563eb', // Blue
+        '#d97706', // Amber
+        '#7c3aed', // Violet
+        '#db2777', // Pink
+        '#0891b2', // Cyan
+        '#ea580c', // Orange
+        '#4f46e5', // Indigo
+        '#65a30d'  // Lime
+      ];
+      
+      // Pick a color from the array based on the hash
+      var index = Math.abs(hash) % colors.length;
+      return colors[index];
+    }
 
     // 3️⃣ Reopen execute करें (Merge)
     function executeReopenAccount() {
@@ -8589,7 +9484,12 @@ var days = [];
       apiFetch({
         action: 'reopenAccountEntry',
         userId: loggedInUser ? loggedInUser.userId : '',
-        accountName: accName
+        accountName: accName,
+        // 🔥 FIX: Send merged transactions so server keeps in sync
+        transactions: accData.transactions,
+        totalIn: accData.totalIn,
+        totalOut: accData.totalOut,
+        balance: accData.balance
       })
       .then(function(res) { return res.json(); })
       .then(function(res) {
@@ -9029,10 +9929,11 @@ var days = [];
         var sign = isIn ? '+' : '-';
         var cardBorder = isIn ? 'border-start border-4 border-success' : 'border-start border-4 border-danger';
 
+        var accColor = getAccountColor(t.accountName);
         html += '<div class="card p-2 mb-2 card-custom modal-txn-card ' + cardBorder + '">' +
                   '<div class="d-flex justify-content-between align-items-start">' +
                     '<div>' +
-                      '<span class="badge bg-secondary mb-1" style="font-size:10px;">' + t.accountName + '</span>' +
+                      '<span class="badge mb-1" style="font-size:10px; background:' + accColor + '15; color:' + accColor + '; border: 1px solid ' + accColor + '40;">' + t.accountName + '</span>' +
                       '<h6 class="m-0 fw-bold text-dark modal-txn-remark" style="font-size:14px;">' + t.remark + '</h6>' +
                       '<small class="text-muted fw-semibold" style="font-size:11px;"><i class="far fa-clock me-1"></i>' + t.date + '</small>' +
                     '</div>' +
@@ -9276,14 +10177,65 @@ var days = [];
 
     window.addEventListener('online', processOfflineSyncQueue);
 
+    var promptPasswordSuccessCallback = null;
+
+    function openCustomPromptPasswordModal(onSuccess) {
+      promptPasswordSuccessCallback = onSuccess;
+      var modal = document.getElementById('customPromptPasswordModal');
+      var input = document.getElementById('customPromptPasswordInput');
+      var err = document.getElementById('customPromptPasswordError');
+      
+      if (input) input.value = '';
+      if (err) { err.innerText = ''; err.classList.add('d-none'); }
+      if (modal) modal.classList.remove('d-none');
+      
+      setTimeout(function() {
+        if (input) input.focus();
+      }, 200);
+    }
+
+    function closeCustomPromptPassword() {
+      var modal = document.getElementById('customPromptPasswordModal');
+      if (modal) modal.classList.add('d-none');
+      promptPasswordSuccessCallback = null;
+    }
+
+    function submitCustomPromptPassword() {
+      var input = document.getElementById('customPromptPasswordInput');
+      var password = input ? input.value.trim() : '';
+      var err = document.getElementById('customPromptPasswordError');
+
+      if (!password) {
+        if (err) {
+          err.innerText = 'Kripya login password darj karein!';
+          err.classList.remove('d-none');
+        }
+        return;
+      }
+
+      var cb = promptPasswordSuccessCallback;
+      closeCustomPromptPassword();
+
+      if (typeof cb === 'function') {
+        cb(password);
+      }
+    }
+
     function handleForgotPin() {
       var savedUser = localStorage.getItem('cashbook_saved_biometric_user');
-      if (!savedUser) return alert("Pehle Username aur Password se login karein!");
+      if (!savedUser) {
+        return showCustomAlert({
+          type: 'warning',
+          title: 'Not Logged In',
+          message: 'Pehle Username aur Password se login karein!',
+          buttonText: 'OK'
+        });
+      }
       
       var userObj = JSON.parse(savedUser);
-      var enterPassword = prompt("PIN Reset karne ke liye apna Login Password darj karein:");
-      
-      if (enterPassword) {
+
+      // Custom smooth light popup modal open karein
+      openCustomPromptPasswordModal(function(enterPassword) {
         showLoader();
         apiFetch({
           action: 'loginUser',
@@ -9296,11 +10248,24 @@ var days = [];
           if (res.success) {
             setupNewAppPin();
           } else {
-            alert("❌ Galat Password! PIN Reset nahi ho saka.");
+            showCustomAlert({
+              type: 'error',
+              title: 'Verification Failed',
+              message: 'Galat Password! PIN Reset nahi ho saka.',
+              buttonText: 'Try Again'
+            });
           }
         })
-        .catch(err => { hideLoader(); alert("Error: " + err); });
-      }
+        .catch(err => {
+          hideLoader();
+          showCustomAlert({
+            type: 'error',
+            title: 'Connection Error',
+            message: 'Error: ' + err,
+            buttonText: 'OK'
+          });
+        });
+      });
     }
 
     function promptAndSetFirstTimePin() {
@@ -9413,7 +10378,7 @@ var days = [];
       // 🔒 closedInfo को याद रखें — recalculate करते समय इसे मत मिटाएँ
       var preservedClosedInfo = accData.closedInfo || null;
 
-      // STEP 1: Har transaction ka safe timestamp nikaal kar deep copy karein (imageUrl / category preserve karte hue)
+      // STEP 1: Preserve imageUrl, category, AND isFromOldBook flag
       var txnsCopy = accData.transactions.map(function(t, idx) {
         return {
           date: t.date,
@@ -9422,6 +10387,7 @@ var days = [];
           remark: t.remark || '',
           category: t.category || '',
           imageUrl: t.imageUrl || '',
+          isFromOldBook: t.isFromOldBook === true,   // 🔥 FIX
           runningBalance: 0,
           _origIdx: idx,
           _timestamp: parseCustomDate(t.date).getTime()
@@ -9459,7 +10425,7 @@ var days = [];
 
       // STEP 4: Calculated values ko master cache mein replace karein
       accData.transactions = txnsCopy.map(function(t) {
-        return {
+        var rebuilt = {
           date: t.date,
           type: t.type,
           amount: t.amount,
@@ -9468,6 +10434,8 @@ var days = [];
           imageUrl: t.imageUrl,
           runningBalance: t.runningBalance
         };
+        if (t.isFromOldBook === true) rebuilt.isFromOldBook = true;   // 🔥 FIX
+        return rebuilt;
       });
 
       accData.totalIn = totalIn;
@@ -9564,6 +10532,8 @@ var days = [];
       if (icon) icon.className = 'fas fa-sync-alt fs-6';
       
       updateSyncBadge('syncing');
+      showSyncSplash();              // 🔥 FIX
+      updateSyncProgress(20, "Connecting...");
 
       // Remove red dot
       if (dot) dot.classList.remove('show');
@@ -9623,15 +10593,17 @@ var days = [];
             var dropdown = document.getElementById('accountDropdown');
             var wasSelected = dropdown ? dropdown.value : '';
             
-            if (wasSelected && wasSelected !== "" && !wasSelected.includes("Choose Account")) {
-              dropdown.value = wasSelected;
-              loadAccountDataFast();
-            } else {
-              updateDashboardOverviewStats();
-            }
+                      if (wasSelected && wasSelected !== "" && !wasSelected.includes("Choose Account")) {
+            dropdown.value = wasSelected;
+            loadAccountDataFast();
+          } else {
+            updateDashboardOverviewStats();
           }
+        }
 
-          updateSyncBadge('synced');
+        updateSyncProgress(100, "Complete!");
+        hideSyncSplash();            // 🔥 FIX
+        updateSyncBadge('synced');
 
           // Success animation
           if (icon) icon.className = 'fas fa-check-circle fs-6 text-warning';
@@ -9644,6 +10616,7 @@ var days = [];
         })
         .catch(function(err) {
           console.warn("⚠️ Manual redownload error:", err.message);
+          hideSyncSplash();          // 🔥 FIX
           updateSyncBadge('offline');
 
           // Error animation
@@ -10044,6 +11017,21 @@ function getCustomCategoriesKey() {
 
     var lastInterestResult = null;
 
+    function onRateTypeChanged() {
+      var ratePer = document.getElementById('intRatePer').value;
+      var expl = document.getElementById('intMethodExplanation');
+      var rateHelp = document.getElementById('intRateHelpText');
+      var rateVal = parseFloat(document.getElementById('intRate').value) || 0;
+
+      if (ratePer === 'year') {
+        if (rateHelp) rateHelp.innerText = rateVal > 0 ? ('₹' + rateVal + ' सैकड़ा माह = ' + (rateVal * 12) + '% सालाना दर') : '₹3 सैकड़ा माह = 36% सालाना दर';
+        if (expl) expl.innerText = 'सालाना चक्र: हर 12 महीने बाद ब्याज जुड़ेगा (Compound) या मूलधन पर चलेगा (Simple)।';
+      } else {
+        if (rateHelp) rateHelp.innerText = rateVal > 0 ? (rateVal + '% प्रति माह दर') : 'मासिक दर पर गणना';
+        if (expl) expl.innerText = 'मासिक चक्र: हर महीने ब्याज जुड़ेगा (Compound) या मूलधन पर चलेगा (Simple)।';
+      }
+    }
+
     function openInterestCalculator() {
       var drawer = document.getElementById('sidebarDrawer');
       if (drawer) {
@@ -10052,15 +11040,23 @@ function getCustomCategoriesKey() {
       }
       
       setTimeout(function() {
-        // Reset form
         document.getElementById('intAmount').value = '';
-        document.getElementById('intRate').value = '';
+        document.getElementById('intRate').value = '3'; // Default 3% pratimaah
+        document.getElementById('intRatePer').value = 'year';
         document.getElementById('intMonths').value = '';
         document.getElementById('intDays').value = '';
-        document.getElementById('intCompound').checked = false;
+        document.getElementById('intFromDate').value = '';
+        
+        var today = new Date();
+        today.setMinutes(today.getMinutes() - today.getTimezoneOffset());
+        document.getElementById('intTillDate').value = today.toISOString().slice(0, 10);
+        
+        var compRadio = document.getElementById('intMethodCompound');
+        if (compRadio) compRadio.checked = true;
+
+        onRateTypeChanged();
         document.getElementById('intResult').classList.add('d-none');
         
-        // 📋 Month-wise table reset
         var mwc = document.getElementById('intMonthWiseContainer');
         if (mwc) mwc.innerHTML = '';
 
@@ -10070,128 +11066,814 @@ function getCustomCategoriesKey() {
       }, 250);
     }
 
+    // 🗓️ Dates se Calendar Months aur Days nikalna
+    function calculateDurationFromDates() {
+      var fromVal = document.getElementById('intFromDate').value;
+      var tillVal = document.getElementById('intTillDate').value;
+      if (!fromVal || !tillVal) return;
+
+      var d1 = new Date(fromVal);
+      var d2 = new Date(tillVal);
+
+      if (d1 > d2) {
+        alert('From Date, Till Date se baad ki nahi ho sakti!');
+        return;
+      }
+
+      var y1 = d1.getFullYear(), m1 = d1.getMonth(), day1 = d1.getDate();
+      var y2 = d2.getFullYear(), m2 = d2.getMonth(), day2 = d2.getDate();
+
+      var totalMonths = (y2 - y1) * 12 + (m2 - m1);
+      var daysDiff = day2 - day1;
+
+      if (daysDiff < 0) {
+        totalMonths--;
+        var prevMonthLastDay = new Date(y2, m2, 0).getDate();
+        daysDiff += prevMonthLastDay;
+      }
+
+      document.getElementById('intMonths').value = totalMonths;
+      document.getElementById('intDays').value = daysDiff;
+    }
+
+    // 💰 Universal Interest Engine (Monthly Input, Yearly & Monthly with Simple/Compound)
     function calculateInterest() {
-      var P = parseFloat(document.getElementById('intAmount').value) || 0;
-      var R = parseFloat(document.getElementById('intRate').value) || 0;
-      var ratePer = document.getElementById('intRatePer').value;
+      var P_initial = parseFloat(document.getElementById('intAmount').value) || 0;
+      var R_monthly = parseFloat(document.getElementById('intRate').value) || 0; // Hamesha monthly rate
+      var cycleType = document.getElementById('intRatePer').value; // 'year' or 'month'
       var M = parseInt(document.getElementById('intMonths').value) || 0;
       var D = parseInt(document.getElementById('intDays').value) || 0;
-      var isCompound = document.getElementById('intCompound').checked;
+      var fromDate = document.getElementById('intFromDate').value;
+      var tillDate = document.getElementById('intTillDate').value;
 
-      if (P <= 0) return alert('Amount darj karein!');
-      if (R <= 0) return alert('Interest rate darj karein!');
-      if (M === 0 && D === 0) return alert('Duration (months ya days) darj karein!');
+      var isCompound = document.getElementById('intMethodCompound') ? document.getElementById('intMethodCompound').checked : true;
 
-      // Total duration in months (fractional)
-      var totalMonths = M + (D / 30);
-      
-      // Monthly rate
-      var monthlyRate = ratePer === 'month' ? R : (R / 12);
+      if (P_initial <= 0) return alert('Kripya Mooldhan (Amount) darj karein!');
+      if (R_monthly <= 0) return alert('Kripya Byaaj dar (Monthly Rate) darj karein!');
+      if (M === 0 && D === 0) return alert('Kripya Tareekh ya Mahine/Din darj karein!');
 
-      // Total days for display
-      var totalDays = Math.round(totalMonths * 30);
+      var breakdown = [];
+      var totalInterest = 0;
+      var currentPrincipal = P_initial;
+      var calculationMode = '';
 
-      var interest, total;
+      var runningStartDate = fromDate ? new Date(fromDate) : null;
 
-      if (isCompound) {
-        // Compound: A = P * (1 + r)^n
-        total = P * Math.pow((1 + monthlyRate / 100), totalMonths);
-        interest = total - P;
+      // ==========================================
+      // 1️⃣ YEARLY CYCLE (Saalana Hisab)
+      // ==========================================
+      if (cycleType === 'year') {
+        var effectiveAnnualRate = R_monthly * 12; // e.g. 3% per month = 36% per year
+
+        if (isCompound) {
+          // A. Yearly Compound (Har 12 mahine baad palat kar naya mooldhan)
+          calculationMode = 'सालाना पलट हिसाब (Yearly Compound: ' + R_monthly + '% माह = ' + effectiveAnnualRate + '% सालाना)';
+          var fullYears = Math.floor(M / 12);
+          var remainingMonths = M % 12;
+
+          // Har 1-1 saal ka hisab
+          if (fullYears > 0) {
+            for (var y = 1; y <= fullYears; y++) {
+              var yearInterest = Math.round(currentPrincipal * (R_monthly / 100) * 12);
+              var newPrincipal = currentPrincipal + yearInterest;
+
+              var periodLabel = 'साल ' + y + ' (12 महीने)';
+              if (runningStartDate) {
+                var cycleEnd = new Date(runningStartDate);
+                cycleEnd.setFullYear(cycleEnd.getFullYear() + 1);
+                periodLabel = runningStartDate.toLocaleDateString('en-GB') + ' से ' + cycleEnd.toLocaleDateString('en-GB');
+                runningStartDate = cycleEnd;
+              }
+
+              breakdown.push({
+                period: periodLabel,
+                startPrincipal: currentPrincipal,
+                interest: yearInterest,
+                endBalance: newPrincipal,
+                isYearEnd: true
+              });
+
+              totalInterest += yearInterest;
+              currentPrincipal = newPrincipal;
+            }
+          }
+
+          // Bache huye mahine aur din (Naye mooldhan par)
+          if (remainingMonths > 0 || D > 0) {
+            var remDurationText = '';
+            if (remainingMonths > 0) remDurationText += remainingMonths + ' महीने ';
+            if (D > 0) remDurationText += D + ' दिन';
+
+            var periodLabel = remDurationText.trim();
+            if (runningStartDate && tillDate) {
+              var tEnd = new Date(tillDate);
+              periodLabel = runningStartDate.toLocaleDateString('en-GB') + ' से ' + tEnd.toLocaleDateString('en-GB') + ' (' + periodLabel + ')';
+            }
+
+            var remInterest = Math.round(currentPrincipal * (R_monthly / 100) * (remainingMonths + (D / 30)));
+            var finalEndBalance = currentPrincipal + remInterest;
+
+            breakdown.push({
+              period: periodLabel,
+              startPrincipal: currentPrincipal,
+              interest: remInterest,
+              endBalance: finalEndBalance,
+              isYearEnd: false
+            });
+
+            totalInterest += remInterest;
+          }
+
+        } else {
+          // B. Yearly Simple (Mooldhan wahi rahega, saal-dar-saal byaaj count hoga)
+          calculationMode = 'सालाना साधारण ब्याज (Yearly Simple: ' + R_monthly + '% माह = ' + effectiveAnnualRate + '% सालाना)';
+          var fullYears = Math.floor(M / 12);
+          var remainingMonths = M % 12;
+
+          var runningTotalInt = 0;
+
+          if (fullYears > 0) {
+            for (var y = 1; y <= fullYears; y++) {
+              var yearInterest = Math.round(P_initial * (R_monthly / 100) * 12);
+              runningTotalInt += yearInterest;
+
+              var periodLabel = 'साल ' + y + ' (12 महीने)';
+              if (runningStartDate) {
+                var cycleEnd = new Date(runningStartDate);
+                cycleEnd.setFullYear(cycleEnd.getFullYear() + 1);
+                periodLabel = runningStartDate.toLocaleDateString('en-GB') + ' से ' + cycleEnd.toLocaleDateString('en-GB');
+                runningStartDate = cycleEnd;
+              }
+
+              breakdown.push({
+                period: periodLabel,
+                startPrincipal: P_initial,
+                interest: yearInterest,
+                endBalance: P_initial + runningTotalInt,
+                isYearEnd: true
+              });
+
+              totalInterest += yearInterest;
+            }
+          }
+
+          if (remainingMonths > 0 || D > 0) {
+            var remDurationText = '';
+            if (remainingMonths > 0) remDurationText += remainingMonths + ' महीने ';
+            if (D > 0) remDurationText += D + ' दिन';
+
+            var periodLabel = remDurationText.trim();
+            if (runningStartDate && tillDate) {
+              var tEnd = new Date(tillDate);
+              periodLabel = runningStartDate.toLocaleDateString('en-GB') + ' से ' + tEnd.toLocaleDateString('en-GB') + ' (' + periodLabel + ')';
+            }
+
+            var remInterest = Math.round(P_initial * (R_monthly / 100) * (remainingMonths + (D / 30)));
+            totalInterest += remInterest;
+
+            breakdown.push({
+              period: periodLabel,
+              startPrincipal: P_initial,
+              interest: remInterest,
+              endBalance: P_initial + totalInterest,
+              isYearEnd: false
+            });
+          }
+        }
+
+      // ==========================================
+      // 2️⃣ MONTHLY CYCLE (Masik Hisab)
+      // ==========================================
       } else {
-        // Simple: I = P * r * n
-        interest = P * (monthlyRate / 100) * totalMonths;
-        total = P + interest;
-      }
+        if (!isCompound) {
+          // A. Monthly Simple Interest
+          calculationMode = 'मासिक साधारण ब्याज (Monthly Simple: ' + R_monthly + '% प्रतिमाह)';
+          var oneMonthInterest = Math.round(P_initial * (R_monthly / 100));
+          var totalMonthsInterest = oneMonthInterest * M;
+          var daysInterest = Math.round(P_initial * (R_monthly / 100) * (D / 30));
 
-      // Round
-      interest = Math.round(interest * 100) / 100;
-      total = Math.round(total * 100) / 100;
+          totalInterest = totalMonthsInterest + daysInterest;
 
-      // 📊 Month-wise breakdown बनाएँ
-      var monthWise = [];
-      var runningPrincipal = P;
-      var runningTotal = P;
+          if (M > 0) {
+            breakdown.push({
+              period: M + ' महीने का कुल ब्याज (' + R_monthly + '% प्रतिमाह)',
+              startPrincipal: P_initial,
+              interest: totalMonthsInterest,
+              endBalance: P_initial + totalMonthsInterest,
+              isYearEnd: false
+            });
+          }
+          if (D > 0) {
+            breakdown.push({
+              period: D + ' दिन का ब्याज',
+              startPrincipal: P_initial,
+              interest: daysInterest,
+              endBalance: P_initial + totalInterest,
+              isYearEnd: false
+            });
+          }
 
-      // पूरे महीनों के लिए rows
-      for (var m = 1; m <= M; m++) {
-        var monthInterest, monthTotal, monthNewPrincipal;
-
-        if (isCompound) {
-          monthTotal = runningPrincipal * Math.pow((1 + monthlyRate / 100), 1);
-          monthInterest = monthTotal - runningPrincipal;
-          monthNewPrincipal = monthTotal;
         } else {
-          monthInterest = runningPrincipal * (monthlyRate / 100);
-          monthTotal = runningPrincipal + monthInterest;
-          monthNewPrincipal = runningPrincipal;
-        }
+          // B. Monthly Compound (Har mahine byaaj judta hai)
+          calculationMode = 'मासिक चक्रवृद्धि ब्याज (Monthly Compound / हर माह पलट: ' + R_monthly + '%)';
+          for (var m = 1; m <= M; m++) {
+            var mInterest = Math.round(currentPrincipal * (R_monthly / 100));
+            var newBal = currentPrincipal + mInterest;
 
-        monthWise.push({
-          label: 'Month ' + m,
-          principal: runningPrincipal,
-          interest: Math.round(monthInterest * 100) / 100,
-          total: Math.round(monthTotal * 100) / 100,
-          isPartial: false,
-          days: 30
-        });
+            breakdown.push({
+              period: 'महीना ' + m,
+              startPrincipal: currentPrincipal,
+              interest: mInterest,
+              endBalance: newBal,
+              isYearEnd: false
+            });
 
-        if (isCompound) {
-          runningPrincipal = monthNewPrincipal;
+            totalInterest += mInterest;
+            currentPrincipal = newBal;
+          }
+
+          if (D > 0) {
+            var dInterest = Math.round(currentPrincipal * (R_monthly / 100) * (D / 30));
+            var newBalDays = currentPrincipal + dInterest;
+
+            breakdown.push({
+              period: D + ' अतिरिक्त दिन',
+              startPrincipal: currentPrincipal,
+              interest: dInterest,
+              endBalance: newBalDays,
+              isYearEnd: false
+            });
+
+            totalInterest += dInterest;
+          }
         }
       }
 
-      // आखिरी partial महीने के लिए (extra days)
-      if (D > 0) {
-        var partialMonths = D / 30;
-        var partialInterest, partialTotal;
-
-        if (isCompound) {
-          partialTotal = runningPrincipal * Math.pow((1 + monthlyRate / 100), partialMonths);
-          partialInterest = partialTotal - runningPrincipal;
-        } else {
-          partialInterest = runningPrincipal * (monthlyRate / 100) * partialMonths;
-          partialTotal = runningPrincipal + partialInterest;
-        }
-
-        monthWise.push({
-          label: 'Month ' + (M + 1) + ' (partial)',
-          principal: runningPrincipal,
-          interest: Math.round(partialInterest * 100) / 100,
-          total: Math.round(partialTotal * 100) / 100,
-          isPartial: true,
-          days: D
-        });
-      }
+      var finalTotal = P_initial + totalInterest;
 
       lastInterestResult = {
-        principal: P,
-        rate: R,
-        ratePer: ratePer,
+        principal: P_initial,
+        rate: R_monthly,
+        cycleType: cycleType,
         months: M,
         days: D,
-        totalDays: totalDays,
-        compound: isCompound,
-        interest: interest,
-        total: total,
-        monthWise: monthWise
+        fromDate: fromDate,
+        tillDate: tillDate,
+        calculationMode: calculationMode,
+        isCompound: isCompound,
+        interest: totalInterest,
+        total: finalTotal,
+        breakdown: breakdown
       };
 
-      document.getElementById('intPrincipal').innerText = formatINR(P);
-      document.getElementById('intInterest').innerText = formatINR(interest);
-      document.getElementById('intTotal').innerText = formatINR(total);
+      // UI Update
+      document.getElementById('intPrincipal').innerText = formatINR(P_initial);
+      document.getElementById('intInterest').innerText = formatINR(totalInterest);
+      document.getElementById('intTotal').innerText = formatINR(finalTotal);
       
       var durText = '';
-      if (M > 0) durText += M + ' mahine ';
-      if (D > 0) durText += D + ' din ';
-      durText += '(' + totalDays + ' din total)';
-      if (isCompound) durText += ' • Chakravridhi';
-      
-      document.getElementById('intDuration').innerText = 'Duration: ' + durText;
+      if (fromDate && tillDate) {
+        durText = fromDate + ' से ' + tillDate + ' (' + M + ' महीने, ' + D + ' दिन)';
+      } else {
+        durText = M + ' महीने, ' + D + ' दिन';
+      }
+      durText += ' • ' + calculationMode;
 
-      // 📋 Month-wise Table render करें
-      renderMonthWiseTable(monthWise);
+      document.getElementById('intDuration').innerText = durText;
+
+      // Table Render
+      renderDiaryStyleInterestTable(breakdown);
 
       document.getElementById('intResult').classList.remove('d-none');
+    }
+
+    // 📋 Clean Breakdown Table Render in UI
+    function renderDiaryStyleInterestTable(breakdown) {
+      var container = document.getElementById('intMonthWiseContainer');
+      if (!container) return;
+
+      if (!breakdown || breakdown.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      var html = 
+        '<div class="text-uppercase text-muted fw-bold mt-3 mb-2" style="font-size:10px; letter-spacing:0.4px;">' +
+          '<i class="fas fa-calculator me-1 text-success"></i> ब्याज गणना का पूरा विवरण (BREAKDOWN LEDGER)' +
+        '</div>' +
+        '<div class="table-responsive" style="max-height: 280px; overflow-y: auto; border: 1.5px solid #e2e8f0; border-radius: 10px;">' +
+          '<table class="table table-sm mb-0" style="font-size: 11px;">' +
+            '<thead style="position: sticky; top: 0; background: #f8fafc; z-index: 2;">' +
+              '<tr>' +
+                '<th style="padding: 8px; color: #475569; border-bottom: 1.5px solid #cbd5e1;">विवरण / अवधि</th>' +
+                '<th style="padding: 8px; text-align: right; color: #475569; border-bottom: 1.5px solid #cbd5e1;">शुरुआती मूलधन</th>' +
+                '<th style="padding: 8px; text-align: right; color: #d97706; border-bottom: 1.5px solid #cbd5e1;">ब्याज</th>' +
+                '<th style="padding: 8px; text-align: right; color: #16a34a; border-bottom: 1.5px solid #cbd5e1;">नया बैलेंस</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+      breakdown.forEach(function(row) {
+        var bg = row.isYearEnd ? '#fefce8' : '#ffffff';
+        html += 
+          '<tr style="background: ' + bg + ';">' +
+            '<td style="padding: 8px; font-weight: 700; color: #0f172a; border-bottom: 1px solid #e2e8f0;">' + row.period + '</td>' +
+            '<td style="padding: 8px; text-align: right; color: #475569; border-bottom: 1px solid #e2e8f0;">' + formatINR(row.startPrincipal) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 700; color: #d97706; border-bottom: 1px solid #e2e8f0;">+' + formatINR(row.interest) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 800; color: #16a34a; border-bottom: 1px solid #e2e8f0;">' + formatINR(row.endBalance) + '</td>' +
+          '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      container.innerHTML = html;
+    }
+
+    // 📄 Perfect UI-Matched PDF Generator (Full Breakdown Included)
+    async function downloadInterestPDF() {
+      if (!lastInterestResult) return alert('Pehle calculate karein!');
+      var r = lastInterestResult;
+
+      showLoader();
+      
+      var now = new Date();
+      var generatedOn = now.toLocaleString('en-IN', { 
+        day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' 
+      });
+
+      var rowsHTML = '';
+      (r.breakdown || []).forEach(function(row, idx) {
+        var bg = row.isYearEnd ? '#fefce8' : (idx % 2 === 0 ? '#ffffff' : '#f8fafc');
+        rowsHTML += 
+          '<tr style="background: ' + bg + ';">' +
+            '<td style="padding: 8px 6px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + (idx + 1) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 700;">' + row.period + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + formatINR(row.startPrincipal) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #d97706;">+' + formatINR(row.interest) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 800; color: #059669;">' + formatINR(row.endBalance) + '</td>' +
+          '</tr>';
+      });
+
+      var durText = '';
+      if (r.fromDate && r.tillDate) {
+        durText = r.fromDate + ' से ' + r.tillDate + ' (' + r.months + ' महीने, ' + r.days + ' दिन)';
+      } else {
+        durText = r.months + ' महीने, ' + r.days + ' दिन';
+      }
+
+      var rateDisplay = r.cycleType === 'year' 
+        ? (r.rate + '% माह (₹' + r.rate + ' सैकड़ा = ' + (r.rate * 12) + '% सालाना)')
+        : (r.rate + '% प्रति माह (₹' + r.rate + ' सैकड़ा)');
+
+      var pdfContainer = document.createElement('div');
+      pdfContainer.id = 'interestPdfContainer';
+      pdfContainer.style.cssText = 
+        'width: 780px; background: #ffffff; color: #0f172a; padding: 30px; ' +
+        'font-family: "Noto Sans Devanagari", "Hind", Arial, sans-serif; ' +
+        'position: fixed; top: 0; left: -99999px; z-index: 1;';
+
+      pdfContainer.innerHTML = 
+        // Header
+        '<div style="background: #16a34a; color: #ffffff; padding: 18px 20px; border-radius: 8px; margin-bottom: 18px;">' +
+          '<table style="width: 100%; border-collapse: collapse;"><tr>' +
+            '<td style="padding: 0; vertical-align: top;">' +
+              '<div style="font-size: 22px; font-weight: 800;">INTEREST STATEMENT (ब्याज पर्ची)</div>' +
+              '<div style="font-size: 12px; margin-top: 4px; opacity: 0.95;">' + r.calculationMode + '</div>' +
+            '</td>' +
+            '<td style="padding: 0; text-align: right; font-size: 10px; vertical-align: top;">' +
+              '<div style="opacity: 0.85;">GENERATED ON</div>' +
+              '<div style="font-size: 11px; font-weight: 700; margin-top: 3px;">' + generatedOn + '</div>' +
+            '</td>' +
+          '</tr></table>' +
+        '</div>' +
+
+        // Summary Boxes
+        '<div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; margin-bottom: 18px;">' +
+          '<table style="width: 100%; border-collapse: collapse;">' +
+            '<tr>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569; width: 22%;">मूलधन (Principal):</td>' +
+              '<td style="padding: 6px; font-size: 13px; font-weight: 800; color: #0f172a; width: 28%;">' + formatINR(r.principal) + '</td>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569; width: 22%;">ब्याज दर (Rate):</td>' +
+              '<td style="padding: 6px; font-size: 12.5px; font-weight: 800; color: #0f172a; width: 28%;">' + rateDisplay + '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569;">हिसाब अवधि (Time):</td>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #0f172a;" colspan="3">' + durText + '</td>' +
+            '</tr>' +
+          '</table>' +
+
+          '<div style="margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">' +
+            '<table style="width: 100%; border-collapse: collapse;">' +
+              '<tr>' +
+                '<td style="background: #fffbeb; border: 1px solid #fde68a; padding: 10px; border-radius: 6px; text-align: center; width: 48%;">' +
+                  '<div style="font-size: 10px; color: #92400e; font-weight: 700;">कुल ब्याज (TOTAL INTEREST)</div>' +
+                  '<div style="font-size: 18px; color: #d97706; font-weight: 800; margin-top: 3px;">+' + formatINR(r.interest) + '</div>' +
+                '</td>' +
+                '<td style="width: 4%;"></td>' +
+                '<td style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 6px; text-align: center; width: 48%;">' +
+                  '<div style="font-size: 10px; color: #166534; font-weight: 700;">कुल देय राशि (TOTAL AMOUNT)</div>' +
+                  '<div style="font-size: 20px; color: #16a34a; font-weight: 800; margin-top: 3px;">' + formatINR(r.total) + '</div>' +
+                '</td>' +
+              '</tr>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+
+        // Breakdown Table
+        '<div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">हिसाब का पूरा विवरण (BREAKDOWN LEDGER)</div>' +
+        '<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin-bottom: 18px;">' +
+          '<thead>' +
+            '<tr style="background: #334155; color: #ffffff;">' +
+              '<th style="padding: 9px 6px; text-align: center; font-size: 11px; font-weight: 700; width: 6%;">#</th>' +
+              '<th style="padding: 9px 6px; text-align: left; font-size: 11px; font-weight: 700; width: 40%;">विवरण / अवधि</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">शुरुआती मूलधन</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">ब्याज जुड़ा</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">नया बैलेंस</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' + rowsHTML + '</tbody>' +
+        '</table>' +
+
+        // Footer
+        '<div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #cbd5e1; text-align: center;">' +
+          '<div style="font-size: 10px; color: #64748b; font-weight: 600;">Cash Book Pro — Interest Calculator Engine</div>' +
+          '<div style="font-size: 9.5px; color: #94a3b8; margin-top: 2px;">Developed by: Anurag Shakya · 9761414105</div>' +
+        '</div>';
+
+      document.body.appendChild(pdfContainer);
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+        await new Promise(function(resolve) { setTimeout(resolve, 600); });
+
+        var realHeight = pdfContainer.scrollHeight;
+
+        var canvas = await html2canvas(pdfContainer, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+          width: 780,
+          height: realHeight,
+          windowWidth: 780,
+          windowHeight: realHeight
+        });
+
+        document.body.removeChild(pdfContainer);
+
+        var imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const { jsPDF } = window.jspdf;
+        var pdf = new jsPDF('p', 'mm', 'a4');
+
+        var pageW = 210, pageH = 297, margin = 8;
+        var usableW = pageW - margin * 2;
+        var usableH = pageH - margin * 2 - 8;
+
+        var imgFullHeight = (canvas.height * usableW) / canvas.width;
+
+        if (imgFullHeight <= usableH) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, usableW, imgFullHeight);
+        } else {
+          var pxPerMm = canvas.width / usableW;
+          var sliceHeightPx = usableH * pxPerMm;
+          var totalSlices = Math.ceil(canvas.height / sliceHeightPx);
+
+          for (var i = 0; i < totalSlices; i++) {
+            var srcY = i * sliceHeightPx;
+            var srcH = Math.min(sliceHeightPx, canvas.height - srcY);
+            
+            var sliceCanvas = document.createElement('canvas');
+            sliceCanvas.width = canvas.width;
+            sliceCanvas.height = srcH;
+            var ctx = sliceCanvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+            ctx.drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+
+            var sliceData = sliceCanvas.toDataURL('image/jpeg', 0.95);
+            var sliceHeightMm = (srcH * usableW) / canvas.width;
+
+            if (i > 0) pdf.addPage();
+            pdf.addImage(sliceData, 'JPEG', margin, margin, usableW, sliceHeightMm);
+          }
+        }
+
+        var totalPages = pdf.internal.getNumberOfPages();
+        for (var p = 1; p <= totalPages; p++) {
+          pdf.setPage(p);
+          pdf.setDrawColor(203, 213, 225);
+          pdf.setLineWidth(0.2);
+          pdf.line(margin, pageH - 8, pageW - margin, pageH - 8);
+          pdf.setFontSize(7);
+          pdf.setFont('helvetica', 'italic');
+          pdf.setTextColor(100, 116, 139);
+          pdf.text('Developed by: Anurag Shakya  |  9761414105', margin, pageH - 4);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text('Page ' + p + ' of ' + totalPages, pageW - margin, pageH - 4, { align: 'right' });
+        }
+
+        hideLoader();
+
+        var filename = 'Interest_Statement_' + new Date().toISOString().slice(0, 10) + '.pdf';
+
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var pdfBase64 = pdf.output('datauristring').split(',')[1];
+          window.AndroidInterface.downloadBase64File(pdfBase64, filename, "application/pdf");
+        } else {
+          pdf.save(filename);
+        }
+
+      } catch(err) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+        console.error('Interest PDF Error:', err);
+        alert('PDF generate karne me dikkat aayi: ' + err.message);
+      }
+    }
+
+    // 📄 Perfect UI-Matched Interest PDF Generator
+    async function downloadInterestPDF() {
+      if (!lastInterestResult) return alert('Pehle calculate karein!');
+      var r = lastInterestResult;
+
+      showLoader();
+      
+      var now = new Date();
+      var generatedOn = now.toLocaleString('en-IN', { 
+        day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' 
+      });
+
+      var rowsHTML = '';
+      (r.breakdown || []).forEach(function(row, idx) {
+        var bg = row.isYearEnd ? '#fefce8' : (idx % 2 === 0 ? '#ffffff' : '#f8fafc');
+        rowsHTML += 
+          '<tr style="background: ' + bg + ';">' +
+            '<td style="padding: 8px 6px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + (idx + 1) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 700;">' + row.period + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + formatINR(row.startPrincipal) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #d97706;">+' + formatINR(row.interest) + '</td>' +
+            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 800; color: #059669;">' + formatINR(row.endBalance) + '</td>' +
+          '</tr>';
+      });
+
+      var durText = '';
+      if (r.fromDate && r.tillDate) {
+        durText = r.fromDate + ' से ' + r.tillDate + ' (' + r.months + ' महीने, ' + r.days + ' दिन)';
+      } else {
+        durText = r.months + ' महीने, ' + r.days + ' दिन';
+      }
+
+      var pdfContainer = document.createElement('div');
+      pdfContainer.id = 'interestPdfContainer';
+      pdfContainer.style.cssText = 
+        'width: 780px; background: #ffffff; color: #0f172a; padding: 30px; ' +
+        'font-family: "Noto Sans Devanagari", "Hind", Arial, sans-serif; ' +
+        'position: fixed; top: 0; left: -99999px; z-index: 1;';
+
+      pdfContainer.innerHTML = 
+        // Header
+        '<div style="background: #16a34a; color: #ffffff; padding: 18px 20px; border-radius: 8px; margin-bottom: 18px;">' +
+          '<table style="width: 100%; border-collapse: collapse;"><tr>' +
+            '<td style="padding: 0; vertical-align: top;">' +
+              '<div style="font-size: 22px; font-weight: 800;">INTEREST STATEMENT (ब्याज पर्ची)</div>' +
+              '<div style="font-size: 12px; margin-top: 4px; opacity: 0.95;">' + r.calculationMode + '</div>' +
+            '</td>' +
+            '<td style="padding: 0; text-align: right; font-size: 10px; vertical-align: top;">' +
+              '<div style="opacity: 0.85;">GENERATED ON</div>' +
+              '<div style="font-size: 11px; font-weight: 700; margin-top: 3px;">' + generatedOn + '</div>' +
+            '</td>' +
+          '</tr></table>' +
+        '</div>' +
+
+        // Summary Boxes
+        '<div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 14px; margin-bottom: 18px;">' +
+          '<table style="width: 100%; border-collapse: collapse;">' +
+            '<tr>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569; width: 25%;">मूलधन (Principal):</td>' +
+              '<td style="padding: 6px; font-size: 13px; font-weight: 800; color: #0f172a; width: 25%;">' + formatINR(r.principal) + '</td>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569; width: 25%;">ब्याज दर (Rate):</td>' +
+              '<td style="padding: 6px; font-size: 13px; font-weight: 800; color: #0f172a; width: 25%;">' + r.rate + '% (' + (r.ratePer === 'year' ? 'सालाना' : 'मासिक') + ')</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #475569;">हिसाब अवधि (Time):</td>' +
+              '<td style="padding: 6px; font-size: 12px; font-weight: 700; color: #0f172a;" colspan="3">' + durText + '</td>' +
+            '</tr>' +
+          '</table>' +
+
+          '<div style="margin-top: 10px; border-top: 1px dashed #cbd5e1; padding-top: 10px;">' +
+            '<table style="width: 100%; border-collapse: collapse;">' +
+              '<tr>' +
+                '<td style="background: #fffbeb; border: 1px solid #fde68a; padding: 10px; border-radius: 6px; text-align: center; width: 48%;">' +
+                  '<div style="font-size: 10px; color: #92400e; font-weight: 700;">कुल ब्याज (TOTAL INTEREST)</div>' +
+                  '<div style="font-size: 18px; color: #d97706; font-weight: 800; margin-top: 3px;">+' + formatINR(r.interest) + '</div>' +
+                '</td>' +
+                '<td style="width: 4%;"></td>' +
+                '<td style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 6px; text-align: center; width: 48%;">' +
+                  '<div style="font-size: 10px; color: #166534; font-weight: 700;">कुल देय राशि (TOTAL AMOUNT)</div>' +
+                  '<div style="font-size: 20px; color: #16a34a; font-weight: 800; margin-top: 3px;">' + formatINR(r.total) + '</div>' +
+                '</td>' +
+              '</tr>' +
+            '</table>' +
+          '</div>' +
+        '</div>' +
+
+        // Breakdown Table
+        '<div style="font-size: 14px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">हिसाब का पूरा विवरण (BREAKDOWN LEDGER)</div>' +
+        '<table style="width: 100%; border-collapse: collapse; border: 1px solid #cbd5e1; margin-bottom: 18px;">' +
+          '<thead>' +
+            '<tr style="background: #334155; color: #ffffff;">' +
+              '<th style="padding: 9px 6px; text-align: center; font-size: 11px; font-weight: 700; width: 6%;">#</th>' +
+              '<th style="padding: 9px 6px; text-align: left; font-size: 11px; font-weight: 700; width: 40%;">विवरण / अवधि</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">शुरुआती मूलधन</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">ब्याज जुड़ा</th>' +
+              '<th style="padding: 9px 6px; text-align: right; font-size: 11px; font-weight: 700; width: 18%;">नया बैलेंस</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' + rowsHTML + '</tbody>' +
+        '</table>' +
+
+        // Footer
+        '<div style="margin-top: 20px; padding-top: 10px; border-top: 1px solid #cbd5e1; text-align: center;">' +
+          '<div style="font-size: 10px; color: #64748b; font-weight: 600;">Cash Book Pro — Interest Calculator Engine</div>' +
+          '<div style="font-size: 9.5px; color: #94a3b8; margin-top: 2px;">Developed by: Anurag Shakya · 9761414105</div>' +
+        '</div>';
+
+      document.body.appendChild(pdfContainer);
+
+      try {
+        if (document.fonts && document.fonts.ready) {
+          await document.fonts.ready;
+        }
+        await new Promise(function(resolve) { setTimeout(resolve, 600); });
+
+        var realHeight = pdfContainer.scrollHeight;
+
+        var canvas = await html2canvas(pdfContainer, {
+          scale: 2,
+          useCORS: true,
+          allowTaint: true,
+          logging: false,
+          backgroundColor: '#ffffff',
+          width: 780,
+          height: realHeight,
+          windowWidth: 780,
+          windowHeight: realHeight
+        });
+
+        document.body.removeChild(pdfContainer);
+
+        var imgData = canvas.toDataURL('image/jpeg', 0.95);
+        const { jsPDF } = window.jspdf;
+        var pdf = new jsPDF('p', 'mm', 'a4');
+
+        var pageW = 210, pageH = 297, margin = 8;
+        var usableW = pageW - margin * 2;
+        var usableH = pageH - margin * 2 - 8;
+
+        var imgFullHeight = (canvas.height * usableW) / canvas.width;
+
+        if (imgFullHeight <= usableH) {
+          pdf.addImage(imgData, 'JPEG', margin, margin, usableW, imgFullHeight);
+        } else {
+          var pxPerMm = canvas.width / usableW;
+          var sliceHeightPx = usableH * pxPerMm;
+          var totalSlices = Math.ceil(canvas.height / sliceHeightPx);
+
+          for (var i = 0; i < totalSlices; i++) {
+            var srcY = i * sliceHeightPx;
+            var srcH = Math.min(sliceHeightPx, canvas.height - srcY);
+            
+            var sliceCanvas = document.createElement('canvas');
+            sliceCanvas.width = canvas.width;
+            sliceCanvas.height = srcH;
+            var ctx = sliceCanvas.getContext('2d');
+            ctx.fillStyle = '#ffffff';
+            ctx.fillRect(0, 0, sliceCanvas.width, sliceCanvas.height);
+            ctx.drawImage(canvas, 0, srcY, canvas.width, srcH, 0, 0, canvas.width, srcH);
+
+            var sliceData = sliceCanvas.toDataURL('image/jpeg', 0.95);
+            var sliceHeightMm = (srcH * usableW) / canvas.width;
+
+            if (i > 0) pdf.addPage();
+            pdf.addImage(sliceData, 'JPEG', margin, margin, usableW, sliceHeightMm);
+          }
+        }
+
+        var totalPages = pdf.internal.getNumberOfPages();
+        for (var p = 1; p <= totalPages; p++) {
+          pdf.setPage(p);
+          pdf.setDrawColor(203, 213, 225);
+          pdf.setLineWidth(0.2);
+          pdf.line(margin, pageH - 8, pageW - margin, pageH - 8);
+          pdf.setFontSize(7);
+          pdf.setFont('helvetica', 'italic');
+          pdf.setTextColor(100, 116, 139);
+          pdf.text('Developed by: Anurag Shakya  |  9761414105', margin, pageH - 4);
+          pdf.setFont('helvetica', 'normal');
+          pdf.text('Page ' + p + ' of ' + totalPages, pageW - margin, pageH - 4, { align: 'right' });
+        }
+
+        hideLoader();
+
+        var filename = 'Interest_Statement_' + new Date().toISOString().slice(0, 10) + '.pdf';
+
+        if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
+          var pdfBase64 = pdf.output('datauristring').split(',')[1];
+          window.AndroidInterface.downloadBase64File(pdfBase64, filename, "application/pdf");
+        } else {
+          pdf.save(filename);
+        }
+
+      } catch(err) {
+        hideLoader();
+        if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
+        console.error('Interest PDF Error:', err);
+        alert('PDF generate karne me dikkat aayi: ' + err.message);
+      }
+    }
+
+    // 📋 Diary Jaisi Saaf Table
+    function renderDiaryStyleInterestTable(breakdown) {
+      var container = document.getElementById('intMonthWiseContainer');
+      if (!container) return;
+
+      if (!breakdown || breakdown.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      var html = 
+        '<div class="text-uppercase text-muted fw-bold mt-3 mb-2" style="font-size:10px; letter-spacing:0.4px;">' +
+          '<i class="fas fa-book-open me-1 text-primary"></i> डायरी अनुसार सालाना विवरण' +
+        '</div>' +
+        '<div class="table-responsive" style="max-height: 280px; overflow-y: auto; border: 1.5px solid #e2e8f0; border-radius: 10px;">' +
+          '<table class="table table-sm mb-0" style="font-size: 11px;">' +
+            '<thead style="position: sticky; top: 0; background: #f8fafc; z-index: 2;">' +
+              '<tr>' +
+                '<th style="padding: 8px; color: #475569; border-bottom: 1.5px solid #cbd5e1;">अवधि / वर्ष</th>' +
+                '<th style="padding: 8px; text-align: right; color: #475569; border-bottom: 1.5px solid #cbd5e1;">शुरुआती मूलधन</th>' +
+                '<th style="padding: 8px; text-align: right; color: #d97706; border-bottom: 1.5px solid #cbd5e1;">ब्याज जुड़ा</th>' +
+                '<th style="padding: 8px; text-align: right; color: #16a34a; border-bottom: 1.5px solid #cbd5e1;">नया मूलधन</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+      breakdown.forEach(function(row) {
+        var bg = row.isYearEnd ? '#ffffff' : '#f0fdf4';
+        html += 
+          '<tr style="background: ' + bg + ';">' +
+            '<td style="padding: 8px; font-weight: 700; color: #0f172a; border-bottom: 1px solid #e2e8f0;">' + row.period + '</td>' +
+            '<td style="padding: 8px; text-align: right; color: #475569; border-bottom: 1px solid #e2e8f0;">' + formatINR(row.startPrincipal) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 700; color: #d97706; border-bottom: 1px solid #e2e8f0;">+' + formatINR(row.interest) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 800; color: #16a34a; border-bottom: 1px solid #e2e8f0;">' + formatINR(row.endBalance) + '</td>' +
+          '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      container.innerHTML = html;
+    }
+
+    // 📋 Year-wise aur Remaining period ki table render karna
+    function renderYearWiseInterestTable(breakdown) {
+      var container = document.getElementById('intMonthWiseContainer');
+      if (!container) return;
+
+      if (!breakdown || breakdown.length === 0) {
+        container.innerHTML = '';
+        return;
+      }
+
+      var html = 
+        '<div class="text-uppercase text-muted fw-semibold mt-3 mb-2" style="font-size:9.5px; letter-spacing:0.4px;">' +
+          '<i class="fas fa-layer-group me-1 text-primary"></i> Hisab Ka Vivaran (Yearly Cycle)' +
+        '</div>' +
+        '<div class="table-responsive" style="max-height: 280px; overflow-y: auto; border: 1px solid #e2e8f0; border-radius: 10px;">' +
+          '<table class="table table-sm mb-0" style="font-size: 11px;">' +
+            '<thead style="position: sticky; top: 0; background: #f8fafc; z-index: 2;">' +
+              '<tr>' +
+                '<th style="padding: 7px 8px; color: #475569; border-bottom: 1px solid #e2e8f0;">Avadhi</th>' +
+                '<th style="padding: 7px 8px; text-align: right; color: #475569; border-bottom: 1px solid #e2e8f0;">Mooldhan</th>' +
+                '<th style="padding: 7px 8px; text-align: right; color: #d97706; border-bottom: 1px solid #e2e8f0;">Byaaj</th>' +
+                '<th style="padding: 7px 8px; text-align: right; color: #16a34a; border-bottom: 1px solid #e2e8f0;">Naya Mooldhan</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody>';
+
+      breakdown.forEach(function(row) {
+        var bg = row.isYearEnd ? '#ffffff' : '#f0fdf4';
+        html += 
+          '<tr style="background: ' + bg + ';">' +
+            '<td style="padding: 8px; font-weight: 700; color: #0f172a; border-bottom: 1px solid #e2e8f0;">' + row.period + '</td>' +
+            '<td style="padding: 8px; text-align: right; color: #475569; border-bottom: 1px solid #e2e8f0;">' + formatINR(Math.round(row.startPrincipal)) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 700; color: #d97706; border-bottom: 1px solid #e2e8f0;">+' + formatINR(Math.round(row.periodInterest)) + '</td>' +
+            '<td style="padding: 8px; text-align: right; font-weight: 800; color: #16a34a; border-bottom: 1px solid #e2e8f0;">' + formatINR(Math.round(row.endBalance)) + '</td>' +
+          '</tr>';
+      });
+
+      html += '</tbody></table></div>';
+      container.innerHTML = html;
     }
 
     // 📋 Month-wise breakdown table render करें (UI में)
@@ -10244,7 +11926,8 @@ function getCustomCategoriesKey() {
       container.innerHTML = html;
     }
 
-           async function downloadInterestPDF() {
+// 📄 Perfect UI-Matched Interest PDF Generator (Fixed: Exact UI Match & No Undefined)
+    async function downloadInterestPDF() {
       if (!lastInterestResult) return alert('Pehle calculate karein!');
       var r = lastInterestResult;
 
@@ -10252,151 +11935,133 @@ function getCustomCategoriesKey() {
       
       var now = new Date();
       var generatedOn = now.toLocaleString('en-IN', { 
-        day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' 
+        day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true 
       });
 
-      // Build month-wise rows
-      var monthWiseRowsHTML = '';
-      var monthWise = r.monthWise || [];
-      
-      monthWise.forEach(function(row, idx) {
-        var bgColor = row.isPartial ? '#fffbeb' : (idx % 2 === 0 ? '#ffffff' : '#f8fafc');
-        monthWiseRowsHTML += 
-          '<tr style="background: ' + bgColor + ';">' +
-            '<td style="padding: 8px 6px; text-align: center; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + (idx + 1) + '</td>' +
-            '<td style="padding: 8px 6px; text-align: left; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 600;">' +
-              row.label + 
-              (row.isPartial ? ' <span style="font-size: 9px; color: #d97706;">(' + row.days + ' din)</span>' : '') +
-            '</td>' +
-            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px;">' + formatINR(row.principal) + '</td>' +
-            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 600; color: #d97706;">' + formatINR(row.interest) + '</td>' +
-            '<td style="padding: 8px 6px; text-align: right; border-bottom: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #059669;">' + formatINR(row.total) + '</td>' +
-          '</tr>';
-      });
+      // 1. UI jaisi puri Breakdown Table Rows banayein
+      var rowsHTML = '';
+      if (r.breakdown && r.breakdown.length > 0) {
+        r.breakdown.forEach(function(row, idx) {
+          var bg = row.isYearEnd ? '#fefce8' : (idx % 2 === 0 ? '#ffffff' : '#f8fafc');
+          rowsHTML += 
+            '<tr style="background: ' + bg + ';">' +
+              '<td style="padding: 9px 8px; text-align: left; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 700; color: #0f172a;">' + row.period + '</td>' +
+              '<td style="padding: 9px 8px; text-align: right; border: 1px solid #cbd5e1; font-size: 11px; color: #475569;">' + formatINR(row.startPrincipal) + '</td>' +
+              '<td style="padding: 9px 8px; text-align: right; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 700; color: #d97706;">+' + formatINR(row.interest) + '</td>' +
+              '<td style="padding: 9px 8px; text-align: right; border: 1px solid #cbd5e1; font-size: 11px; font-weight: 800; color: #16a34a;">' + formatINR(row.endBalance) + '</td>' +
+            '</tr>';
+        });
+      }
 
       var durText = '';
-      if (r.months > 0) durText += r.months + ' mahine ';
-      if (r.days > 0) durText += r.days + ' din ';
-      durText += '(' + r.totalDays + ' din total)';
+      if (r.fromDate && r.tillDate) {
+        durText = r.fromDate + ' से ' + r.tillDate + ' (' + r.months + ' महीने, ' + r.days + ' दिन)';
+      } else {
+        durText = r.months + ' महीने, ' + r.days + ' दिन';
+      }
 
-      // ✅ Container — पहले screen पर invisible रखेंगे
+      // Safe Rate Text (No 'undefined')
+      var rateText = '₹' + r.rate + ' सैकड़ा (' + r.rate + '% प्रति माह)';
+      if (r.cycleType === 'year') {
+        rateText += ' • ' + (r.rate * 12) + '% सालाना';
+      }
+
+      var typeBadgeTitle = r.isCompound ? 'चक्रवृद्धि / पलट हिसाब (Compound)' : 'साधारण ब्याज (Simple Interest)';
+
+      // 2. Offscreen Container banayein
       var pdfContainer = document.createElement('div');
-      pdfContainer.id = 'interestPdfContainer';
+      pdfContainer.id = 'interestPdfRenderBox';
       pdfContainer.style.cssText = 
-        'width: 780px; ' +
-        'background: #ffffff; ' +
-        'color: #0f172a; ' +
-        'padding: 30px; ' +
+        'width: 780px; background: #ffffff; color: #0f172a; padding: 26px; ' +
         'font-family: "Noto Sans Devanagari", "Hind", Arial, sans-serif; ' +
-        'position: fixed; ' +
-        'top: 0; ' +
-        'left: 0; ' +
-        'z-index: -1; ' +
-        'opacity: 0.01;'; // ← पूरी तरह 0 नहीं, वरना html2canvas skip कर देता है
+        'position: fixed; top: 0; left: -99999px; z-index: 1;';
 
       pdfContainer.innerHTML = 
-        // Header
-        '<div style="background: #059669; color: #ffffff; padding: 16px 20px; border-radius: 8px; margin-bottom: 20px;">' +
+        // 🟢 Header (UI ke Green Theme jaisa)
+        '<div style="background: linear-gradient(135deg, #16a34a 0%, #15803d 100%); color: #ffffff; padding: 18px 20px; border-radius: 10px; margin-bottom: 16px;">' +
           '<table style="width: 100%; border-collapse: collapse;"><tr>' +
-            '<td style="padding: 0; vertical-align: top;">' +
-              '<div style="font-size: 20px; font-weight: 700;">INTEREST CALCULATION</div>' +
-              '<div style="font-size: 12px; margin-top: 4px; opacity: 0.9;">' + (r.compound ? 'Compound Interest (Chakravridhi)' : 'Simple Interest') + '</div>' +
+            '<td style="padding: 0; vertical-align: middle;">' +
+              '<div style="font-size: 20px; font-weight: 800; letter-spacing: 0.3px;">INTEREST STATEMENT (ब्याज पर्ची)</div>' +
+              '<div style="font-size: 11.5px; margin-top: 4px; opacity: 0.95;">' + (r.calculationMode || typeBadgeTitle) + '</div>' +
             '</td>' +
-            '<td style="padding: 0; text-align: right; font-size: 10px; vertical-align: top;">' +
-              '<div style="opacity: 0.85;">GENERATED ON</div>' +
-              '<div style="font-size: 11px; font-weight: 700; margin-top: 3px;">' + generatedOn + '</div>' +
+            '<td style="padding: 0; text-align: right; font-size: 10px; vertical-align: middle;">' +
+              '<div style="opacity: 0.85; font-weight: 600;">GENERATED ON</div>' +
+              '<div style="font-size: 11.5px; font-weight: 700; margin-top: 3px;">' + generatedOn + '</div>' +
             '</td>' +
           '</tr></table>' +
         '</div>' +
 
-        // Section 1: Calculation Details
-        '<div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">CALCULATION DETAILS</div>' +
-        '<table style="width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 24px; border: 1px solid #cbd5e1;">' +
-          '<tr style="background: #f8fafc;">' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #475569; width: 40%;">Principal Amount</td>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-size: 12px; font-weight: 700; color: #0f172a;">' + formatINR(r.principal) + '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #475569;">Interest Rate</td>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-size: 12px; font-weight: 700; color: #0f172a;">' + r.rate + '% per ' + r.ratePer + '</td>' +
-          '</tr>' +
-          '<tr style="background: #f8fafc;">' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #475569;">Duration</td>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-size: 12px; font-weight: 700; color: #0f172a;">' + durText + '</td>' +
-          '</tr>' +
-          '<tr>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; font-size: 11px; font-weight: 700; color: #475569;">Calculation Type</td>' +
-            '<td style="padding: 10px; border: 1px solid #e2e8f0; text-align: right; font-size: 12px; font-weight: 700; color: #0f172a;">' + (r.compound ? 'Compound (Chakravridhi)' : 'Simple') + '</td>' +
-          '</tr>' +
-        '</table>' +
+        // 📋 Summary Box (UI jaisa exact layout)
+        '<div style="background: #f8fafc; border: 1.5px solid #cbd5e1; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px;">' +
+          '<div style="font-size: 11px; font-weight: 800; color: #64748b; letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 10px;">CALCULATION SUMMARY</div>' +
+          
+          '<table style="width: 100%; border-collapse: collapse; margin-bottom: 12px;">' +
+            '<tr>' +
+              '<td style="width: 48%; padding: 4px 0;">' +
+                '<span style="font-size: 11px; color: #64748b; font-weight: 600;">मूलधन (Principal): </span>' +
+                '<strong style="font-size: 13px; color: #0f172a;">' + formatINR(r.principal) + '</strong>' +
+              '</td>' +
+              '<td style="width: 4%;"></td>' +
+              '<td style="width: 48%; padding: 4px 0;">' +
+                '<span style="font-size: 11px; color: #64748b; font-weight: 600;">ब्याज दर (Rate): </span>' +
+                '<strong style="font-size: 12.5px; color: #0f172a;">' + rateText + '</strong>' +
+              '</td>' +
+            '</tr>' +
+            '<tr>' +
+              '<td colspan="3" style="padding: 4px 0;">' +
+                '<span style="font-size: 11px; color: #64748b; font-weight: 600;">हिसाब अवधि (Duration): </span>' +
+                '<strong style="font-size: 12px; color: #0f172a;">' + durText + '</strong>' +
+              '</td>' +
+            '</tr>' +
+          '</table>' +
 
-        // Section 2: Month-wise breakdown
-        (monthWise.length > 0 ? 
-          '<div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">MONTH-WISE BREAKDOWN</div>' +
-          '<table style="width: 100%; border-collapse: collapse; table-layout: fixed; margin-bottom: 24px; border: 1px solid #cbd5e1;">' +
-            '<thead>' +
-              '<tr style="background: #d97706; color: #ffffff;">' +
-                '<th style="padding: 10px 6px; text-align: center; font-size: 11px; font-weight: 700; border: 1px solid #d97706; width: 6%;">#</th>' +
-                '<th style="padding: 10px 6px; text-align: left; font-size: 11px; font-weight: 700; border: 1px solid #d97706; width: 24%;">Period</th>' +
-                '<th style="padding: 10px 6px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #d97706; width: 23%;">Amount</th>' +
-                '<th style="padding: 10px 6px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #d97706; width: 23%;">Interest</th>' +
-                '<th style="padding: 10px 6px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #d97706; width: 24%;">Total</th>' +
-              '</tr>' +
-            '</thead>' +
-            '<tbody>' + monthWiseRowsHTML + '</tbody>' +
-          '</table>'
-        : '') +
-
-        // Section 3: Final Result
-        '<div style="font-size: 14px; font-weight: 700; color: #0f172a; margin-bottom: 10px;">FINAL RESULT</div>' +
-        '<table style="width: 100%; border-collapse: collapse; table-layout: fixed; border: 1px solid #cbd5e1;">' +
-          '<tr style="background: #fef3c7;">' +
-            '<td style="padding: 12px; border: 1px solid #fde68a; font-size: 12px; font-weight: 700; color: #92400e; width: 50%;">Interest Amount</td>' +
-            '<td style="padding: 12px; border: 1px solid #fde68a; text-align: right; font-size: 14px; font-weight: 700; color: #d97706;">' + formatINR(r.interest) + '</td>' +
-          '</tr>' +
-          '<tr style="background: #d1fae5;">' +
-            '<td style="padding: 14px; border: 1px solid #a7f3d0; font-size: 13px; font-weight: 700; color: #065f46;">TOTAL AMOUNT</td>' +
-            '<td style="padding: 14px; border: 1px solid #a7f3d0; text-align: right; font-size: 18px; font-weight: 800; color: #059669;">' + formatINR(r.total) + '</td>' +
-          '</tr>' +
-        '</table>' +
-
-        // Formula Note
-        '<div style="margin-top: 20px; padding: 12px; background: #f8fafc; border-radius: 6px; border: 1px dashed #cbd5e1;">' +
-          '<div style="font-size: 11px; color: #64748b; font-style: italic;">' +
-            (r.compound ? 'Formula: A = P × (1 + r)^n  (Compound Interest)' : 'Formula: I = P × r × n  (Simple Interest)') +
-          '</div>' +
+          // 2 Badi Highlight Patti
+          '<table style="width: 100%; border-collapse: collapse; border-top: 1px dashed #cbd5e1; padding-top: 10px;">' +
+            '<tr>' +
+              '<td style="background: #fffbeb; border: 1.5px solid #fde68a; padding: 10px 14px; border-radius: 8px; text-align: center; width: 48%;">' +
+                '<div style="font-size: 10px; color: #92400e; font-weight: 700;">कुल ब्याज (TOTAL INTEREST)</div>' +
+                '<div style="font-size: 20px; color: #d97706; font-weight: 800; margin-top: 2px;">+' + formatINR(r.interest) + '</div>' +
+              '</td>' +
+              '<td style="width: 4%;"></td>' +
+              '<td style="background: #f0fdf4; border: 1.5px solid #bbf7d0; padding: 10px 14px; border-radius: 8px; text-align: center; width: 48%;">' +
+                '<div style="font-size: 10px; color: #166534; font-weight: 700;">कुल देय राशि (TOTAL AMOUNT)</div>' +
+                '<div style="font-size: 22px; color: #16a34a; font-weight: 800; margin-top: 2px;">' + formatINR(r.total) + '</div>' +
+              '</td>' +
+            '</tr>' +
+          '</table>' +
         '</div>' +
 
-        // Footer
-        '<div style="margin-top: 20px; padding-top: 12px; border-top: 1px solid #cbd5e1; text-align: center;">' +
-          '<div style="font-size: 10px; color: #64748b; font-weight: 600;">Cash Book Pro — Interest Calculator</div>' +
-          '<div style="font-size: 10px; color: #94a3b8; margin-top: 4px;">Developed by: Anurag Shakya · 9761414105</div>' +
+        // 📊 ब्याज गणना का पूरा विवरण Table
+        '<div style="font-size: 12.5px; font-weight: 800; color: #0f172a; margin-bottom: 8px;">' +
+          '<i class="fas fa-calculator" style="color:#16a34a; margin-right:5px;"></i> ब्याज गणना का पूरा विवरण (BREAKDOWN LEDGER)' +
+        '</div>' +
+        '<table style="width: 100%; border-collapse: collapse; border: 1.5px solid #cbd5e1; margin-bottom: 20px;">' +
+          '<thead>' +
+            '<tr style="background: #334155; color: #ffffff;">' +
+              '<th style="padding: 10px 8px; text-align: left; font-size: 11px; font-weight: 700; border: 1px solid #334155; width: 40%;">अवधि / वर्ष</th>' +
+              '<th style="padding: 10px 8px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #334155; width: 20%;">शुरुआती मूलधन</th>' +
+              '<th style="padding: 10px 8px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #334155; width: 20%;">ब्याज जुड़ा</th>' +
+              '<th style="padding: 10px 8px; text-align: right; font-size: 11px; font-weight: 700; border: 1px solid #334155; width: 20%;">नया मूलधन / बैलेंस</th>' +
+            '</tr>' +
+          '</thead>' +
+          '<tbody>' + (rowsHTML || '<tr><td colspan="4" style="padding:12px; text-align:center; color:#64748b;">विवरण उपलब्ध नहीं है</td></tr>') + '</tbody>' +
+        '</table>' +
+
+        // 👨‍💻 Footer
+        '<div style="border-top: 1px solid #cbd5e1; padding-top: 10px; text-align: center;">' +
+          '<div style="font-size: 10px; color: #64748b; font-weight: 600;">Cash Book Pro — Interest Calculator Engine</div>' +
+          '<div style="font-size: 9.5px; color: #94a3b8; margin-top: 2px;">Developed by: Anurag Shakya · 9761414105</div>' +
         '</div>';
 
       document.body.appendChild(pdfContainer);
 
       try {
-        // Font load हो चुका है या नहीं
         if (document.fonts && document.fonts.ready) {
           await document.fonts.ready;
         }
-        
-        // ⏳ Wait for render — 600ms
         await new Promise(function(resolve) { setTimeout(resolve, 600); });
 
-        // असली height निकालें
         var realHeight = pdfContainer.scrollHeight;
-        
-        // अगर height 0 है, तो कुछ गड़बड़ है — default दे दें
-        if (!realHeight || realHeight < 100) {
-          realHeight = 1000;
-        }
-
-        // 🎯 Canvas बनाएँ — visibility थोड़ी बढ़ाकर (ताकि html2canvas properly render करे)
-        pdfContainer.style.opacity = '1';
-        pdfContainer.style.zIndex = '99999';
-        
-        await new Promise(function(resolve) { setTimeout(resolve, 100); });
 
         var canvas = await html2canvas(pdfContainer, {
           scale: 2,
@@ -10407,9 +12072,7 @@ function getCustomCategoriesKey() {
           width: 780,
           height: realHeight,
           windowWidth: 780,
-          windowHeight: realHeight,
-          scrollX: 0,
-          scrollY: 0
+          windowHeight: realHeight
         });
 
         document.body.removeChild(pdfContainer);
@@ -10418,9 +12081,7 @@ function getCustomCategoriesKey() {
         const { jsPDF } = window.jspdf;
         var pdf = new jsPDF('p', 'mm', 'a4');
 
-        var pageW = 210;
-        var pageH = 297;
-        var margin = 8;
+        var pageW = 210, pageH = 297, margin = 8;
         var usableW = pageW - margin * 2;
         var usableH = pageH - margin * 2 - 8;
 
@@ -10453,7 +12114,6 @@ function getCustomCategoriesKey() {
           }
         }
 
-        // Footer on all pages
         var totalPages = pdf.internal.getNumberOfPages();
         for (var p = 1; p <= totalPages; p++) {
           pdf.setPage(p);
@@ -10470,7 +12130,7 @@ function getCustomCategoriesKey() {
 
         hideLoader();
 
-        var filename = 'Interest_Calculation_' + new Date().toISOString().slice(0,10) + '.pdf';
+        var filename = 'Interest_Statement_' + new Date().toISOString().slice(0, 10) + '.pdf';
 
         if (window.AndroidInterface && window.AndroidInterface.downloadBase64File) {
           var pdfBase64 = pdf.output('datauristring').split(',')[1];
@@ -10483,7 +12143,7 @@ function getCustomCategoriesKey() {
         hideLoader();
         if (pdfContainer.parentNode) document.body.removeChild(pdfContainer);
         console.error('Interest PDF Error:', err);
-        alert('Interest PDF generate karne me dikkat: ' + err.message);
+        alert('PDF generate karne me dikkat aayi: ' + err.message);
       }
     }
 
@@ -10958,16 +12618,16 @@ function getCustomCategoriesKey() {
 
   <!-- 📊 Modal: Interest Calculator -->
   <div class="modal fade" id="interestModal" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content border-0 shadow-lg rounded-4">
-        <div class="modal-header border-0 pb-2">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 92vh;">
+      <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+        <div class="modal-header border-0 pb-2" style="background:#f0fdf4;">
           <div class="d-flex align-items-center gap-2 w-100">
-            <div style="width:38px; height:38px; background:#ecfdf5; color:#059669; border-radius:10px; display:flex; align-items:center; justify-content:center;">
+            <div style="width:38px; height:38px; background:#16a34a; color:#ffffff; border-radius:10px; display:flex; align-items:center; justify-content:center;">
               <i class="fas fa-percent" style="font-size:15px;"></i>
             </div>
             <div class="flex-grow-1">
               <div class="fw-bold text-dark" style="font-size:14px;">Interest Calculator</div>
-              <div class="text-muted" style="font-size:10px;">Chakravridhi (Compound) Support</div>
+              <div class="text-muted" style="font-size:10px;">Commercial Interest Ledger</div>
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
           </div>
@@ -10975,75 +12635,108 @@ function getCustomCategoriesKey() {
         <div class="modal-body p-3">
 
           <div class="mb-2">
-            <label class="form-label fw-semibold" style="font-size:11px;">Amount (₹):</label>
-            <input type="number" id="intAmount" class="form-control rounded-3" placeholder="0.00" style="font-size:13px;">
+            <label class="form-label fw-semibold" style="font-size:11px;">Mooldhan / Amount (₹):</label>
+            <input type="number" id="intAmount" class="form-control rounded-3" placeholder="e.g. 17000" style="font-size:13px; font-weight:700;">
           </div>
 
           <div class="row g-2 mb-2">
             <div class="col-6">
-              <label class="form-label fw-semibold" style="font-size:11px;">Interest Rate (%):</label>
-              <input type="number" id="intRate" class="form-control rounded-3" placeholder="e.g. 2" style="font-size:13px;">
+              <label class="form-label fw-semibold" style="font-size:11px;">Byaaj Dar (मासिक दर / % प्रतिमाह):</label>
+              <div class="input-group">
+                <input type="number" step="0.01" id="intRate" class="form-control rounded-start-3" placeholder="e.g. 3" style="font-size:13px; font-weight:700;">
+                <span class="input-group-text bg-light text-muted fw-bold" style="font-size:11px;">% माह</span>
+              </div>
+              <small class="text-muted" id="intRateHelpText" style="font-size:9.5px;">₹3 सैकड़ा = 3% प्रतिमाह</small>
             </div>
             <div class="col-6">
-              <label class="form-label fw-semibold" style="font-size:11px;">Rate Per:</label>
-              <select id="intRatePer" class="form-select rounded-3" style="font-size:12px;">
-                <option value="month">Monthly</option>
-                <option value="year">Yearly</option>
+              <label class="form-label fw-semibold" style="font-size:11px;">Hisab Ka Prakar (Cycle):</label>
+              <select id="intRatePer" class="form-select rounded-3" style="font-size:12px; font-weight:700;" onchange="onRateTypeChanged()">
+                <option value="year">सालाना हिसाब (Yearly Cycle)</option>
+                <option value="month">मासिक हिसाब (Monthly Cycle)</option>
               </select>
             </div>
           </div>
 
-          <div class="row g-2 mb-3">
+          <!-- 📅 From Date & Till Date Inputs -->
+          <div class="row g-2 mb-2">
+            <div class="col-6">
+              <label class="form-label fw-semibold" style="font-size:11px;">From Date (दिनांक से):</label>
+              <input type="date" id="intFromDate" class="form-control rounded-3" style="font-size:12px;" onchange="calculateDurationFromDates()">
+            </div>
+            <div class="col-6">
+              <label class="form-label fw-semibold" style="font-size:11px;">Till Date (दिनांक तक):</label>
+              <input type="date" id="intTillDate" class="form-control rounded-3" style="font-size:12px;" onchange="calculateDurationFromDates()">
+            </div>
+          </div>
+
+          <div class="row g-2 mb-2">
             <div class="col-6">
               <label class="form-label fw-semibold" style="font-size:11px;">Duration (Months):</label>
-              <input type="number" id="intMonths" class="form-control rounded-3" placeholder="0" min="0" style="font-size:13px;">
+              <input type="number" id="intMonths" class="form-control rounded-3" placeholder="0" min="0" style="font-size:13px; font-weight:600;">
             </div>
             <div class="col-6">
               <label class="form-label fw-semibold" style="font-size:11px;">Extra Days:</label>
-              <input type="number" id="intDays" class="form-control rounded-3" placeholder="0" min="0" max="30" style="font-size:13px;">
+              <input type="number" id="intDays" class="form-control rounded-3" placeholder="0" min="0" max="31" style="font-size:13px; font-weight:600;">
             </div>
           </div>
 
-          <div class="form-check mb-3" style="font-size:12px;">
-            <input class="form-check-input" type="checkbox" id="intCompound">
-            <label class="form-check-label fw-semibold" for="intCompound">
-              Chakravridhi Vyaz (Compound Interest)
+          <!-- 🔘 Method Selection (Simple vs Compound) Dono Mode Ke Liye -->
+          <div class="p-2 rounded-3 mb-3" style="background:#f0fdf4; border:1.5px solid #bbf7d0;">
+            <label class="fw-bold text-success d-block mb-1" style="font-size:11.5px;">
+              <i class="fas fa-sliders me-1"></i> Byaaj Ganana Vidhi (Interest Method):
             </label>
+            <div class="d-flex gap-3">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="interestCalcMethod" id="intMethodSimple" value="simple">
+                <label class="form-check-label fw-bold" for="intMethodSimple" style="font-size:11.5px; color:#0f172a;">
+                  साधारण ब्याज (Simple)
+                </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="interestCalcMethod" id="intMethodCompound" value="compound" checked>
+                <label class="form-check-label fw-bold" for="intMethodCompound" style="font-size:11.5px; color:#0f172a;">
+                  चक्रवृद्धि / पलट (Compound)
+                </label>
+              </div>
+            </div>
+            <small class="d-block text-muted mt-1" id="intMethodExplanation" style="font-size:9.5px;">
+              सालाना चक्र में हर 12 महीने बाद ब्याज जुड़कर नया मूलधन बनेगा।
+            </small>
           </div>
 
-          <button class="btn btn-success w-100 fw-semibold rounded-3" style="font-size:12px;" onclick="calculateInterest()">
+          <button class="btn btn-success w-100 fw-bold rounded-3 py-2 shadow-sm" style="font-size:13px;" onclick="calculateInterest()">
             <i class="fas fa-calculator me-1"></i> Calculate Interest
           </button>
 
           <div id="intResult" class="mt-3 d-none">
             <div class="p-3 rounded-3 text-center" style="background:#f8fafc; border:1px solid var(--border-subtle);">
-              <div class="text-uppercase text-muted fw-semibold mb-2" style="font-size:9px; letter-spacing:0.4px;">Result</div>
+              <div class="text-uppercase text-muted fw-semibold mb-2" style="font-size:9px; letter-spacing:0.4px;">Calculation Summary</div>
               <div class="row text-center g-2 mb-2">
                 <div class="col-6">
-                  <div class="text-muted" style="font-size:9px;">Principal</div>
+                  <div class="text-muted" style="font-size:9px;">Mooldhan (Principal)</div>
                   <div class="fw-bold text-dark" id="intPrincipal" style="font-size:13px;">₹0</div>
                 </div>
                 <div class="col-6">
-                  <div class="text-muted" style="font-size:9px;">Interest</div>
+                  <div class="text-muted" style="font-size:9px;">Kul Byaaj (Interest)</div>
                   <div class="fw-bold text-warning" id="intInterest" style="font-size:13px;">₹0</div>
                 </div>
               </div>
               <div style="border-top:1px dashed #cbd5e1; padding-top:8px;">
-                <div class="text-muted" style="font-size:9px;">Total Amount</div>
-                <div class="fw-bold text-success" id="intTotal" style="font-size:18px;">₹0</div>
+                <div class="text-muted" style="font-size:9px;">Kul Dhan (Total Amount)</div>
+                <div class="fw-bold text-success" id="intTotal" style="font-size:19px;">₹0</div>
               </div>
-              <div class="text-muted mt-2" style="font-size:9px;" id="intDuration">Duration: 0 din</div>
+              <div class="text-muted mt-2 fw-semibold" style="font-size:9.5px;" id="intDuration">Avadhi: 0 din</div>
             </div>
 
-            <!-- 📋 Month-wise Breakdown Table -->
+            <!-- 📋 Breakdown Table Container -->
             <div id="intMonthWiseContainer"></div>
 
             <div class="d-flex gap-2 mt-3">
-              <button class="btn btn-outline-danger flex-grow-1 rounded-3 fw-semibold" style="font-size:11px;" onclick="downloadInterestPDF()">
-                <i class="fas fa-file-pdf me-1"></i> PDF
+              <button class="btn btn-outline-danger flex-grow-1 rounded-3 fw-bold py-2" style="font-size:11.5px;" onclick="downloadInterestPDF()">
+                <i class="fas fa-file-pdf me-1"></i> Download PDF
               </button>
-              <button class="btn btn-outline-success flex-grow-1 rounded-3 fw-semibold" style="font-size:11px;" onclick="shareInterestSMS()">
-                <i class="fas fa-sms me-1"></i> SMS
+              <button class="btn btn-outline-success flex-grow-1 rounded-3 fw-bold py-2" style="font-size:11.5px;" onclick="shareInterestSMS()">
+                <i class="fas fa-sms me-1"></i> Share SMS
               </button>
             </div>
           </div>
@@ -11137,12 +12830,93 @@ function getCustomCategoriesKey() {
   </div>
 
   <!-- Modal: Full Screen Photo Lightbox Preview -->
+    <!-- Modal: Full Screen Photo Lightbox Preview -->
   <div class="modal fade" id="imagePreviewModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
       <div class="modal-content bg-transparent border-0">
         <div class="modal-body text-center p-0 position-relative">
           <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-3 z-3" data-bs-dismiss="modal"></button>
           <img id="lightboxImage" src="" referrerpolicy="no-referrer" class="img-fluid rounded-4 shadow-lg" style="max-height: 85vh; object-fit: contain;" alt="Bill Preview">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 💾 MODAL: Backup & Restore (MOVED HERE — was broken inside <style>) -->
+  <div class="modal fade" id="backupModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable" style="max-height: 90vh;">
+      <div class="modal-content border-0 shadow-lg rounded-4">
+        <div class="modal-header border-0 pb-2" style="background:linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
+          <div class="d-flex align-items-center gap-2 w-100">
+            <div style="width:40px; height:40px; background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; border-radius:11px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 12px rgba(59,130,246,0.3);">
+              <i class="fas fa-cloud-upload-alt" style="font-size:16px;"></i>
+            </div>
+            <div class="flex-grow-1">
+              <div class="fw-bold text-dark" style="font-size:14px;">Backup & Restore</div>
+              <div class="text-muted" style="font-size:10px;">Safeguard your financial data</div>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+        </div>
+
+        <div class="modal-body p-3">
+          <div class="p-3 mb-3 rounded-3" style="background:#f0f9ff; border:1px solid #bae6fd;">
+            <div class="d-flex gap-2">
+              <i class="fas fa-shield-halved text-primary mt-1" style="font-size:14px;"></i>
+              <div style="font-size:11px; line-height:1.6; color:#075985;">
+                <b>Why backup?</b> Your data stays on Google Sheets, but a local JSON backup ensures you can restore everything even if something goes wrong.
+              </div>
+            </div>
+          </div>
+
+          <div class="p-3 mb-3 rounded-3" style="background:#f8fafc; border:1px solid #e2e8f0;">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Manual Backup</span>
+              <span class="fw-bold text-dark" style="font-size:11px;" id="lastManualBackupText">Never</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Last Auto Backup</span>
+              <span class="fw-bold text-success" style="font-size:11px;" id="lastAutoBackupText">Not yet</span>
+            </div>
+            <div class="d-flex justify-content-between align-items-center">
+              <span class="text-uppercase text-muted fw-semibold" style="font-size:9px; letter-spacing:0.5px;">Next Auto Backup</span>
+              <span class="fw-bold text-primary" style="font-size:11px;" id="nextAutoBackupText">Within 24 hours</span>
+            </div>
+          </div>
+
+          <div class="p-3 mb-3 rounded-3" style="background:#fefce8; border:1px solid #fde68a;">
+            <div class="form-check form-switch d-flex align-items-center" style="padding-left:0;">
+              <input class="form-check-input me-2" type="checkbox" id="autoBackupToggle" 
+                     onchange="toggleAutoBackup(this.checked)" 
+                     style="width:38px; height:20px; margin-top:0; cursor:pointer;">
+              <label class="form-check-label flex-grow-1" for="autoBackupToggle" style="cursor:pointer;">
+                <div class="fw-bold text-dark" style="font-size:12px;">Auto Backup</div>
+                <div class="text-muted" style="font-size:10px;">Download backup file every 24 hours</div>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn w-100 mb-2 rounded-3 fw-bold" 
+                  onclick="downloadBackupJSON()"
+                  style="background:linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%); color:#ffffff; padding:12px; font-size:13px; box-shadow:0 8px 20px rgba(59,130,246,0.35);">
+            <i class="fas fa-download me-2"></i> Download Backup (JSON)
+          </button>
+
+          <label for="restoreBackupInput" 
+                 class="btn w-100 rounded-3 fw-bold mb-0" 
+                 style="background:rgba(15,23,42,0.06); color:#0f172a; padding:12px; font-size:13px; border:1.5px dashed #cbd5e1; cursor:pointer;">
+            <i class="fas fa-upload me-2"></i> Restore from Backup
+          </label>
+          <input type="file" id="restoreBackupInput" accept=".json,application/json" class="d-none" onchange="restoreFromBackupFile(this)">
+
+          <div class="mt-3 p-2 rounded-2" style="background:#fef2f2; border:1px solid #fecaca;">
+            <div class="d-flex gap-2">
+              <i class="fas fa-exclamation-triangle text-danger" style="font-size:12px; margin-top:1px;"></i>
+              <div style="font-size:10px; color:#991b1b; line-height:1.5;">
+                <b>Important:</b> Restore will <b>replace</b> all current data with the backup file. Always keep backups in a safe place.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
