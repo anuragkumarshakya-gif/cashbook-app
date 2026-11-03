@@ -7982,8 +7982,9 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
     }
 
     function handleUserLogin() {
-      var u = document.getElementById('loginUsername').value;
-      var p = document.getElementById('loginPassword').value;
+      var u = (document.getElementById('loginUsername').value || '').trim();
+      var p = (document.getElementById('loginPassword').value || '').trim();
+      var btn = document.querySelector('#loginFormView .btn-auth-primary');
 
       if (!u || !p) {
         return showCustomAlert({
@@ -7994,6 +7995,14 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
         });
       }
 
+      // 🔥 बटन पर तुरंत स्पिनर और लोडिंग एनिमेशन सेट करें
+      if (btn) {
+        btn.disabled = true;
+        btn.dataset.origHtml = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Verifying & Signing In...';
+        btn.style.opacity = '0.85';
+      }
+
       showLoader();
       apiFetch({
         action: 'loginUser',
@@ -8002,6 +8011,11 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
       .then(res => res.json())
       .then(res => {
         hideLoader();
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = btn.dataset.origHtml || '<i class="fas fa-shield-alt me-1"></i> Sign In Securely';
+          btn.style.opacity = '1';
+        }
         if (res.success) {
           // 🛡️ CRITICAL: Login पर पहले पुराना cache clear करें
           var keysToRemove = [];
@@ -8130,6 +8144,11 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
       })
       .catch(err => { 
         hideLoader(); 
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = btn.dataset.origHtml || '<i class="fas fa-shield-alt me-1"></i> Sign In Securely';
+          btn.style.opacity = '1';
+        }
         console.error('Login error:', err);
         showCustomAlert({
           type: 'error',
@@ -8314,8 +8333,6 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
 
     // WebAuthn helper — सिर्फ browser के लिए
     function proceedWithWebAuthn() {
-      showLoader();
-      
       var publicKeyCredentialRequestOptions = {
         challenge: new Uint8Array([1, 2, 3, 4, 5, 6, 7, 8]),
         timeout: 60000,
@@ -8350,19 +8367,31 @@ options += '<option value="' + acc.name + '">' + colorEmojis[emojiIndex] + ' ' +
     };
 
     function unlockAppSuccess() {
+      // ⚡ STEP 1: पहले इंस्टेंटली लॉक स्क्रीन को पूरी तरह हटाएँ (Zero Delay)
+      var lockScreen = document.getElementById('lockScreen');
+      if (lockScreen) {
+        lockScreen.style.display = 'none';
+        lockScreen.classList.add('d-none');
+      }
+      hideLoader();
+
       localStorage.removeItem('cashbook_is_app_locked');
       appBackgroundTimestamp = null;
-      var lockScreen = document.getElementById('lockScreen');
-      if (lockScreen) lockScreen.classList.add('d-none');
+
+      // ⚡ STEP 2: UI हेडर और कैश से हल्का डाटा तुरंत लोड करें
       updateWelcomeHeader();
-      
-      // 1. Cache se turant dashboard render karein
-      renderDashboard();
-      
-      // 2. Poori screen block kiye bina background me data laayein
-      setTimeout(function() {
-        forceDownloadFromSheetSilent();
-      }, 150);
+
+      // ⚡ STEP 3: भारी काम (Dashboard Chart व Sheet Sync) को अगले फ्रेम में चलाएँ ताकि स्क्रीन अटके नहीं
+      requestAnimationFrame(function() {
+        if (typeof renderDashboard === 'function') {
+          renderDashboard();
+        }
+        setTimeout(function() {
+          if (typeof forceDownloadFromSheetSilent === 'function') {
+            forceDownloadFromSheetSilent();
+          }
+        }, 300);
+      });
     }
 
     function updateSyncBadge(status) {
